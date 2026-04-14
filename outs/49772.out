@@ -1,0 +1,1144 @@
+Using datasets from /image-generation/kisufaj/optimization/cage/CAGE/datasets
+/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+W0203 11:47:41.908000 3726415 site-packages/torch/distributed/run.py:803] 
+W0203 11:47:41.908000 3726415 site-packages/torch/distributed/run.py:803] *****************************************
+W0203 11:47:41.908000 3726415 site-packages/torch/distributed/run.py:803] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W0203 11:47:41.908000 3726415 site-packages/torch/distributed/run.py:803] *****************************************
+/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+wandb: Currently logged in as: keisufaj (keisufaj-hamad-bin-khalifa-university) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
+Starting Experiment: QCRI ADAMW GRAD ACCUMULATOR: WEIGHTS + ACTIVATIONS-CARRY_DECAY=0.5-TAU={"tau":0.01}-10273_c4_llama_nlayers7_nhead6_lr0.0012_sched_cos_warmup500_decay_linear_0.1_iter5000_bs64x2_ws4_seed0_data_seed1337
+Experiment Directory: exps/QCRI ADAMW GRAD ACCUMULATOR: WEIGHTS + ACTIVATIONS-CARRY_DECAY=0.5-TAU={"tau":0.01}-10273_c4_llama_nlayers7_nhead6_lr0.0012_sched_cos_warmup500_decay_linear_0.1_iter5000_bs64x2_ws4_seed0_data_seed1337
+Starting Experiment: QCRI ADAMW GRAD ACCUMULATOR: WEIGHTS + ACTIVATIONS-CARRY_DECAY=0.5-TAU={"tau":0.01}-10273_c4_llama_nlayers7_nhead6_lr0.0012_sched_cos_warmup500_decay_linear_0.1_iter5000_bs64x2_ws4_seed0_data_seed1337Config:
+{'config_format': 'base', 'experiment_name': None, 'seed': 2, 'data_seed': 1337, 'eval_interval': 200, 'full_eval_at': [], 'eval_batches': 32, 'device': 'cuda:2', 'distributed_backend': 'nccl', 'log_interval': 50, 'results_base_folder': './exps', 'permanent_ckpt_interval': 0, 'latest_ckpt_interval': 1000, 'resume_from': None, 'resume_from_swa': None, 'auto_resume': True, 'wandb': True, 'wandb_project': 'CAGE-QCRI', 'wandb_run_prefix': 'QCRI ADAMW GRAD ACCUMULATOR: WEIGHTS + ACTIVATIONS-CARRY_DECAY=0.5-TAU={"tau":0.01}-10273', 'eval_seq_prefix': 'none', 'log_dynamics': False, 'dynamics_logger_cfg': './src/logger/rotational_logger.yaml', 'scheduler': 'cos', 'cos_inf_steps': 0, 'iterations': 5000, 'warmup_steps': 500, 'lr': 0.0012, 'wsd_final_lr_scale': 0.0, 'wsd_fract_decay': 0.1, 'decay_type': 'linear', 'opt': 'qcriadamwgradaccumulator', 'batch_size': 64, 'acc_steps': 2, 'weight_decay': 0.1, 'beta1': 0.9, 'beta2': 0.95, 'grad_clip': 1.0, 'carry_decay': 0.5, 'use_cage': False, 'cage_lambda': 2.5, 'cage_silence_ratio': 0.95, 'cage_schedule': 'linear_ramp', 'cage_track_stats': True, 'cage_verbose': False, 'weight_average': False, 'wa_interval': 5, 'wa_horizon': 500, 'wa_dtype': 'float32', 'wa_use_temp_dir': False, 'wa_sweep_horizon': False, 'max_num_wa_sweeps': 5, 'exponential_moving_average': False, 'ema_interval': 10, 'ema_decay': 0.95, 'ema_after_warmup': False, 'datasets_dir': '/image-generation/kisufaj/optimization/cage/CAGE/datasets', 'dataset': 'c4', 'tokenizer': 'gpt2', 'vocab_size': 50304, 'data_in_ram': False, 'model': 'llama', 'parallel_block': False, 'use_pretrained': 'none', 'from_dense': False, 'init_std': 0.02, 'dropout': 0.0, 'n_head': 6, 'n_layer': 7, 'sequence_length': 512, 'n_embd': 768, 'multiple_of': 256, 'rmsnorm_eps': 1e-05, 'dtype': 'bfloat16', 'bias': False, 'compile': True, 'mlp_dim_exp_factor': 1.0, 'w_quant': 'Q99IntQuantizer', 'w_quant_kwargs': {'tau': 0.01}, 'a_quant': 'Q99IntQuantizer', 'a_quant_kwargs': {'tau': 0.01}, 'world_size': 4}
+
+Loading dataset: 'c4'
+
+Experiment Directory: exps/QCRI ADAMW GRAD ACCUMULATOR: WEIGHTS + ACTIVATIONS-CARRY_DECAY=0.5-TAU={"tau":0.01}-10273_c4_llama_nlayers7_nhead6_lr0.0012_sched_cos_warmup500_decay_linear_0.1_iter5000_bs64x2_ws4_seed0_data_seed1337
+Config:
+{'config_format': 'base', 'experiment_name': None, 'seed': 1, 'data_seed': 1337, 'eval_interval': 200, 'full_eval_at': [], 'eval_batches': 32, 'device': 'cuda:1', 'distributed_backend': 'nccl', 'log_interval': 50, 'results_base_folder': './exps', 'permanent_ckpt_interval': 0, 'latest_ckpt_interval': 1000, 'resume_from': None, 'resume_from_swa': None, 'auto_resume': True, 'wandb': True, 'wandb_project': 'CAGE-QCRI', 'wandb_run_prefix': 'QCRI ADAMW GRAD ACCUMULATOR: WEIGHTS + ACTIVATIONS-CARRY_DECAY=0.5-TAU={"tau":0.01}-10273', 'eval_seq_prefix': 'none', 'log_dynamics': False, 'dynamics_logger_cfg': './src/logger/rotational_logger.yaml', 'scheduler': 'cos', 'cos_inf_steps': 0, 'iterations': 5000, 'warmup_steps': 500, 'lr': 0.0012, 'wsd_final_lr_scale': 0.0, 'wsd_fract_decay': 0.1, 'decay_type': 'linear', 'opt': 'qcriadamwgradaccumulator', 'batch_size': 64, 'acc_steps': 2, 'weight_decay': 0.1, 'beta1': 0.9, 'beta2': 0.95, 'grad_clip': 1.0, 'carry_decay': 0.5, 'use_cage': False, 'cage_lambda': 2.5, 'cage_silence_ratio': 0.95, 'cage_schedule': 'linear_ramp', 'cage_track_stats': True, 'cage_verbose': False, 'weight_average': False, 'wa_interval': 5, 'wa_horizon': 500, 'wa_dtype': 'float32', 'wa_use_temp_dir': False, 'wa_sweep_horizon': False, 'max_num_wa_sweeps': 5, 'exponential_moving_average': False, 'ema_interval': 10, 'ema_decay': 0.95, 'ema_after_warmup': False, 'datasets_dir': '/image-generation/kisufaj/optimization/cage/CAGE/datasets', 'dataset': 'c4', 'tokenizer': 'gpt2', 'vocab_size': 50304, 'data_in_ram': False, 'model': 'llama', 'parallel_block': False, 'use_pretrained': 'none', 'from_dense': False, 'init_std': 0.02, 'dropout': 0.0, 'n_head': 6, 'n_layer': 7, 'sequence_length': 512, 'n_embd': 768, 'multiple_of': 256, 'rmsnorm_eps': 1e-05, 'dtype': 'bfloat16', 'bias': False, 'compile': True, 'mlp_dim_exp_factor': 1.0, 'w_quant': 'Q99IntQuantizer', 'w_quant_kwargs': {'tau': 0.01}, 'a_quant': 'Q99IntQuantizer', 'a_quant_kwargs': {'tau': 0.01}, 'world_size': 4}
+
+Loading dataset: 'c4'
+Starting Experiment: QCRI ADAMW GRAD ACCUMULATOR: WEIGHTS + ACTIVATIONS-CARRY_DECAY=0.5-TAU={"tau":0.01}-10273_c4_llama_nlayers7_nhead6_lr0.0012_sched_cos_warmup500_decay_linear_0.1_iter5000_bs64x2_ws4_seed0_data_seed1337
+Experiment Directory: exps/QCRI ADAMW GRAD ACCUMULATOR: WEIGHTS + ACTIVATIONS-CARRY_DECAY=0.5-TAU={"tau":0.01}-10273_c4_llama_nlayers7_nhead6_lr0.0012_sched_cos_warmup500_decay_linear_0.1_iter5000_bs64x2_ws4_seed0_data_seed1337
+Config:
+{'config_format': 'base', 'experiment_name': None, 'seed': 3, 'data_seed': 1337, 'eval_interval': 200, 'full_eval_at': [], 'eval_batches': 32, 'device': 'cuda:3', 'distributed_backend': 'nccl', 'log_interval': 50, 'results_base_folder': './exps', 'permanent_ckpt_interval': 0, 'latest_ckpt_interval': 1000, 'resume_from': None, 'resume_from_swa': None, 'auto_resume': True, 'wandb': True, 'wandb_project': 'CAGE-QCRI', 'wandb_run_prefix': 'QCRI ADAMW GRAD ACCUMULATOR: WEIGHTS + ACTIVATIONS-CARRY_DECAY=0.5-TAU={"tau":0.01}-10273', 'eval_seq_prefix': 'none', 'log_dynamics': False, 'dynamics_logger_cfg': './src/logger/rotational_logger.yaml', 'scheduler': 'cos', 'cos_inf_steps': 0, 'iterations': 5000, 'warmup_steps': 500, 'lr': 0.0012, 'wsd_final_lr_scale': 0.0, 'wsd_fract_decay': 0.1, 'decay_type': 'linear', 'opt': 'qcriadamwgradaccumulator', 'batch_size': 64, 'acc_steps': 2, 'weight_decay': 0.1, 'beta1': 0.9, 'beta2': 0.95, 'grad_clip': 1.0, 'carry_decay': 0.5, 'use_cage': False, 'cage_lambda': 2.5, 'cage_silence_ratio': 0.95, 'cage_schedule': 'linear_ramp', 'cage_track_stats': True, 'cage_verbose': False, 'weight_average': False, 'wa_interval': 5, 'wa_horizon': 500, 'wa_dtype': 'float32', 'wa_use_temp_dir': False, 'wa_sweep_horizon': False, 'max_num_wa_sweeps': 5, 'exponential_moving_average': False, 'ema_interval': 10, 'ema_decay': 0.95, 'ema_after_warmup': False, 'datasets_dir': '/image-generation/kisufaj/optimization/cage/CAGE/datasets', 'dataset': 'c4', 'tokenizer': 'gpt2', 'vocab_size': 50304, 'data_in_ram': False, 'model': 'llama', 'parallel_block': False, 'use_pretrained': 'none', 'from_dense': False, 'init_std': 0.02, 'dropout': 0.0, 'n_head': 6, 'n_layer': 7, 'sequence_length': 512, 'n_embd': 768, 'multiple_of': 256, 'rmsnorm_eps': 1e-05, 'dtype': 'bfloat16', 'bias': False, 'compile': True, 'mlp_dim_exp_factor': 1.0, 'w_quant': 'Q99IntQuantizer', 'w_quant_kwargs': {'tau': 0.01}, 'a_quant': 'Q99IntQuantizer', 'a_quant_kwargs': {'tau': 0.01}, 'world_size': 4}
+
+Loading dataset: 'c4'
+Distributed DataReader Initialized for Worker 2/4Distributed DataReader Initialized for Worker 1/4
+
+Distributed DataReader Initialized for Worker 3/4
+wandb: setting up run or7b85h3
+wandb: Tracking run with wandb version 0.23.1
+wandb: Run data is saved locally in /image-generation/kisufaj/optimization/cage/CAGE/wandb/run-20260203_114752-or7b85h3
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run QCRI ADAMW GRAD ACCUMULATOR: WEIGHTS + ACTIVATIONS-CARRY_DECAY=0.5-TAU={"tau":0.01}-10273_c4_llama_nlayers7_nhead6_lr0.0012_sched_cos_warmup500_decay_linear_0.1_iter5000_bs64x2_ws4_seed0_data_seed1337
+wandb: ⭐️ View project at https://wandb.ai/keisufaj-hamad-bin-khalifa-university/CAGE-QCRI
+wandb: 🚀 View run at https://wandb.ai/keisufaj-hamad-bin-khalifa-university/CAGE-QCRI/runs/or7b85h3
+Starting Experiment: QCRI ADAMW GRAD ACCUMULATOR: WEIGHTS + ACTIVATIONS-CARRY_DECAY=0.5-TAU={"tau":0.01}-10273_c4_llama_nlayers7_nhead6_lr0.0012_sched_cos_warmup500_decay_linear_0.1_iter5000_bs64x2_ws4_seed0_data_seed1337
+Experiment Directory: exps/QCRI ADAMW GRAD ACCUMULATOR: WEIGHTS + ACTIVATIONS-CARRY_DECAY=0.5-TAU={"tau":0.01}-10273_c4_llama_nlayers7_nhead6_lr0.0012_sched_cos_warmup500_decay_linear_0.1_iter5000_bs64x2_ws4_seed0_data_seed1337
+Config:
+{'config_format': 'base', 'experiment_name': None, 'seed': 0, 'data_seed': 1337, 'eval_interval': 200, 'full_eval_at': [], 'eval_batches': 32, 'device': 'cuda:0', 'distributed_backend': 'nccl', 'log_interval': 50, 'results_base_folder': './exps', 'permanent_ckpt_interval': 0, 'latest_ckpt_interval': 1000, 'resume_from': None, 'resume_from_swa': None, 'auto_resume': True, 'wandb': True, 'wandb_project': 'CAGE-QCRI', 'wandb_run_prefix': 'QCRI ADAMW GRAD ACCUMULATOR: WEIGHTS + ACTIVATIONS-CARRY_DECAY=0.5-TAU={"tau":0.01}-10273', 'eval_seq_prefix': 'none', 'log_dynamics': False, 'dynamics_logger_cfg': './src/logger/rotational_logger.yaml', 'scheduler': 'cos', 'cos_inf_steps': 0, 'iterations': 5000, 'warmup_steps': 500, 'lr': 0.0012, 'wsd_final_lr_scale': 0.0, 'wsd_fract_decay': 0.1, 'decay_type': 'linear', 'opt': 'qcriadamwgradaccumulator', 'batch_size': 64, 'acc_steps': 2, 'weight_decay': 0.1, 'beta1': 0.9, 'beta2': 0.95, 'grad_clip': 1.0, 'carry_decay': 0.5, 'use_cage': False, 'cage_lambda': 2.5, 'cage_silence_ratio': 0.95, 'cage_schedule': 'linear_ramp', 'cage_track_stats': True, 'cage_verbose': False, 'weight_average': False, 'wa_interval': 5, 'wa_horizon': 500, 'wa_dtype': 'float32', 'wa_use_temp_dir': False, 'wa_sweep_horizon': False, 'max_num_wa_sweeps': 5, 'exponential_moving_average': False, 'ema_interval': 10, 'ema_decay': 0.95, 'ema_after_warmup': False, 'datasets_dir': '/image-generation/kisufaj/optimization/cage/CAGE/datasets', 'dataset': 'c4', 'tokenizer': 'gpt2', 'vocab_size': 50304, 'data_in_ram': False, 'model': 'llama', 'parallel_block': False, 'use_pretrained': 'none', 'from_dense': False, 'init_std': 0.02, 'dropout': 0.0, 'n_head': 6, 'n_layer': 7, 'sequence_length': 512, 'n_embd': 768, 'multiple_of': 256, 'rmsnorm_eps': 1e-05, 'dtype': 'bfloat16', 'bias': False, 'compile': True, 'mlp_dim_exp_factor': 1.0, 'w_quant': 'Q99IntQuantizer', 'w_quant_kwargs': {'tau': 0.01}, 'a_quant': 'Q99IntQuantizer', 'a_quant_kwargs': {'tau': 0.01}, 'world_size': 4}
+
+Loading dataset: 'c4'
+Distributed DataReader Initialized for Worker 0/4
+Num training tokens: 20000000000
+Num validation tokens: 50000000
+Num training tokens: 20000000000
+Num validation tokens: 50000000
+Num training tokens: 20000000000
+Num validation tokens: 50000000
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+Num training tokens: 20000000000
+Num validation tokens: 50000000
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO: TAU SET TO:  0.01
+ 0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+
+Model:
+Llama(
+  (transformer): ModuleDict(
+    (wte): Embedding(50304, 768)
+    (drop): Dropout(p=0.0, inplace=False)
+    (h): ModuleList(
+      (0-6): 7 x LlamaBlock(
+        (ln_1): RMSNorm()
+        (attn): LlamaAttention(
+          (c_attn): QuantizedLinear(
+            in_features=768, out_features=2304, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+          (c_proj): QuantizedLinear(
+            in_features=768, out_features=768, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+          (attn_dropout): Dropout(p=0.0, inplace=False)
+          (resid_dropout): Dropout(p=0.0, inplace=False)
+        )
+        (ln_2): RMSNorm()
+        (mlp): LlamaMLP(
+          (w1): QuantizedLinear(
+            in_features=768, out_features=2048, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+          (w2): QuantizedLinear(
+            in_features=768, out_features=2048, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+          (c_proj): QuantizedLinear(
+            in_features=2048, out_features=768, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+        )
+      )
+    )
+    (ln_f): RMSNorm()
+  )
+  (lm_head): Linear(in_features=768, out_features=50304, bias=False)
+)
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+
+Model:
+Llama(
+  (transformer): ModuleDict(
+    (wte): Embedding(50304, 768)
+    (drop): Dropout(p=0.0, inplace=False)
+    (h): ModuleList(
+      (0-6): 7 x LlamaBlock(
+        (ln_1): RMSNorm()
+        (attn): LlamaAttention(
+          (c_attn): QuantizedLinear(
+            in_features=768, out_features=2304, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+          (c_proj): QuantizedLinear(
+            in_features=768, out_features=768, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+          (attn_dropout): Dropout(p=0.0, inplace=False)
+          (resid_dropout): Dropout(p=0.0, inplace=False)
+        )
+        (ln_2): RMSNorm()
+        (mlp): LlamaMLP(
+          (w1): QuantizedLinear(
+            in_features=768, out_features=2048, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+          (w2): QuantizedLinear(
+            in_features=768, out_features=2048, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+          (c_proj): QuantizedLinear(
+            in_features=2048, out_features=768, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+        )
+      )
+    )
+    (ln_f): RMSNorm()
+  )
+  (lm_head): Linear(in_features=768, out_features=50304, bias=False)
+)
+
+Model:
+Llama(
+  (transformer): ModuleDict(
+    (wte): Embedding(50304, 768)
+    (drop): Dropout(p=0.0, inplace=False)
+    (h): ModuleList(
+      (0-6): 7 x LlamaBlock(
+        (ln_1): RMSNorm()
+        (attn): LlamaAttention(
+          (c_attn): QuantizedLinear(
+            in_features=768, out_features=2304, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+          (c_proj): QuantizedLinear(
+            in_features=768, out_features=768, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+          (attn_dropout): Dropout(p=0.0, inplace=False)
+          (resid_dropout): Dropout(p=0.0, inplace=False)
+        )
+        (ln_2): RMSNorm()
+        (mlp): LlamaMLP(
+          (w1): QuantizedLinear(
+            in_features=768, out_features=2048, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+          (w2): QuantizedLinear(
+            in_features=768, out_features=2048, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+          (c_proj): QuantizedLinear(
+            in_features=2048, out_features=768, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+        )
+      )
+    )
+    (ln_f): RMSNorm()
+  )
+  (lm_head): Linear(in_features=768, out_features=50304, bias=False)
+)
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+TAU SET TO:  0.01
+
+Model:
+Llama(
+  (transformer): ModuleDict(
+    (wte): Embedding(50304, 768)
+    (drop): Dropout(p=0.0, inplace=False)
+    (h): ModuleList(
+      (0-6): 7 x LlamaBlock(
+        (ln_1): RMSNorm()
+        (attn): LlamaAttention(
+          (c_attn): QuantizedLinear(
+            in_features=768, out_features=2304, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+          (c_proj): QuantizedLinear(
+            in_features=768, out_features=768, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+          (attn_dropout): Dropout(p=0.0, inplace=False)
+          (resid_dropout): Dropout(p=0.0, inplace=False)
+        )
+        (ln_2): RMSNorm()
+        (mlp): LlamaMLP(
+          (w1): QuantizedLinear(
+            in_features=768, out_features=2048, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+          (w2): QuantizedLinear(
+            in_features=768, out_features=2048, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+          (c_proj): QuantizedLinear(
+            in_features=2048, out_features=768, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+        )
+      )
+    )
+    (ln_f): RMSNorm()
+  )
+  (lm_head): Linear(in_features=768, out_features=50304, bias=False)
+)
+number of parameters: 126.82M
+number of optimized parameters: 126.82M
+number of non-embedding parameters: 49.56M
+I AM USING THIS OPTIMIZER qcriadamwgradaccumulator False False True False False
+
+Optimizer:
+QCRIAdamWGradAccumulator (
+Parameter Group 0
+    betas: (0.9, 0.95)
+    eps: 1e-08
+    lr: 0.0012
+    weight_decay: 0.1
+
+Parameter Group 1
+    betas: (0.9, 0.95)
+    eps: 1e-08
+    lr: 0.0012
+    weight_decay: 0.0
+)number of parameters: 126.82M
+
+number of optimized parameters: 126.82M
+number of non-embedding parameters: 49.56M
+I AM USING THIS OPTIMIZER qcriadamwgradaccumulator False False True False False
+
+Optimizer:
+QCRIAdamWGradAccumulator (
+Parameter Group 0
+    betas: (0.9, 0.95)
+    eps: 1e-08
+    lr: 0.0012
+    weight_decay: 0.1
+
+Parameter Group 1
+    betas: (0.9, 0.95)
+    eps: 1e-08
+    lr: 0.0012
+    weight_decay: 0.0
+)
+Compiling model ...
+Compiling model ...
+number of parameters: 126.82M
+number of optimized parameters: 126.82M
+number of non-embedding parameters: 49.56M
+I AM USING THIS OPTIMIZER qcriadamwgradaccumulator False False True False False
+
+Optimizer:
+QCRIAdamWGradAccumulator (
+Parameter Group 0
+    betas: (0.9, 0.95)
+    eps: 1e-08
+    lr: 0.0012
+    weight_decay: 0.1
+
+Parameter Group 1
+    betas: (0.9, 0.95)
+    eps: 1e-08
+    lr: 0.0012
+    weight_decay: 0.0
+)
+Compiling model ...
+number of parameters: 126.82M
+number of optimized parameters: 126.82M
+number of non-embedding parameters: 49.56M
+I AM USING THIS OPTIMIZER qcriadamwgradaccumulator False False True False False
+
+Optimizer:
+QCRIAdamWGradAccumulator (
+Parameter Group 0
+    betas: (0.9, 0.95)
+    eps: 1e-08
+    lr: 0.0012
+    weight_decay: 0.1
+
+Parameter Group 1
+    betas: (0.9, 0.95)
+    eps: 1e-08
+    lr: 0.0012
+    weight_decay: 0.0
+)
+Compiling model ...
+[rank1]:W0203 11:48:10.150000 3726436 site-packages/torch/_logging/_internal.py:1199] [0/0] Profiler function <class 'torch.autograd.profiler.record_function'> will be ignored
+[rank2]:W0203 11:48:10.166000 3726437 site-packages/torch/_logging/_internal.py:1199] [0/0] Profiler function <class 'torch.autograd.profiler.record_function'> will be ignored
+Training Progress:   0%|          | 0/5000 [00:00<?, ?it/s][rank3]:W0203 11:48:10.244000 3726438 site-packages/torch/_logging/_internal.py:1199] [0/0] Profiler function <class 'torch.autograd.profiler.record_function'> will be ignored
+
+  0%|          | 0/32 [00:00<?, ?it/s][A[rank0]:W0203 11:48:11.810000 3726435 site-packages/torch/_logging/_internal.py:1199] [0/0] Profiler function <class 'torch.autograd.profiler.record_function'> will be ignored
+/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/_dynamo/variables/functions.py:1598: UserWarning: Dynamo does not know how to trace the builtin `torch._C._distributed_c10d.pybind11_detail_function_record_v1_system_libstdcpp_gxx_abi_1xxx_use_cxx11_abi_1._broadcast_coalesced.` This function is either a Python builtin (e.g. _warnings.warn) or a third-party C/C++ Python extension (perhaps created with pybind).
+If it is a Python builtin, please file an issue on GitHub so the PyTorch team can add support for it and see the next case for a workaround.
+If it is a third-party C/C++ Python extension, please either wrap it into a PyTorch-understood custom operator (see https://pytorch.org/tutorials/advanced/custom_ops_landing_page.html for more details) or, if it is traceable, use `torch.compiler.allow_in_graph`.
+  torch._dynamo.utils.warn_once(explanation + "\n" + "\n".join(hints))
+[rank2]:W0203 11:48:16.634000 3726437 site-packages/torch/_dynamo/variables/tensor.py:1048] [11/0] Graph break from `Tensor.item()`, consider setting:
+[rank2]:W0203 11:48:16.634000 3726437 site-packages/torch/_dynamo/variables/tensor.py:1048] [11/0]     torch._dynamo.config.capture_scalar_outputs = True
+[rank2]:W0203 11:48:16.634000 3726437 site-packages/torch/_dynamo/variables/tensor.py:1048] [11/0] or:
+[rank2]:W0203 11:48:16.634000 3726437 site-packages/torch/_dynamo/variables/tensor.py:1048] [11/0]     env TORCHDYNAMO_CAPTURE_SCALAR_OUTPUTS=1
+[rank2]:W0203 11:48:16.634000 3726437 site-packages/torch/_dynamo/variables/tensor.py:1048] [11/0] to include these operations in the captured graph.
+[rank2]:W0203 11:48:16.634000 3726437 site-packages/torch/_dynamo/variables/tensor.py:1048] [11/0] 
+[rank2]:W0203 11:48:16.634000 3726437 site-packages/torch/_dynamo/variables/tensor.py:1048] [11/0] Graph break: from user code at:
+[rank2]:W0203 11:48:16.634000 3726437 site-packages/torch/_dynamo/variables/tensor.py:1048] [11/0]   File "/image-generation/kisufaj/optimization/cage/CAGE/src/models/quantization/base_linear.py", line 481, in torch_dynamo_resume_in__compute_scale_from_data_at_471
+[rank2]:W0203 11:48:16.634000 3726437 site-packages/torch/_dynamo/variables/tensor.py:1048] [11/0]     p_val = max(p_val.item(), 1e-6)
+[rank2]:W0203 11:48:16.634000 3726437 site-packages/torch/_dynamo/variables/tensor.py:1048] [11/0] 
+[rank2]:W0203 11:48:16.634000 3726437 site-packages/torch/_dynamo/variables/tensor.py:1048] [11/0] 
+[rank3]:W0203 11:48:16.636000 3726438 site-packages/torch/_dynamo/variables/tensor.py:1048] [11/0] Graph break from `Tensor.item()`, consider setting:
+[rank3]:W0203 11:48:16.636000 3726438 site-packages/torch/_dynamo/variables/tensor.py:1048] [11/0]     torch._dynamo.config.capture_scalar_outputs = True
+[rank3]:W0203 11:48:16.636000 3726438 site-packages/torch/_dynamo/variables/tensor.py:1048] [11/0] or:
+[rank3]:W0203 11:48:16.636000 3726438 site-packages/torch/_dynamo/variables/tensor.py:1048] [11/0]     env TORCHDYNAMO_CAPTURE_SCALAR_OUTPUTS=1
+[rank3]:W0203 11:48:16.636000 3726438 site-packages/torch/_dynamo/variables/tensor.py:1048] [11/0] to include these operations in the captured graph.
+[rank3]:W0203 11:48:16.636000 3726438 site-packages/torch/_dynamo/variables/tensor.py:1048] [11/0] 
+[rank3]:W0203 11:48:16.636000 3726438 site-packages/torch/_dynamo/variables/tensor.py:1048] [11/0] Graph break: from user code at:
+[rank3]:W0203 11:48:16.636000 3726438 site-packages/torch/_dynamo/variables/tensor.py:1048] [11/0]   File "/image-generation/kisufaj/optimization/cage/CAGE/src/models/quantization/base_linear.py", line 481, in torch_dynamo_resume_in__compute_scale_from_data_at_471
+[rank3]:W0203 11:48:16.636000 3726438 site-packages/torch/_dynamo/variables/tensor.py:1048] [11/0]     p_val = max(p_val.item(), 1e-6)
+[rank3]:W0203 11:48:16.636000 3726438 site-packages/torch/_dynamo/variables/tensor.py:1048] [11/0] 
+[rank3]:W0203 11:48:16.636000 3726438 site-packages/torch/_dynamo/variables/tensor.py:1048] [11/0] 
+[rank1]:W0203 11:48:16.639000 3726436 site-packages/torch/_dynamo/variables/tensor.py:1048] [11/0] Graph break from `Tensor.item()`, consider setting:
+[rank1]:W0203 11:48:16.639000 3726436 site-packages/torch/_dynamo/variables/tensor.py:1048] [11/0]     torch._dynamo.config.capture_scalar_outputs = True
+[rank1]:W0203 11:48:16.639000 3726436 site-packages/torch/_dynamo/variables/tensor.py:1048] [11/0] or:
+[rank1]:W0203 11:48:16.639000 3726436 site-packages/torch/_dynamo/variables/tensor.py:1048] [11/0]     env TORCHDYNAMO_CAPTURE_SCALAR_OUTPUTS=1
+[rank1]:W0203 11:48:16.639000 3726436 site-packages/torch/_dynamo/variables/tensor.py:1048] [11/0] to include these operations in the captured graph.
+[rank1]:W0203 11:48:16.639000 3726436 site-packages/torch/_dynamo/variables/tensor.py:1048] [11/0] 
+[rank1]:W0203 11:48:16.639000 3726436 site-packages/torch/_dynamo/variables/tensor.py:1048] [11/0] Graph break: from user code at:
+[rank1]:W0203 11:48:16.639000 3726436 site-packages/torch/_dynamo/variables/tensor.py:1048] [11/0]   File "/image-generation/kisufaj/optimization/cage/CAGE/src/models/quantization/base_linear.py", line 481, in torch_dynamo_resume_in__compute_scale_from_data_at_471
+[rank1]:W0203 11:48:16.639000 3726436 site-packages/torch/_dynamo/variables/tensor.py:1048] [11/0]     p_val = max(p_val.item(), 1e-6)
+[rank1]:W0203 11:48:16.639000 3726436 site-packages/torch/_dynamo/variables/tensor.py:1048] [11/0] 
+[rank1]:W0203 11:48:16.639000 3726436 site-packages/torch/_dynamo/variables/tensor.py:1048] [11/0] 
+[rank0]:W0203 11:48:16.769000 3726435 site-packages/torch/_dynamo/variables/tensor.py:1048] [11/0] Graph break from `Tensor.item()`, consider setting:
+[rank0]:W0203 11:48:16.769000 3726435 site-packages/torch/_dynamo/variables/tensor.py:1048] [11/0]     torch._dynamo.config.capture_scalar_outputs = True
+[rank0]:W0203 11:48:16.769000 3726435 site-packages/torch/_dynamo/variables/tensor.py:1048] [11/0] or:
+[rank0]:W0203 11:48:16.769000 3726435 site-packages/torch/_dynamo/variables/tensor.py:1048] [11/0]     env TORCHDYNAMO_CAPTURE_SCALAR_OUTPUTS=1
+[rank0]:W0203 11:48:16.769000 3726435 site-packages/torch/_dynamo/variables/tensor.py:1048] [11/0] to include these operations in the captured graph.
+[rank0]:W0203 11:48:16.769000 3726435 site-packages/torch/_dynamo/variables/tensor.py:1048] [11/0] 
+[rank0]:W0203 11:48:16.769000 3726435 site-packages/torch/_dynamo/variables/tensor.py:1048] [11/0] Graph break: from user code at:
+[rank0]:W0203 11:48:16.769000 3726435 site-packages/torch/_dynamo/variables/tensor.py:1048] [11/0]   File "/image-generation/kisufaj/optimization/cage/CAGE/src/models/quantization/base_linear.py", line 481, in torch_dynamo_resume_in__compute_scale_from_data_at_471
+[rank0]:W0203 11:48:16.769000 3726435 site-packages/torch/_dynamo/variables/tensor.py:1048] [11/0]     p_val = max(p_val.item(), 1e-6)
+[rank0]:W0203 11:48:16.769000 3726435 site-packages/torch/_dynamo/variables/tensor.py:1048] [11/0] 
+[rank0]:W0203 11:48:16.769000 3726435 site-packages/torch/_dynamo/variables/tensor.py:1048] [11/0] 
+[rank2]:W0203 11:48:52.637000 3726437 site-packages/torch/_dynamo/convert_frame.py:1358] [13/8] torch._dynamo hit config.recompile_limit (8)
+[rank2]:W0203 11:48:52.637000 3726437 site-packages/torch/_dynamo/convert_frame.py:1358] [13/8]    function: 'torch_dynamo_resume_in_calibrate_scale_at_461' (/image-generation/kisufaj/optimization/cage/CAGE/src/models/quantization/base_linear.py:461)
+[rank2]:W0203 11:48:52.637000 3726437 site-packages/torch/_dynamo/convert_frame.py:1358] [13/8]    last reason: 13/7: ___as_tensor(___stack0).item() == 8.904347826086957  # (unknown source ___as_tensor(___stack0).item(), please file a bug)
+[rank2]:W0203 11:48:52.637000 3726437 site-packages/torch/_dynamo/convert_frame.py:1358] [13/8] To log all recompilation reasons, use TORCH_LOGS="recompiles".
+[rank2]:W0203 11:48:52.637000 3726437 site-packages/torch/_dynamo/convert_frame.py:1358] [13/8] To diagnose recompilation issues, see https://pytorch.org/docs/main/torch.compiler_troubleshooting.html
+[rank0]:W0203 11:48:52.645000 3726435 site-packages/torch/_dynamo/convert_frame.py:1358] [13/8] torch._dynamo hit config.recompile_limit (8)
+[rank0]:W0203 11:48:52.645000 3726435 site-packages/torch/_dynamo/convert_frame.py:1358] [13/8]    function: 'torch_dynamo_resume_in_calibrate_scale_at_461' (/image-generation/kisufaj/optimization/cage/CAGE/src/models/quantization/base_linear.py:461)
+[rank0]:W0203 11:48:52.645000 3726435 site-packages/torch/_dynamo/convert_frame.py:1358] [13/8]    last reason: 13/7: ___as_tensor(___stack0).item() == 8.982456140350877  # (unknown source ___as_tensor(___stack0).item(), please file a bug)
+[rank0]:W0203 11:48:52.645000 3726435 site-packages/torch/_dynamo/convert_frame.py:1358] [13/8] To log all recompilation reasons, use TORCH_LOGS="recompiles".
+[rank0]:W0203 11:48:52.645000 3726435 site-packages/torch/_dynamo/convert_frame.py:1358] [13/8] To diagnose recompilation issues, see https://pytorch.org/docs/main/torch.compiler_troubleshooting.html
+[rank1]:W0203 11:48:52.659000 3726436 site-packages/torch/_dynamo/convert_frame.py:1358] [13/8] torch._dynamo hit config.recompile_limit (8)
+[rank1]:W0203 11:48:52.659000 3726436 site-packages/torch/_dynamo/convert_frame.py:1358] [13/8]    function: 'torch_dynamo_resume_in_calibrate_scale_at_461' (/image-generation/kisufaj/optimization/cage/CAGE/src/models/quantization/base_linear.py:461)
+[rank1]:W0203 11:48:52.659000 3726436 site-packages/torch/_dynamo/convert_frame.py:1358] [13/8]    last reason: 13/7: ___as_tensor(___stack0).item() == 8.982456140350877  # (unknown source ___as_tensor(___stack0).item(), please file a bug)
+[rank1]:W0203 11:48:52.659000 3726436 site-packages/torch/_dynamo/convert_frame.py:1358] [13/8] To log all recompilation reasons, use TORCH_LOGS="recompiles".
+[rank1]:W0203 11:48:52.659000 3726436 site-packages/torch/_dynamo/convert_frame.py:1358] [13/8] To diagnose recompilation issues, see https://pytorch.org/docs/main/torch.compiler_troubleshooting.html
+
+  3%|▎         | 1/32 [00:41<21:16, 41.18s/it][A[rank3]:W0203 11:48:58.221000 3726438 site-packages/torch/_dynamo/convert_frame.py:1358] [13/8] torch._dynamo hit config.recompile_limit (8)
+[rank3]:W0203 11:48:58.221000 3726438 site-packages/torch/_dynamo/convert_frame.py:1358] [13/8]    function: 'torch_dynamo_resume_in_calibrate_scale_at_461' (/image-generation/kisufaj/optimization/cage/CAGE/src/models/quantization/base_linear.py:461)
+[rank3]:W0203 11:48:58.221000 3726438 site-packages/torch/_dynamo/convert_frame.py:1358] [13/8]    last reason: 13/7: ___as_tensor(___stack0).item() == 9.061946902654867  # (unknown source ___as_tensor(___stack0).item(), please file a bug)
+[rank3]:W0203 11:48:58.221000 3726438 site-packages/torch/_dynamo/convert_frame.py:1358] [13/8] To log all recompilation reasons, use TORCH_LOGS="recompiles".
+[rank3]:W0203 11:48:58.221000 3726438 site-packages/torch/_dynamo/convert_frame.py:1358] [13/8] To diagnose recompilation issues, see https://pytorch.org/docs/main/torch.compiler_troubleshooting.html
+
+  6%|▋         | 2/32 [00:46<10:03, 20.13s/it][A
+  9%|▉         | 3/32 [00:46<05:20, 11.06s/it][A
+ 12%|█▎        | 4/32 [00:47<03:10,  6.80s/it][A
+ 16%|█▌        | 5/32 [00:47<01:59,  4.43s/it][A
+ 19%|█▉        | 6/32 [00:47<01:19,  3.05s/it][A
+ 22%|██▏       | 7/32 [00:48<00:53,  2.15s/it][A
+ 25%|██▌       | 8/32 [00:48<00:37,  1.57s/it][A
+ 28%|██▊       | 9/32 [00:48<00:26,  1.17s/it][A
+ 31%|███▏      | 10/32 [00:48<00:19,  1.12it/s][A
+ 34%|███▍      | 11/32 [00:49<00:15,  1.36it/s][A
+ 38%|███▊      | 12/32 [00:49<00:12,  1.65it/s][A
+ 41%|████      | 13/32 [00:49<00:10,  1.85it/s][A
+ 44%|████▍     | 14/32 [00:50<00:08,  2.10it/s][A
+ 47%|████▋     | 15/32 [00:50<00:06,  2.69it/s][A
+ 50%|█████     | 16/32 [00:50<00:05,  2.99it/s][A
+ 56%|█████▋    | 18/32 [00:50<00:02,  4.82it/s][A
+ 62%|██████▎   | 20/32 [00:50<00:01,  6.78it/s][A
+ 72%|███████▏  | 23/32 [00:51<00:00, 10.03it/s][A
+ 78%|███████▊  | 25/32 [00:51<00:00, 11.28it/s][A
+ 84%|████████▍ | 27/32 [00:51<00:00, 12.45it/s][A
+ 97%|█████████▋| 31/32 [00:51<00:00, 17.88it/s][A100%|██████████| 32/32 [00:51<00:00,  1.61s/it]
+>Eval: Iter=0 (0.000 epochs) val_loss=10.965 val_pp=57787.037 val_acc=0.000030
+Training Progress:   0%|          | 1/5000 [01:16<106:55:18, 77.00s/it]Traceback (most recent call last):
+  File "/image-generation/kisufaj/optimization/cage/CAGE/./src/main.py", line 321, in <module>
+    main(args)
+  File "/image-generation/kisufaj/optimization/cage/CAGE/./src/main.py", line 213, in main
+    stats = train(
+            ^^^^^^
+  File "/image-generation/kisufaj/optimization/cage/CAGE/src/optim/base.py", line 197, in train
+    outputs = model(x, targets=y)
+              ^^^^^^^^^^^^^^^^^^^
+  File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/_dynamo/eval_frame.py", line 414, in __call__
+    return super().__call__(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1775, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1786, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/_dynamo/eval_frame.py", line 832, in compile_wrapper
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/_dynamo/external_utils.py", line 68, in inner
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1775, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1786, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/nn/parallel/distributed.py", line 1657, in forward
+    inputs, kwargs = self._pre_forward(*inputs, **kwargs)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/nn/parallel/distributed.py", line 1553, in _pre_forward
+    self._sync_buffers()
+  File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/nn/parallel/distributed.py", line 2190, in _sync_buffers
+    self._sync_module_buffers(authoritative_rank)
+  File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/nn/parallel/distributed.py", line 2194, in _sync_module_buffers
+    self._default_broadcast_coalesced(authoritative_rank=authoritative_rank)
+  File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/nn/parallel/distributed.py", line 2216, in _default_broadcast_coalesced
+    self._distributed_broadcast_coalesced(bufs, bucket_size, authoritative_rank)
+  File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/nn/parallel/distributed.py", line 2131, in _distributed_broadcast_coalesced
+    dist._broadcast_coalesced(
+RuntimeError: No backend type associated with device type cpu
+[rank2]: Traceback (most recent call last):
+[rank2]:   File "/image-generation/kisufaj/optimization/cage/CAGE/./src/main.py", line 321, in <module>
+[rank2]:     main(args)
+[rank2]:   File "/image-generation/kisufaj/optimization/cage/CAGE/./src/main.py", line 213, in main
+[rank2]:     stats = train(
+[rank2]:             ^^^^^^
+[rank2]:   File "/image-generation/kisufaj/optimization/cage/CAGE/src/optim/base.py", line 197, in train
+[rank2]:     outputs = model(x, targets=y)
+[rank2]:               ^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/_dynamo/eval_frame.py", line 414, in __call__
+[rank2]:     return super().__call__(*args, **kwargs)
+[rank2]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1775, in _wrapped_call_impl
+[rank2]:     return self._call_impl(*args, **kwargs)
+[rank2]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1786, in _call_impl
+[rank2]:     return forward_call(*args, **kwargs)
+[rank2]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/_dynamo/eval_frame.py", line 832, in compile_wrapper
+[rank2]:     return fn(*args, **kwargs)
+[rank2]:            ^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/_dynamo/external_utils.py", line 68, in inner
+[rank2]:     return fn(*args, **kwargs)
+[rank2]:            ^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1775, in _wrapped_call_impl
+[rank2]:     return self._call_impl(*args, **kwargs)
+[rank2]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1786, in _call_impl
+[rank2]:     return forward_call(*args, **kwargs)
+[rank2]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/nn/parallel/distributed.py", line 1657, in forward
+[rank2]:     inputs, kwargs = self._pre_forward(*inputs, **kwargs)
+[rank2]:                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/nn/parallel/distributed.py", line 1553, in _pre_forward
+[rank2]:     self._sync_buffers()
+[rank2]:   File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/nn/parallel/distributed.py", line 2190, in _sync_buffers
+[rank2]:     self._sync_module_buffers(authoritative_rank)
+[rank2]:   File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/nn/parallel/distributed.py", line 2194, in _sync_module_buffers
+[rank2]:     self._default_broadcast_coalesced(authoritative_rank=authoritative_rank)
+[rank2]:   File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/nn/parallel/distributed.py", line 2216, in _default_broadcast_coalesced
+[rank2]:     self._distributed_broadcast_coalesced(bufs, bucket_size, authoritative_rank)
+[rank2]:   File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/nn/parallel/distributed.py", line 2131, in _distributed_broadcast_coalesced
+[rank2]:     dist._broadcast_coalesced(
+[rank2]: RuntimeError: No backend type associated with device type cpu
+[rank1]: Traceback (most recent call last):
+[rank1]:   File "/image-generation/kisufaj/optimization/cage/CAGE/./src/main.py", line 321, in <module>
+[rank1]:     main(args)
+[rank1]:   File "/image-generation/kisufaj/optimization/cage/CAGE/./src/main.py", line 213, in main
+[rank1]:     stats = train(
+[rank1]:             ^^^^^^
+[rank1]:   File "/image-generation/kisufaj/optimization/cage/CAGE/src/optim/base.py", line 197, in train
+[rank1]:     outputs = model(x, targets=y)
+[rank1]:               ^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/_dynamo/eval_frame.py", line 414, in __call__
+[rank1]:     return super().__call__(*args, **kwargs)
+[rank1]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1775, in _wrapped_call_impl
+[rank1]:     return self._call_impl(*args, **kwargs)
+[rank1]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1786, in _call_impl
+[rank1]:     return forward_call(*args, **kwargs)
+[rank1]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/_dynamo/eval_frame.py", line 832, in compile_wrapper
+[rank1]:     return fn(*args, **kwargs)
+[rank1]:            ^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/_dynamo/external_utils.py", line 68, in inner
+[rank1]:     return fn(*args, **kwargs)
+[rank1]:            ^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1775, in _wrapped_call_impl
+[rank1]:     return self._call_impl(*args, **kwargs)
+[rank1]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1786, in _call_impl
+[rank1]:     return forward_call(*args, **kwargs)
+[rank1]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/nn/parallel/distributed.py", line 1657, in forward
+[rank1]:     inputs, kwargs = self._pre_forward(*inputs, **kwargs)
+[rank1]:                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/nn/parallel/distributed.py", line 1553, in _pre_forward
+[rank1]:     self._sync_buffers()
+[rank1]:   File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/nn/parallel/distributed.py", line 2190, in _sync_buffers
+[rank1]:     self._sync_module_buffers(authoritative_rank)
+[rank1]:   File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/nn/parallel/distributed.py", line 2194, in _sync_module_buffers
+[rank1]:     self._default_broadcast_coalesced(authoritative_rank=authoritative_rank)
+[rank1]:   File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/nn/parallel/distributed.py", line 2216, in _default_broadcast_coalesced
+[rank1]:     self._distributed_broadcast_coalesced(bufs, bucket_size, authoritative_rank)
+[rank1]:   File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/nn/parallel/distributed.py", line 2131, in _distributed_broadcast_coalesced
+[rank1]:     dist._broadcast_coalesced(
+[rank1]: RuntimeError: No backend type associated with device type cpu
+[rank3]: Traceback (most recent call last):
+[rank3]:   File "/image-generation/kisufaj/optimization/cage/CAGE/./src/main.py", line 321, in <module>
+[rank3]:     main(args)
+[rank3]:   File "/image-generation/kisufaj/optimization/cage/CAGE/./src/main.py", line 213, in main
+[rank3]:     stats = train(
+[rank3]:             ^^^^^^
+[rank3]:   File "/image-generation/kisufaj/optimization/cage/CAGE/src/optim/base.py", line 197, in train
+[rank3]:     outputs = model(x, targets=y)
+[rank3]:               ^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/_dynamo/eval_frame.py", line 414, in __call__
+[rank3]:     return super().__call__(*args, **kwargs)
+[rank3]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1775, in _wrapped_call_impl
+[rank3]:     return self._call_impl(*args, **kwargs)
+[rank3]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1786, in _call_impl
+[rank3]:     return forward_call(*args, **kwargs)
+[rank3]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/_dynamo/eval_frame.py", line 832, in compile_wrapper
+[rank3]:     return fn(*args, **kwargs)
+[rank3]:            ^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/_dynamo/external_utils.py", line 68, in inner
+[rank3]:     return fn(*args, **kwargs)
+[rank3]:            ^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1775, in _wrapped_call_impl
+[rank3]:     return self._call_impl(*args, **kwargs)
+[rank3]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1786, in _call_impl
+[rank3]:     return forward_call(*args, **kwargs)
+[rank3]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/nn/parallel/distributed.py", line 1657, in forward
+[rank3]:     inputs, kwargs = self._pre_forward(*inputs, **kwargs)
+[rank3]:                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/nn/parallel/distributed.py", line 1553, in _pre_forward
+[rank3]:     self._sync_buffers()
+[rank3]:   File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/nn/parallel/distributed.py", line 2190, in _sync_buffers
+[rank3]:     self._sync_module_buffers(authoritative_rank)
+[rank3]:   File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/nn/parallel/distributed.py", line 2194, in _sync_module_buffers
+[rank3]:     self._default_broadcast_coalesced(authoritative_rank=authoritative_rank)
+[rank3]:   File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/nn/parallel/distributed.py", line 2216, in _default_broadcast_coalesced
+[rank3]:     self._distributed_broadcast_coalesced(bufs, bucket_size, authoritative_rank)
+[rank3]:   File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/nn/parallel/distributed.py", line 2131, in _distributed_broadcast_coalesced
+[rank3]:     dist._broadcast_coalesced(
+[rank3]: RuntimeError: No backend type associated with device type cpu
+[rank0]: Traceback (most recent call last):
+[rank0]:   File "/image-generation/kisufaj/optimization/cage/CAGE/./src/main.py", line 321, in <module>
+[rank0]:     main(args)
+[rank0]:   File "/image-generation/kisufaj/optimization/cage/CAGE/./src/main.py", line 213, in main
+[rank0]:     stats = train(
+[rank0]:             ^^^^^^
+[rank0]:   File "/image-generation/kisufaj/optimization/cage/CAGE/src/optim/base.py", line 197, in train
+[rank0]:     outputs = model(x, targets=y)
+[rank0]:               ^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/_dynamo/eval_frame.py", line 414, in __call__
+[rank0]:     return super().__call__(*args, **kwargs)
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1775, in _wrapped_call_impl
+[rank0]:     return self._call_impl(*args, **kwargs)
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1786, in _call_impl
+[rank0]:     return forward_call(*args, **kwargs)
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/_dynamo/eval_frame.py", line 832, in compile_wrapper
+[rank0]:     return fn(*args, **kwargs)
+[rank0]:            ^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/_dynamo/external_utils.py", line 68, in inner
+[rank0]:     return fn(*args, **kwargs)
+[rank0]:            ^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1775, in _wrapped_call_impl
+[rank0]:     return self._call_impl(*args, **kwargs)
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1786, in _call_impl
+[rank0]:     return forward_call(*args, **kwargs)
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/nn/parallel/distributed.py", line 1657, in forward
+[rank0]:     inputs, kwargs = self._pre_forward(*inputs, **kwargs)
+[rank0]:                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/nn/parallel/distributed.py", line 1553, in _pre_forward
+[rank0]:     self._sync_buffers()
+[rank0]:   File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/nn/parallel/distributed.py", line 2190, in _sync_buffers
+[rank0]:     self._sync_module_buffers(authoritative_rank)
+[rank0]:   File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/nn/parallel/distributed.py", line 2194, in _sync_module_buffers
+[rank0]:     self._default_broadcast_coalesced(authoritative_rank=authoritative_rank)
+[rank0]:   File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/nn/parallel/distributed.py", line 2216, in _default_broadcast_coalesced
+[rank0]:     self._distributed_broadcast_coalesced(bufs, bucket_size, authoritative_rank)
+[rank0]:   File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/nn/parallel/distributed.py", line 2131, in _distributed_broadcast_coalesced
+[rank0]:     dist._broadcast_coalesced(
+[rank0]: RuntimeError: No backend type associated with device type cpu
+W0203 11:49:31.882000 3726415 site-packages/torch/distributed/elastic/multiprocessing/api.py:908] Sending process 3726435 closing signal SIGTERM
+W0203 11:49:31.884000 3726415 site-packages/torch/distributed/elastic/multiprocessing/api.py:908] Sending process 3726436 closing signal SIGTERM
+W0203 11:49:31.885000 3726415 site-packages/torch/distributed/elastic/multiprocessing/api.py:908] Sending process 3726438 closing signal SIGTERM
+E0203 11:49:51.512000 3726415 site-packages/torch/distributed/elastic/multiprocessing/api.py:882] failed (exitcode: 1) local_rank: 2 (pid: 3726437) of binary: /home/local/QCRI/kisufaj/miniconda3/envs/qwen/bin/python3.12
+Traceback (most recent call last):
+  File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/bin/torchrun", line 7, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 357, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/distributed/run.py", line 936, in main
+    run(args)
+  File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/distributed/run.py", line 927, in run
+    elastic_launch(
+  File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/distributed/launcher/api.py", line 156, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/distributed/launcher/api.py", line 293, in launch_agent
+    raise ChildFailedError(
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
+============================================================
+./src/main.py FAILED
+------------------------------------------------------------
+Failures:
+  <NO_OTHER_FAILURES>
+------------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2026-02-03_11:49:31
+  host      : a3mega2-a3meganodeset-2.europe-west4-b.c.prj-gss-prod-arabicllm-svc-01.internal
+  rank      : 2 (local_rank: 2)
+  exitcode  : 1 (pid: 3726437)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+============================================================
+Using datasets from /image-generation/kisufaj/optimization/cage/CAGE/datasets
+/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+W0203 11:49:53.603000 3729378 site-packages/torch/distributed/run.py:803] 
+W0203 11:49:53.603000 3729378 site-packages/torch/distributed/run.py:803] *****************************************
+W0203 11:49:53.603000 3729378 site-packages/torch/distributed/run.py:803] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W0203 11:49:53.603000 3729378 site-packages/torch/distributed/run.py:803] *****************************************
+/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+slurmstepd: error: *** JOB 49772 ON a3mega2-a3meganodeset-2 CANCELLED AT 2026-02-03T11:50:00 ***

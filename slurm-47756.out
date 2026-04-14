@@ -1,0 +1,2 @@
+Using datasets from /image-generation/kisufaj/optimization/cage/CAGE/datasets
+/var/spool/slurmd/job47756/slurm_script: line 161: torchrun: command not found

@@ -1,0 +1,1351 @@
+Using datasets from /image-generation/kisufaj/optimization/cage/CAGE/datasets
+/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+W0126 13:10:59.660000 148385 site-packages/torch/distributed/run.py:803] 
+W0126 13:10:59.660000 148385 site-packages/torch/distributed/run.py:803] *****************************************
+W0126 13:10:59.660000 148385 site-packages/torch/distributed/run.py:803] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W0126 13:10:59.660000 148385 site-packages/torch/distributed/run.py:803] *****************************************
+/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+wandb: Currently logged in as: keisufaj (keisufaj-hamad-bin-khalifa-university) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
+Starting Experiment: QCRI-LLAMA-50M-CAGE=False-CAGE_L=0.5-CAGE_S_R=0.5-CAGE_SCH=linear_ramp-Q99IntQuantizer@4:Q99IntQuantizer@4-c4-15650_c4_llama_nlayers7_nhead6_lr0.0012_sched_cos_warmup1907_decay_linear_0.1_iter19073_bs64x2_ws4_seed0_data_seed1337
+Experiment Directory: exps/QCRI-LLAMA-50M-CAGE=False-CAGE_L=0.5-CAGE_S_R=0.5-CAGE_SCH=linear_ramp-Q99IntQuantizer@4:Q99IntQuantizer@4-c4-15650_c4_llama_nlayers7_nhead6_lr0.0012_sched_cos_warmup1907_decay_linear_0.1_iter19073_bs64x2_ws4_seed0_data_seed1337
+Config:
+{'config_format': 'base', 'experiment_name': None, 'seed': 3, 'data_seed': 1337, 'eval_interval': 200, 'full_eval_at': [], 'eval_batches': 32, 'device': 'cuda:3', 'distributed_backend': 'nccl', 'log_interval': 50, 'results_base_folder': './exps', 'permanent_ckpt_interval': 0, 'latest_ckpt_interval': 1000, 'resume_from': None, 'resume_from_swa': None, 'auto_resume': True, 'wandb': True, 'wandb_project': 'CAGE-QCRI', 'wandb_run_prefix': 'QCRI-LLAMA-50M-CAGE=False-CAGE_L=0.5-CAGE_S_R=0.5-CAGE_SCH=linear_ramp-Q99IntQuantizer@4:Q99IntQuantizer@4-c4-15650', 'eval_seq_prefix': 'none', 'log_dynamics': False, 'dynamics_logger_cfg': './src/logger/rotational_logger.yaml', 'scheduler': 'cos', 'cos_inf_steps': 0, 'iterations': 19073, 'warmup_steps': 1907, 'lr': 0.0012, 'wsd_final_lr_scale': 0.0, 'wsd_fract_decay': 0.1, 'decay_type': 'linear', 'opt': 'qcriadamw', 'batch_size': 64, 'acc_steps': 2, 'weight_decay': 0.1, 'beta1': 0.9, 'beta2': 0.95, 'grad_clip': 1.0, 'use_cage': False, 'cage_lambda': 0.5, 'cage_silence_ratio': 0.5, 'cage_schedule': 'linear_ramp', 'cage_track_stats': True, 'cage_verbose': False, 'weight_average': False, 'wa_interval': 5, 'wa_horizon': 500, 'wa_dtype': 'float32', 'wa_use_temp_dir': False, 'wa_sweep_horizon': False, 'max_num_wa_sweeps': 5, 'exponential_moving_average': False, 'ema_interval': 10, 'ema_decay': 0.95, 'ema_after_warmup': False, 'datasets_dir': '/image-generation/kisufaj/optimization/cage/CAGE/datasets', 'dataset': 'c4', 'tokenizer': 'gpt2', 'vocab_size': 50304, 'data_in_ram': False, 'model': 'llama', 'parallel_block': False, 'use_pretrained': 'none', 'from_dense': False, 'init_std': 0.02, 'dropout': 0.0, 'n_head': 6, 'n_layer': 7, 'sequence_length': 512, 'n_embd': 768, 'multiple_of': 256, 'rmsnorm_eps': 1e-05, 'dtype': 'bfloat16', 'bias': False, 'compile': True, 'mlp_dim_exp_factor': 1.0, 'w_quant': 'Q99IntQuantizer', 'w_quant_kwargs': {'bits': 4}, 'a_quant': 'Q99IntQuantizer', 'a_quant_kwargs': {'bits': 4}, 'world_size': 4}
+
+Loading dataset: 'c4'
+Starting Experiment: QCRI-LLAMA-50M-CAGE=False-CAGE_L=0.5-CAGE_S_R=0.5-CAGE_SCH=linear_ramp-Q99IntQuantizer@4:Q99IntQuantizer@4-c4-15650_c4_llama_nlayers7_nhead6_lr0.0012_sched_cos_warmup1907_decay_linear_0.1_iter19073_bs64x2_ws4_seed0_data_seed1337
+Experiment Directory: exps/QCRI-LLAMA-50M-CAGE=False-CAGE_L=0.5-CAGE_S_R=0.5-CAGE_SCH=linear_ramp-Q99IntQuantizer@4:Q99IntQuantizer@4-c4-15650_c4_llama_nlayers7_nhead6_lr0.0012_sched_cos_warmup1907_decay_linear_0.1_iter19073_bs64x2_ws4_seed0_data_seed1337
+Config:
+{'config_format': 'base', 'experiment_name': None, 'seed': 2, 'data_seed': 1337, 'eval_interval': 200, 'full_eval_at': [], 'eval_batches': 32, 'device': 'cuda:2', 'distributed_backend': 'nccl', 'log_interval': 50, 'results_base_folder': './exps', 'permanent_ckpt_interval': 0, 'latest_ckpt_interval': 1000, 'resume_from': None, 'resume_from_swa': None, 'auto_resume': True, 'wandb': True, 'wandb_project': 'CAGE-QCRI', 'wandb_run_prefix': 'QCRI-LLAMA-50M-CAGE=False-CAGE_L=0.5-CAGE_S_R=0.5-CAGE_SCH=linear_ramp-Q99IntQuantizer@4:Q99IntQuantizer@4-c4-15650', 'eval_seq_prefix': 'none', 'log_dynamics': False, 'dynamics_logger_cfg': './src/logger/rotational_logger.yaml', 'scheduler': 'cos', 'cos_inf_steps': 0, 'iterations': 19073, 'warmup_steps': 1907, 'lr': 0.0012, 'wsd_final_lr_scale': 0.0, 'wsd_fract_decay': 0.1, 'decay_type': 'linear', 'opt': 'qcriadamw', 'batch_size': 64, 'acc_steps': 2, 'weight_decay': 0.1, 'beta1': 0.9, 'beta2': 0.95, 'grad_clip': 1.0, 'use_cage': False, 'cage_lambda': 0.5, 'cage_silence_ratio': 0.5, 'cage_schedule': 'linear_ramp', 'cage_track_stats': True, 'cage_verbose': False, 'weight_average': False, 'wa_interval': 5, 'wa_horizon': 500, 'wa_dtype': 'float32', 'wa_use_temp_dir': False, 'wa_sweep_horizon': False, 'max_num_wa_sweeps': 5, 'exponential_moving_average': False, 'ema_interval': 10, 'ema_decay': 0.95, 'ema_after_warmup': False, 'datasets_dir': '/image-generation/kisufaj/optimization/cage/CAGE/datasets', 'dataset': 'c4', 'tokenizer': 'gpt2', 'vocab_size': 50304, 'data_in_ram': False, 'model': 'llama', 'parallel_block': False, 'use_pretrained': 'none', 'from_dense': False, 'init_std': 0.02, 'dropout': 0.0, 'n_head': 6, 'n_layer': 7, 'sequence_length': 512, 'n_embd': 768, 'multiple_of': 256, 'rmsnorm_eps': 1e-05, 'dtype': 'bfloat16', 'bias': False, 'compile': True, 'mlp_dim_exp_factor': 1.0, 'w_quant': 'Q99IntQuantizer', 'w_quant_kwargs': {'bits': 4}, 'a_quant': 'Q99IntQuantizer', 'a_quant_kwargs': {'bits': 4}, 'world_size': 4}
+
+Loading dataset: 'c4'
+Distributed DataReader Initialized for Worker 3/4
+Distributed DataReader Initialized for Worker 2/4
+Starting Experiment: QCRI-LLAMA-50M-CAGE=False-CAGE_L=0.5-CAGE_S_R=0.5-CAGE_SCH=linear_ramp-Q99IntQuantizer@4:Q99IntQuantizer@4-c4-15650_c4_llama_nlayers7_nhead6_lr0.0012_sched_cos_warmup1907_decay_linear_0.1_iter19073_bs64x2_ws4_seed0_data_seed1337
+Experiment Directory: exps/QCRI-LLAMA-50M-CAGE=False-CAGE_L=0.5-CAGE_S_R=0.5-CAGE_SCH=linear_ramp-Q99IntQuantizer@4:Q99IntQuantizer@4-c4-15650_c4_llama_nlayers7_nhead6_lr0.0012_sched_cos_warmup1907_decay_linear_0.1_iter19073_bs64x2_ws4_seed0_data_seed1337
+Config:
+{'config_format': 'base', 'experiment_name': None, 'seed': 1, 'data_seed': 1337, 'eval_interval': 200, 'full_eval_at': [], 'eval_batches': 32, 'device': 'cuda:1', 'distributed_backend': 'nccl', 'log_interval': 50, 'results_base_folder': './exps', 'permanent_ckpt_interval': 0, 'latest_ckpt_interval': 1000, 'resume_from': None, 'resume_from_swa': None, 'auto_resume': True, 'wandb': True, 'wandb_project': 'CAGE-QCRI', 'wandb_run_prefix': 'QCRI-LLAMA-50M-CAGE=False-CAGE_L=0.5-CAGE_S_R=0.5-CAGE_SCH=linear_ramp-Q99IntQuantizer@4:Q99IntQuantizer@4-c4-15650', 'eval_seq_prefix': 'none', 'log_dynamics': False, 'dynamics_logger_cfg': './src/logger/rotational_logger.yaml', 'scheduler': 'cos', 'cos_inf_steps': 0, 'iterations': 19073, 'warmup_steps': 1907, 'lr': 0.0012, 'wsd_final_lr_scale': 0.0, 'wsd_fract_decay': 0.1, 'decay_type': 'linear', 'opt': 'qcriadamw', 'batch_size': 64, 'acc_steps': 2, 'weight_decay': 0.1, 'beta1': 0.9, 'beta2': 0.95, 'grad_clip': 1.0, 'use_cage': False, 'cage_lambda': 0.5, 'cage_silence_ratio': 0.5, 'cage_schedule': 'linear_ramp', 'cage_track_stats': True, 'cage_verbose': False, 'weight_average': False, 'wa_interval': 5, 'wa_horizon': 500, 'wa_dtype': 'float32', 'wa_use_temp_dir': False, 'wa_sweep_horizon': False, 'max_num_wa_sweeps': 5, 'exponential_moving_average': False, 'ema_interval': 10, 'ema_decay': 0.95, 'ema_after_warmup': False, 'datasets_dir': '/image-generation/kisufaj/optimization/cage/CAGE/datasets', 'dataset': 'c4', 'tokenizer': 'gpt2', 'vocab_size': 50304, 'data_in_ram': False, 'model': 'llama', 'parallel_block': False, 'use_pretrained': 'none', 'from_dense': False, 'init_std': 0.02, 'dropout': 0.0, 'n_head': 6, 'n_layer': 7, 'sequence_length': 512, 'n_embd': 768, 'multiple_of': 256, 'rmsnorm_eps': 1e-05, 'dtype': 'bfloat16', 'bias': False, 'compile': True, 'mlp_dim_exp_factor': 1.0, 'w_quant': 'Q99IntQuantizer', 'w_quant_kwargs': {'bits': 4}, 'a_quant': 'Q99IntQuantizer', 'a_quant_kwargs': {'bits': 4}, 'world_size': 4}
+
+Loading dataset: 'c4'
+Distributed DataReader Initialized for Worker 1/4
+wandb: setting up run plk5onor
+wandb: Tracking run with wandb version 0.23.1
+wandb: Run data is saved locally in /image-generation/kisufaj/optimization/cage/CAGE/wandb/run-20260126_131110-plk5onor
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run QCRI-LLAMA-50M-CAGE=False-CAGE_L=0.5-CAGE_S_R=0.5-CAGE_SCH=linear_ramp-Q99IntQuantizer@4:Q99IntQuantizer@4-c4-15650_c4_llama_nlayers7_nhead6_lr0.0012_sched_cos_warmup1907_decay_linear_0.1_iter19073_bs64x2_ws4_seed0_data_seed1337
+wandb: ⭐️ View project at https://wandb.ai/keisufaj-hamad-bin-khalifa-university/CAGE-QCRI
+wandb: 🚀 View run at https://wandb.ai/keisufaj-hamad-bin-khalifa-university/CAGE-QCRI/runs/plk5onor
+Num training tokens: 20000000000
+Num validation tokens: 50000000
+Num training tokens: 20000000000
+Num validation tokens: 50000000
+Num training tokens: 20000000000
+Num validation tokens: 50000000
+Starting Experiment: QCRI-LLAMA-50M-CAGE=False-CAGE_L=0.5-CAGE_S_R=0.5-CAGE_SCH=linear_ramp-Q99IntQuantizer@4:Q99IntQuantizer@4-c4-15650_c4_llama_nlayers7_nhead6_lr0.0012_sched_cos_warmup1907_decay_linear_0.1_iter19073_bs64x2_ws4_seed0_data_seed1337
+Experiment Directory: exps/QCRI-LLAMA-50M-CAGE=False-CAGE_L=0.5-CAGE_S_R=0.5-CAGE_SCH=linear_ramp-Q99IntQuantizer@4:Q99IntQuantizer@4-c4-15650_c4_llama_nlayers7_nhead6_lr0.0012_sched_cos_warmup1907_decay_linear_0.1_iter19073_bs64x2_ws4_seed0_data_seed1337
+Config:
+{'config_format': 'base', 'experiment_name': None, 'seed': 0, 'data_seed': 1337, 'eval_interval': 200, 'full_eval_at': [], 'eval_batches': 32, 'device': 'cuda:0', 'distributed_backend': 'nccl', 'log_interval': 50, 'results_base_folder': './exps', 'permanent_ckpt_interval': 0, 'latest_ckpt_interval': 1000, 'resume_from': None, 'resume_from_swa': None, 'auto_resume': True, 'wandb': True, 'wandb_project': 'CAGE-QCRI', 'wandb_run_prefix': 'QCRI-LLAMA-50M-CAGE=False-CAGE_L=0.5-CAGE_S_R=0.5-CAGE_SCH=linear_ramp-Q99IntQuantizer@4:Q99IntQuantizer@4-c4-15650', 'eval_seq_prefix': 'none', 'log_dynamics': False, 'dynamics_logger_cfg': './src/logger/rotational_logger.yaml', 'scheduler': 'cos', 'cos_inf_steps': 0, 'iterations': 19073, 'warmup_steps': 1907, 'lr': 0.0012, 'wsd_final_lr_scale': 0.0, 'wsd_fract_decay': 0.1, 'decay_type': 'linear', 'opt': 'qcriadamw', 'batch_size': 64, 'acc_steps': 2, 'weight_decay': 0.1, 'beta1': 0.9, 'beta2': 0.95, 'grad_clip': 1.0, 'use_cage': False, 'cage_lambda': 0.5, 'cage_silence_ratio': 0.5, 'cage_schedule': 'linear_ramp', 'cage_track_stats': True, 'cage_verbose': False, 'weight_average': False, 'wa_interval': 5, 'wa_horizon': 500, 'wa_dtype': 'float32', 'wa_use_temp_dir': False, 'wa_sweep_horizon': False, 'max_num_wa_sweeps': 5, 'exponential_moving_average': False, 'ema_interval': 10, 'ema_decay': 0.95, 'ema_after_warmup': False, 'datasets_dir': '/image-generation/kisufaj/optimization/cage/CAGE/datasets', 'dataset': 'c4', 'tokenizer': 'gpt2', 'vocab_size': 50304, 'data_in_ram': False, 'model': 'llama', 'parallel_block': False, 'use_pretrained': 'none', 'from_dense': False, 'init_std': 0.02, 'dropout': 0.0, 'n_head': 6, 'n_layer': 7, 'sequence_length': 512, 'n_embd': 768, 'multiple_of': 256, 'rmsnorm_eps': 1e-05, 'dtype': 'bfloat16', 'bias': False, 'compile': True, 'mlp_dim_exp_factor': 1.0, 'w_quant': 'Q99IntQuantizer', 'w_quant_kwargs': {'bits': 4}, 'a_quant': 'Q99IntQuantizer', 'a_quant_kwargs': {'bits': 4}, 'world_size': 4}
+
+Loading dataset: 'c4'
+Distributed DataReader Initialized for Worker 0/4
+Num training tokens: 20000000000
+Num validation tokens: 50000000
+
+Model:
+Llama(
+  (transformer): ModuleDict(
+    (wte): Embedding(50304, 768)
+    (drop): Dropout(p=0.0, inplace=False)
+    (h): ModuleList(
+      (0-6): 7 x LlamaBlock(
+        (ln_1): RMSNorm()
+        (attn): LlamaAttention(
+          (c_attn): QuantizedLinear(
+            in_features=768, out_features=2304, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+          (c_proj): QuantizedLinear(
+            in_features=768, out_features=768, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+          (attn_dropout): Dropout(p=0.0, inplace=False)
+          (resid_dropout): Dropout(p=0.0, inplace=False)
+        )
+        (ln_2): RMSNorm()
+        (mlp): LlamaMLP(
+          (w1): QuantizedLinear(
+            in_features=768, out_features=2048, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+          (w2): QuantizedLinear(
+            in_features=768, out_features=2048, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+          (c_proj): QuantizedLinear(
+            in_features=2048, out_features=768, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+        )
+      )
+    )
+    (ln_f): RMSNorm()
+  )
+  (lm_head): Linear(in_features=768, out_features=50304, bias=False)
+)
+
+Model:
+Llama(
+  (transformer): ModuleDict(
+    (wte): Embedding(50304, 768)
+    (drop): Dropout(p=0.0, inplace=False)
+    (h): ModuleList(
+      (0-6): 7 x LlamaBlock(
+        (ln_1): RMSNorm()
+        (attn): LlamaAttention(
+          (c_attn): QuantizedLinear(
+            in_features=768, out_features=2304, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+          (c_proj): QuantizedLinear(
+            in_features=768, out_features=768, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+          (attn_dropout): Dropout(p=0.0, inplace=False)
+          (resid_dropout): Dropout(p=0.0, inplace=False)
+        )
+        (ln_2): RMSNorm()
+        (mlp): LlamaMLP(
+          (w1): QuantizedLinear(
+            in_features=768, out_features=2048, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+          (w2): QuantizedLinear(
+            in_features=768, out_features=2048, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+          (c_proj): QuantizedLinear(
+            in_features=2048, out_features=768, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+        )
+      )
+    )
+    (ln_f): RMSNorm()
+  )
+  (lm_head): Linear(in_features=768, out_features=50304, bias=False)
+)
+
+Model:
+Llama(
+  (transformer): ModuleDict(
+    (wte): Embedding(50304, 768)
+    (drop): Dropout(p=0.0, inplace=False)
+    (h): ModuleList(
+      (0-6): 7 x LlamaBlock(
+        (ln_1): RMSNorm()
+        (attn): LlamaAttention(
+          (c_attn): QuantizedLinear(
+            in_features=768, out_features=2304, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+          (c_proj): QuantizedLinear(
+            in_features=768, out_features=768, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+          (attn_dropout): Dropout(p=0.0, inplace=False)
+          (resid_dropout): Dropout(p=0.0, inplace=False)
+        )
+        (ln_2): RMSNorm()
+        (mlp): LlamaMLP(
+          (w1): QuantizedLinear(
+            in_features=768, out_features=2048, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+          (w2): QuantizedLinear(
+            in_features=768, out_features=2048, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+          (c_proj): QuantizedLinear(
+            in_features=2048, out_features=768, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+        )
+      )
+    )
+    (ln_f): RMSNorm()
+  )
+  (lm_head): Linear(in_features=768, out_features=50304, bias=False)
+)
+
+Model:
+Llama(
+  (transformer): ModuleDict(
+    (wte): Embedding(50304, 768)
+    (drop): Dropout(p=0.0, inplace=False)
+    (h): ModuleList(
+      (0-6): 7 x LlamaBlock(
+        (ln_1): RMSNorm()
+        (attn): LlamaAttention(
+          (c_attn): QuantizedLinear(
+            in_features=768, out_features=2304, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+          (c_proj): QuantizedLinear(
+            in_features=768, out_features=768, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+          (attn_dropout): Dropout(p=0.0, inplace=False)
+          (resid_dropout): Dropout(p=0.0, inplace=False)
+        )
+        (ln_2): RMSNorm()
+        (mlp): LlamaMLP(
+          (w1): QuantizedLinear(
+            in_features=768, out_features=2048, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+          (w2): QuantizedLinear(
+            in_features=768, out_features=2048, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+          (c_proj): QuantizedLinear(
+            in_features=2048, out_features=768, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+        )
+      )
+    )
+    (ln_f): RMSNorm()
+  )
+  (lm_head): Linear(in_features=768, out_features=50304, bias=False)
+)
+number of parameters: 126.82Mnumber of parameters: 126.82M
+number of optimized parameters: 126.82M
+number of non-embedding parameters: 49.56M
+
+number of optimized parameters: 126.82M
+number of non-embedding parameters: 49.56M
+
+Optimizer:
+QCRIAdamW (
+Parameter Group 0
+    betas: (0.9, 0.95)
+    eps: 1e-08
+    lr: 0.0012
+    weight_decay: 0.1
+
+Parameter Group 1
+    betas: (0.9, 0.95)
+    eps: 1e-08
+    lr: 0.0012
+    weight_decay: 0.0
+)
+
+Optimizer:
+QCRIAdamW (
+Parameter Group 0
+    betas: (0.9, 0.95)
+    eps: 1e-08
+    lr: 0.0012
+    weight_decay: 0.1
+
+Parameter Group 1
+    betas: (0.9, 0.95)
+    eps: 1e-08
+    lr: 0.0012
+    weight_decay: 0.0
+)
+Compiling model ...Compiling model ...
+
+number of parameters: 126.82Mnumber of parameters: 126.82M
+number of optimized parameters: 126.82M
+number of non-embedding parameters: 49.56M
+
+number of optimized parameters: 126.82M
+number of non-embedding parameters: 49.56M
+Optimizer:
+QCRIAdamW (
+Parameter Group 0
+    betas: (0.9, 0.95)
+    eps: 1e-08
+    lr: 0.0012
+    weight_decay: 0.1
+
+Parameter Group 1
+    betas: (0.9, 0.95)
+    eps: 1e-08
+    lr: 0.0012
+    weight_decay: 0.0
+)
+
+Compiling model ...
+
+Optimizer:
+QCRIAdamW (
+Parameter Group 0
+    betas: (0.9, 0.95)
+    eps: 1e-08
+    lr: 0.0012
+    weight_decay: 0.1
+
+Parameter Group 1
+    betas: (0.9, 0.95)
+    eps: 1e-08
+    lr: 0.0012
+    weight_decay: 0.0
+)
+Compiling model ...
+Training Progress:   0%|          | 0/19073 [00:00<?, ?it/s][rank1]:W0126 13:11:27.564000 148418 site-packages/torch/_logging/_internal.py:1199] [0/0] Profiler function <class 'torch.autograd.profiler.record_function'> will be ignored
+[rank3]:W0126 13:11:27.564000 148420 site-packages/torch/_logging/_internal.py:1199] [0/0] Profiler function <class 'torch.autograd.profiler.record_function'> will be ignored
+[rank2]:W0126 13:11:27.565000 148419 site-packages/torch/_logging/_internal.py:1199] [0/0] Profiler function <class 'torch.autograd.profiler.record_function'> will be ignored
+
+  0%|          | 0/32 [00:00<?, ?it/s][A[rank0]:W0126 13:11:29.737000 148417 site-packages/torch/_logging/_internal.py:1199] [0/0] Profiler function <class 'torch.autograd.profiler.record_function'> will be ignored
+/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/_dynamo/variables/functions.py:1598: UserWarning: Dynamo does not know how to trace the builtin `torch._C._distributed_c10d.pybind11_detail_function_record_v1_system_libstdcpp_gxx_abi_1xxx_use_cxx11_abi_1._broadcast_coalesced.` This function is either a Python builtin (e.g. _warnings.warn) or a third-party C/C++ Python extension (perhaps created with pybind).
+If it is a Python builtin, please file an issue on GitHub so the PyTorch team can add support for it and see the next case for a workaround.
+If it is a third-party C/C++ Python extension, please either wrap it into a PyTorch-understood custom operator (see https://pytorch.org/tutorials/advanced/custom_ops_landing_page.html for more details) or, if it is traceable, use `torch.compiler.allow_in_graph`.
+  torch._dynamo.utils.warn_once(explanation + "\n" + "\n".join(hints))
+
+  3%|▎         | 1/32 [00:06<03:10,  6.13s/it][A
+ 25%|██▌       | 8/32 [00:06<00:13,  1.75it/s][A
+ 44%|████▍     | 14/32 [00:06<00:05,  3.56it/s][A
+ 62%|██████▎   | 20/32 [00:06<00:02,  5.94it/s][A
+ 81%|████████▏ | 26/32 [00:06<00:00,  8.98it/s][A
+100%|██████████| 32/32 [00:06<00:00, 12.70it/s][A100%|██████████| 32/32 [00:06<00:00,  4.78it/s]
+>Eval: Iter=0 (0.000 epochs) val_loss=10.978 val_pp=58553.475 val_acc=0.000011
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.49999967217445374
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.49999967217445374DEBUG: bad p values: [-0.002346979221329093, 0.015144708566367626, -0.0038240449503064156, -0.0006401545251719654, -0.029557203873991966]
+
+DEBUG: bad p values: [-0.002346979221329093, 0.015144708566367626, -0.0038240449503064156, -0.0006401545251719654, -0.029557203873991966]
+DEBUG: p*scale: [-0.5256024599075317, 3.391634702682495, -0.8563891649246216, -0.1433616429567337, -6.619291305541992]
+DEBUG: should be: [-1.0, 3.0, -1.0, -0.0, -7.0]
+DEBUG: p*scale: [-0.5256024599075317, 3.391634702682495, -0.8563891649246216, -0.1433616429567337, -6.619291305541992]
+DEBUG: should be: [-1.0, 3.0, -1.0, -0.0, -7.0]
+DEBUG: Fixed p, re-checking...
+DEBUG: After fix, max_diff=0.0
+DEBUG: Fixed p, re-checking...
+DEBUG: After fix, max_diff=0.0
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.49999910593032837
+DEBUG: bad p values: [-0.00033021430135704577, 0.00028184050461277366, -0.007082078605890274, -0.0018097716383635998, -7.900308264652267e-05]
+DEBUG: p*scale: [-0.07396292686462402, 0.06312794238328934, -1.5862767696380615, -0.40536102652549744, -0.017695477232336998]
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.49999910593032837
+DEBUG: bad p values: [-0.00033021430135704577, 0.00028184050461277366, -0.007082078605890274, -0.0018097716383635998, -7.900308264652267e-05]DEBUG: should be: [-0.0, 0.0, -2.0, -0.0, -0.0]
+
+DEBUG: Fixed p, re-checking...
+DEBUG: p*scale: [-0.07396292686462402, 0.06312794238328934, -1.5862767696380615, -0.40536102652549744, -0.017695477232336998]
+DEBUG: After fix, max_diff=0.0
+DEBUG: should be: [-0.0, 0.0, -2.0, -0.0, -0.0]
+DEBUG: Fixed p, re-checking...
+DEBUG: After fix, max_diff=0.0
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.4999995231628418
+DEBUG: bad p values: [0.00504384795203805, 0.004319828934967518, -0.004921264946460724, 0.005052023567259312, -0.004597702529281378]
+DEBUG: p*scale: [1.8442646265029907, 1.5795297622680664, -1.7994426488876343, 1.8472540378570557, -1.6811331510543823]DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.4999995231628418
+
+DEBUG: bad p values: [0.00504384795203805, 0.004319828934967518, -0.004921264946460724, 0.005052023567259312, -0.004597702529281378]
+DEBUG: should be: [2.0, 2.0, -2.0, 2.0, -2.0]
+DEBUG: p*scale: [1.8442646265029907, 1.5795297622680664, -1.7994426488876343, 1.8472540378570557, -1.6811331510543823]DEBUG: Fixed p, re-checking...
+
+DEBUG: After fix, max_diff=4.76837158203125e-07
+DEBUG: should be: [2.0, 2.0, -2.0, 2.0, -2.0]
+DEBUG: Fixed p, re-checking...
+DEBUG: After fix, max_diff=4.76837158203125e-07
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.4999997019767761
+DEBUG: bad p values: [-0.01865743286907673, -0.008536727167665958, 0.02026333287358284, 0.004600859247148037, 0.012783622369170189]
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.4999997019767761DEBUG: p*scale: [-4.178464889526367, -1.911860704421997, 4.538117408752441, 1.0303951501846313, 2.862982988357544]
+
+DEBUG: bad p values: [-0.01865743286907673, -0.008536727167665958, 0.02026333287358284, 0.004600859247148037, 0.012783622369170189]
+DEBUG: should be: [-4.0, -2.0, 5.0, 1.0, 3.0]
+DEBUG: p*scale: [-4.178464889526367, -1.911860704421997, 4.538117408752441, 1.0303951501846313, 2.862982988357544]
+DEBUG: Fixed p, re-checking...
+DEBUG: After fix, max_diff=4.76837158203125e-07
+DEBUG: should be: [-4.0, -2.0, 5.0, 1.0, 3.0]
+DEBUG: Fixed p, re-checking...
+DEBUG: After fix, max_diff=4.76837158203125e-07
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.5
+DEBUG: bad p values: [-0.023766279220581055, 0.032901134341955185, -0.0038683281745761633, 0.012383048422634602, -0.012508281506597996]
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.5DEBUG: p*scale: [-5.321966171264648, 7.367527484893799, -0.8662319779396057, 2.7729272842407227, -2.8009705543518066]
+
+DEBUG: bad p values: [-0.023766279220581055, 0.032901134341955185, -0.0038683281745761633, 0.012383048422634602, -0.012508281506597996]
+DEBUG: should be: [-5.0, 7.0, -1.0, 3.0, -3.0]
+DEBUG: p*scale: [-5.321966171264648, 7.367527484893799, -0.8662319779396057, 2.7729272842407227, -2.8009705543518066]
+DEBUG: Fixed p, re-checking...
+DEBUG: After fix, max_diff=0.0
+DEBUG: should be: [-5.0, 7.0, -1.0, 3.0, -3.0]
+DEBUG: Fixed p, re-checking...
+DEBUG: After fix, max_diff=0.0
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.49999964237213135
+DEBUG: bad p values: [0.03623814135789871, 0.02691955491900444, -0.005432148929685354, 0.01455075852572918, -0.005636822432279587]
+DEBUG: p*scale: [8.115397453308105, 6.028534889221191, -1.2165096998214722, 3.2585885524749756, -1.262345552444458]DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.49999964237213135
+
+DEBUG: bad p values: [0.03623814135789871, 0.02691955491900444, -0.005432148929685354, 0.01455075852572918, -0.005636822432279587]
+DEBUG: should be: [8.0, 6.0, -1.0, 3.0, -1.0]
+DEBUG: p*scale: [8.115397453308105, 6.028534889221191, -1.2165096998214722, 3.2585885524749756, -1.262345552444458]DEBUG: Fixed p, re-checking...
+
+DEBUG: After fix, max_diff=4.76837158203125e-07
+DEBUG: should be: [8.0, 6.0, -1.0, 3.0, -1.0]
+DEBUG: Fixed p, re-checking...
+DEBUG: After fix, max_diff=4.76837158203125e-07
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.49999991059303284
+DEBUG: bad p values: [-0.0028507704846560955, -0.005429999437183142, -0.0005457500228658319, 0.00055570068070665, -0.004323939792811871]
+DEBUG: p*scale: [-0.6383287906646729, -1.215855598449707, -0.1222013384103775, 0.12442943453788757, -0.9681927561759949]
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.49999991059303284
+DEBUG: should be: [-1.0, -1.0, -0.0, 0.0, -1.0]DEBUG: bad p values: [-0.0028507704846560955, -0.005429999437183142, -0.0005457500228658319, 0.00055570068070665, -0.004323939792811871]
+
+DEBUG: Fixed p, re-checking...
+DEBUG: p*scale: [-0.6383287906646729, -1.215855598449707, -0.1222013384103775, 0.12442943453788757, -0.9681927561759949]
+DEBUG: After fix, max_diff=0.0
+DEBUG: should be: [-1.0, -1.0, -0.0, 0.0, -1.0]
+DEBUG: Fixed p, re-checking...
+DEBUG: After fix, max_diff=0.0
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.5
+DEBUG: bad p values: [-0.0024994772393256426, -0.006212932523339987, 0.0032383056823164225, -0.002790621714666486, -0.0012546151410788298]
+DEBUG: p*scale: [-0.913956344127655, -2.2718145847320557, 1.1841156482696533, -1.0204159021377563, -0.4587613046169281]
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.5
+DEBUG: bad p values: [-0.0024994772393256426, -0.006212932523339987, 0.0032383056823164225, -0.002790621714666486, -0.0012546151410788298]
+DEBUG: should be: [-1.0, -2.0, 1.0, -1.0, -0.0]
+DEBUG: Fixed p, re-checking...
+DEBUG: p*scale: [-0.913956344127655, -2.2718145847320557, 1.1841156482696533, -1.0204159021377563, -0.4587613046169281]
+DEBUG: After fix, max_diff=4.76837158203125e-07
+DEBUG: should be: [-1.0, -2.0, 1.0, -1.0, -0.0]
+DEBUG: Fixed p, re-checking...
+DEBUG: After fix, max_diff=4.76837158203125e-07
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.4999992847442627
+DEBUG: bad p values: [-0.030790679156780243, 0.003886496415361762, -0.012968318536877632, -0.04501703009009361, 0.01621382310986519]
+DEBUG: p*scale: [-6.896333694458008, 0.8704769611358643, -2.9045753479003906, -10.082676887512207, 3.631486415863037]
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.4999992847442627
+DEBUG: bad p values: [-0.030790679156780243, 0.003886496415361762, -0.012968318536877632, -0.04501703009009361, 0.01621382310986519]
+DEBUG: should be: [-7.0, 1.0, -3.0, -10.0, 4.0]
+DEBUG: Fixed p, re-checking...DEBUG: p*scale: [-6.896333694458008, 0.8704769611358643, -2.9045753479003906, -10.082676887512207, 3.631486415863037]
+
+DEBUG: After fix, max_diff=0.0
+DEBUG: should be: [-7.0, 1.0, -3.0, -10.0, 4.0]
+DEBUG: Fixed p, re-checking...
+DEBUG: After fix, max_diff=0.0
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.4999997615814209
+DEBUG: bad p values: [-0.021726436913013458, 0.01584726944565773, -0.002417089883238077, 0.012554207816720009, 0.027591722086071968]
+DEBUG: p*scale: [-4.866198539733887, 3.5494065284729004, -0.5413699150085449, 2.811840057373047, 6.1798810958862305]
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.4999997615814209
+DEBUG: bad p values: [-0.021726436913013458, 0.01584726944565773, -0.002417089883238077, 0.012554207816720009, 0.027591722086071968]
+DEBUG: should be: [-5.0, 4.0, -1.0, 3.0, 6.0]
+DEBUG: Fixed p, re-checking...DEBUG: p*scale: [-4.866198539733887, 3.5494065284729004, -0.5413699150085449, 2.811840057373047, 6.1798810958862305]
+
+DEBUG: After fix, max_diff=4.76837158203125e-07
+DEBUG: should be: [-5.0, 4.0, -1.0, 3.0, 6.0]
+DEBUG: Fixed p, re-checking...
+DEBUG: After fix, max_diff=4.76837158203125e-07
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.49999988079071045
+DEBUG: bad p values: [-0.012485777959227562, 0.005442463792860508, 0.0003332077758386731, 0.023576686158776283, -0.0482206866145134]
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.49999988079071045DEBUG: p*scale: [-2.7961981296539307, 1.2188433408737183, 0.07462210208177567, 5.2800140380859375, -10.799054145812988]
+
+DEBUG: bad p values: [-0.012485777959227562, 0.005442463792860508, 0.0003332077758386731, 0.023576686158776283, -0.0482206866145134]
+DEBUG: should be: [-3.0, 1.0, 0.0, 5.0, -11.0]
+DEBUG: p*scale: [-2.7961981296539307, 1.2188433408737183, 0.07462210208177567, 5.2800140380859375, -10.799054145812988]
+DEBUG: Fixed p, re-checking...
+DEBUG: After fix, max_diff=4.76837158203125e-07
+DEBUG: should be: [-3.0, 1.0, 0.0, 5.0, -11.0]
+DEBUG: Fixed p, re-checking...
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.49999967217445374DEBUG: After fix, max_diff=4.76837158203125e-07
+
+DEBUG: bad p values: [-0.002346979221329093, 0.015144708566367626, -0.0038240449503064156, -0.0006401545251719654, -0.029557203873991966]
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.4999992549419403
+DEBUG: bad p values: [0.0005595516413450241, 0.0049837371334433556, -0.0037500520702451468, -0.0074911159463226795, -0.0010538946371525526]
+DEBUG: p*scale: [0.12531912326812744, 1.1161750555038452, -0.8398746848106384, -1.6777362823486328, -0.23603390157222748]DEBUG: p*scale: [-0.5256024599075317, 3.391634702682495, -0.8563891649246216, -0.1433616429567337, -6.619291305541992]
+
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.4999992549419403
+DEBUG: bad p values: [0.0005595516413450241, 0.0049837371334433556, -0.0037500520702451468, -0.0074911159463226795, -0.0010538946371525526]
+DEBUG: should be: [0.0, 1.0, -1.0, -2.0, -0.0]
+DEBUG: Fixed p, re-checking...DEBUG: should be: [-1.0, 3.0, -1.0, -0.0, -7.0]
+
+DEBUG: p*scale: [0.12531912326812744, 1.1161750555038452, -0.8398746848106384, -1.6777362823486328, -0.23603390157222748]
+DEBUG: After fix, max_diff=0.0
+DEBUG: should be: [0.0, 1.0, -1.0, -2.0, -0.0]
+DEBUG: Fixed p, re-checking...
+DEBUG: Fixed p, re-checking...
+DEBUG: After fix, max_diff=0.0
+DEBUG: After fix, max_diff=0.0
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.4999997913837433
+DEBUG: bad p values: [-0.001521932310424745, -0.0026792294811457396, 0.0054546259343624115, 0.003585866652429104, -0.002602499444037676]
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.4999997913837433DEBUG: p*scale: [-0.5565708875656128, -0.9797946810722351, 1.9947576522827148, 1.311352014541626, -0.9517344832420349]
+
+DEBUG: bad p values: [-0.001521932310424745, -0.0026792294811457396, 0.0054546259343624115, 0.003585866652429104, -0.002602499444037676]
+DEBUG: should be: [-1.0, -1.0, 2.0, 1.0, -1.0]
+DEBUG: p*scale: [-0.5565708875656128, -0.9797946810722351, 1.9947576522827148, 1.311352014541626, -0.9517344832420349]
+DEBUG: Fixed p, re-checking...
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.49999910593032837
+DEBUG: After fix, max_diff=4.76837158203125e-07
+DEBUG: bad p values: [-0.00033021430135704577, 0.00028184050461277366, -0.007082078605890274, -0.0018097716383635998, -7.900308264652267e-05]
+DEBUG: should be: [-1.0, -1.0, 2.0, 1.0, -1.0]
+DEBUG: Fixed p, re-checking...
+DEBUG: p*scale: [-0.07396292686462402, 0.06312794238328934, -1.5862767696380615, -0.40536102652549744, -0.017695477232336998]
+DEBUG: After fix, max_diff=4.76837158203125e-07
+DEBUG: should be: [-0.0, 0.0, -2.0, -0.0, -0.0]
+DEBUG: Fixed p, re-checking...
+DEBUG: After fix, max_diff=0.0
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.4999992847442627
+DEBUG: bad p values: [-0.03271244093775749, 0.008911342360079288, 0.020770123228430748, -0.028999924659729004, -0.00271067232824862]
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.4999992847442627DEBUG: p*scale: [-7.326279640197754, 1.9957845211029053, 4.65167760848999, -6.494824409484863, -0.6070822477340698]
+
+DEBUG: bad p values: [-0.03271244093775749, 0.008911342360079288, 0.020770123228430748, -0.028999924659729004, -0.00271067232824862]
+DEBUG: should be: [-7.0, 2.0, 5.0, -6.0, -1.0]
+DEBUG: p*scale: [-7.326279640197754, 1.9957845211029053, 4.65167760848999, -6.494824409484863, -0.6070822477340698]
+DEBUG: Fixed p, re-checking...DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.4999995231628418
+
+DEBUG: bad p values: [0.00504384795203805, 0.004319828934967518, -0.004921264946460724, 0.005052023567259312, -0.004597702529281378]
+DEBUG: After fix, max_diff=0.0
+DEBUG: should be: [-7.0, 2.0, 5.0, -6.0, -1.0]
+DEBUG: Fixed p, re-checking...
+DEBUG: p*scale: [1.8442646265029907, 1.5795297622680664, -1.7994426488876343, 1.8472540378570557, -1.6811331510543823]
+DEBUG: After fix, max_diff=0.0
+DEBUG: should be: [2.0, 2.0, -2.0, 2.0, -2.0]
+DEBUG: Fixed p, re-checking...
+DEBUG: After fix, max_diff=4.76837158203125e-07
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.4999997615814209
+DEBUG: bad p values: [0.01587013155221939, -0.027547523379325867, 0.010763820260763168, -0.017063744366168976, 0.012957314029335976]
+DEBUG: p*scale: [3.55417799949646, -6.169375419616699, 2.41059947013855, -3.8214921951293945, 2.901841163635254]DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.4999997615814209
+
+DEBUG: bad p values: [0.01587013155221939, -0.027547523379325867, 0.010763820260763168, -0.017063744366168976, 0.012957314029335976]
+DEBUG: should be: [4.0, -6.0, 2.0, -4.0, 3.0]
+DEBUG: p*scale: [3.55417799949646, -6.169375419616699, 2.41059947013855, -3.8214921951293945, 2.901841163635254]
+DEBUG: Fixed p, re-checking...
+DEBUG: After fix, max_diff=4.76837158203125e-07
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.4999997019767761DEBUG: should be: [4.0, -6.0, 2.0, -4.0, 3.0]
+
+DEBUG: bad p values: [-0.01865743286907673, -0.008536727167665958, 0.02026333287358284, 0.004600859247148037, 0.012783622369170189]
+DEBUG: Fixed p, re-checking...
+DEBUG: After fix, max_diff=4.76837158203125e-07
+DEBUG: p*scale: [-4.178464889526367, -1.911860704421997, 4.538117408752441, 1.0303951501846313, 2.862982988357544]
+DEBUG: should be: [-4.0, -2.0, 5.0, 1.0, 3.0]
+DEBUG: Fixed p, re-checking...
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.5
+DEBUG: bad p values: [-0.015184055082499981, -0.011020122095942497, 0.006856356281787157, 0.03372853994369507, 0.0005332111613824964]DEBUG: After fix, max_diff=4.76837158203125e-07
+
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.5
+DEBUG: p*scale: [-3.4002809524536133, -2.4678196907043457, 1.5353959798812866, 7.553088665008545, 0.11940602958202362]
+DEBUG: bad p values: [-0.015184055082499981, -0.011020122095942497, 0.006856356281787157, 0.03372853994369507, 0.0005332111613824964]
+DEBUG: should be: [-3.0, -2.0, 2.0, 8.0, 0.0]
+DEBUG: p*scale: [-3.4002809524536133, -2.4678196907043457, 1.5353959798812866, 7.553088665008545, 0.11940602958202362]
+DEBUG: Fixed p, re-checking...
+DEBUG: After fix, max_diff=0.0
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.5DEBUG: should be: [-3.0, -2.0, 2.0, 8.0, 0.0]
+
+DEBUG: bad p values: [-0.023766279220581055, 0.032901134341955185, -0.0038683281745761633, 0.012383048422634602, -0.012508281506597996]
+DEBUG: Fixed p, re-checking...
+DEBUG: After fix, max_diff=0.0
+DEBUG: p*scale: [-5.321966171264648, 7.367527484893799, -0.8662319779396057, 2.7729272842407227, -2.8009705543518066]
+DEBUG: should be: [-5.0, 7.0, -1.0, 3.0, -3.0]
+DEBUG: Fixed p, re-checking...
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.49999916553497314
+DEBUG: bad p values: [0.002876829355955124, -0.005070658400654793, -0.0017636916600167751, 0.0063653565011918545, 0.000690882618073374]
+DEBUG: After fix, max_diff=0.0
+DEBUG: p*scale: [0.6442418694496155, -1.1355315446853638, -0.39496397972106934, 1.4254683256149292, 0.15471738576889038]
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.49999916553497314
+DEBUG: bad p values: [0.002876829355955124, -0.005070658400654793, -0.0017636916600167751, 0.0063653565011918545, 0.000690882618073374]DEBUG: should be: [1.0, -1.0, -0.0, 1.0, 0.0]
+
+DEBUG: Fixed p, re-checking...
+DEBUG: p*scale: [0.6442418694496155, -1.1355315446853638, -0.39496397972106934, 1.4254683256149292, 0.15471738576889038]
+DEBUG: After fix, max_diff=0.0
+DEBUG: should be: [1.0, -1.0, -0.0, 1.0, 0.0]
+DEBUG: Fixed p, re-checking...
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.49999964237213135
+DEBUG: After fix, max_diff=0.0
+DEBUG: bad p values: [0.03623814135789871, 0.02691955491900444, -0.005432148929685354, 0.01455075852572918, -0.005636822432279587]
+DEBUG: p*scale: [8.115397453308105, 6.028534889221191, -1.2165096998214722, 3.2585885524749756, -1.262345552444458]
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.499999463558197
+DEBUG: should be: [8.0, 6.0, -1.0, 3.0, -1.0]DEBUG: bad p values: [0.0016705213347449899, -0.0023635041434317827, -0.0033176830038428307, 0.0010856022126972675, 0.0004919309285469353]
+
+DEBUG: Fixed p, re-checking...
+DEBUG: p*scale: [0.6109474897384644, -0.864387035369873, -1.213351845741272, 0.397029310464859, 0.17991028726100922]DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.499999463558197
+DEBUG: After fix, max_diff=4.76837158203125e-07
+
+DEBUG: bad p values: [0.0016705213347449899, -0.0023635041434317827, -0.0033176830038428307, 0.0010856022126972675, 0.0004919309285469353]
+DEBUG: should be: [1.0, -1.0, -1.0, 0.0, 0.0]
+DEBUG: p*scale: [0.6109474897384644, -0.864387035369873, -1.213351845741272, 0.397029310464859, 0.17991028726100922]DEBUG: Fixed p, re-checking...
+
+DEBUG: After fix, max_diff=4.76837158203125e-07
+DEBUG: should be: [1.0, -1.0, -1.0, 0.0, 0.0]
+DEBUG: Fixed p, re-checking...
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.49999991059303284DEBUG: After fix, max_diff=4.76837158203125e-07
+
+DEBUG: bad p values: [-0.0028507704846560955, -0.005429999437183142, -0.0005457500228658319, 0.00055570068070665, -0.004323939792811871]
+DEBUG: p*scale: [-0.6383287906646729, -1.215855598449707, -0.1222013384103775, 0.12442943453788757, -0.9681927561759949]
+DEBUG: should be: [-1.0, -1.0, -0.0, 0.0, -1.0]DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.4999995231628418
+
+DEBUG: bad p values: [-0.005008022766560316, 0.005444514099508524, 0.01703895628452301, 0.013519570231437683, -0.009515234269201756]DEBUG: Fixed p, re-checking...
+
+DEBUG: After fix, max_diff=0.0
+DEBUG: p*scale: [-1.1214460134506226, 1.2191895246505737, 3.8155317306518555, 3.0274360179901123, -2.1307454109191895]DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.4999995231628418
+
+DEBUG: bad p values: [-0.005008022766560316, 0.005444514099508524, 0.01703895628452301, 0.013519570231437683, -0.009515234269201756]
+DEBUG: should be: [-1.0, 1.0, 4.0, 3.0, -2.0]
+DEBUG: p*scale: [-1.1214460134506226, 1.2191895246505737, 3.8155317306518555, 3.0274360179901123, -2.1307454109191895]
+DEBUG: Fixed p, re-checking...
+DEBUG: After fix, max_diff=0.0
+DEBUG: should be: [-1.0, 1.0, 4.0, 3.0, -2.0]
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.5DEBUG: Fixed p, re-checking...
+
+DEBUG: bad p values: [-0.0024994772393256426, -0.006212932523339987, 0.0032383056823164225, -0.002790621714666486, -0.0012546151410788298]
+DEBUG: After fix, max_diff=0.0
+DEBUG: p*scale: [-0.913956344127655, -2.2718145847320557, 1.1841156482696533, -1.0204159021377563, -0.4587613046169281]
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.49999964237213135DEBUG: should be: [-1.0, -2.0, 1.0, -1.0, -0.0]
+
+DEBUG: bad p values: [0.012314033694565296, 0.016781384125351906, -0.030024182051420212, 0.016895148903131485, -0.03604389727115631]
+DEBUG: Fixed p, re-checking...
+DEBUG: After fix, max_diff=4.76837158203125e-07
+DEBUG: p*scale: [2.7573680877685547, 3.7577009201049805, -6.723038673400879, 3.783175230026245, -8.070978164672852]
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.49999964237213135
+DEBUG: bad p values: [0.012314033694565296, 0.016781384125351906, -0.030024182051420212, 0.016895148903131485, -0.03604389727115631]
+DEBUG: should be: [3.0, 4.0, -7.0, 4.0, -8.0]
+DEBUG: Fixed p, re-checking...
+DEBUG: p*scale: [2.7573680877685547, 3.7577009201049805, -6.723038673400879, 3.783175230026245, -8.070978164672852]
+DEBUG: After fix, max_diff=4.76837158203125e-07
+DEBUG: should be: [3.0, 4.0, -7.0, 4.0, -8.0]
+DEBUG: Fixed p, re-checking...DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.4999992847442627
+
+DEBUG: bad p values: [-0.030790679156780243, 0.003886496415361762, -0.012968318536877632, -0.04501703009009361, 0.01621382310986519]
+DEBUG: After fix, max_diff=4.76837158203125e-07
+DEBUG: p*scale: [-6.896333694458008, 0.8704769611358643, -2.9045753479003906, -10.082676887512207, 3.631486415863037]
+DEBUG: should be: [-7.0, 1.0, -3.0, -10.0, 4.0]DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.4999997615814209
+
+DEBUG: bad p values: [0.0036096139810979366, -0.03593256697058678, 0.037460681051015854, -0.01954841986298561, -0.008420430123806]DEBUG: Fixed p, re-checking...
+
+DEBUG: After fix, max_diff=0.0
+DEBUG: p*scale: [0.8083945512771606, -8.04731273651123, 8.389542579650879, -4.377985000610352, -1.8858054876327515]
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.4999997615814209
+DEBUG: bad p values: [0.0036096139810979366, -0.03593256697058678, 0.037460681051015854, -0.01954841986298561, -0.008420430123806]
+DEBUG: should be: [1.0, -8.0, 8.0, -4.0, -2.0]
+DEBUG: Fixed p, re-checking...
+DEBUG: p*scale: [0.8083945512771606, -8.04731273651123, 8.389542579650879, -4.377985000610352, -1.8858054876327515]
+DEBUG: After fix, max_diff=4.76837158203125e-07
+DEBUG: should be: [1.0, -8.0, 8.0, -4.0, -2.0]
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.4999997615814209
+DEBUG: Fixed p, re-checking...DEBUG: bad p values: [-0.021726436913013458, 0.01584726944565773, -0.002417089883238077, 0.012554207816720009, 0.027591722086071968]
+
+DEBUG: After fix, max_diff=4.76837158203125e-07
+DEBUG: p*scale: [-4.866198539733887, 3.5494065284729004, -0.5413699150085449, 2.811840057373047, 6.1798810958862305]
+DEBUG: should be: [-5.0, 4.0, -1.0, 3.0, 6.0]
+DEBUG: Fixed p, re-checking...
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.4999995231628418
+DEBUG: bad p values: [0.001856673276051879, 0.0071566347032785416, -0.007507860194891691, 0.0032731422688812017, -0.0026450445875525475]DEBUG: After fix, max_diff=4.76837158203125e-07
+
+DEBUG: p*scale: [0.4157797396183014, 1.6026426553726196, -1.681295394897461, 0.7329809665679932, -0.5923260450363159]
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.4999995231628418
+DEBUG: bad p values: [0.001856673276051879, 0.0071566347032785416, -0.007507860194891691, 0.0032731422688812017, -0.0026450445875525475]
+DEBUG: should be: [0.0, 2.0, -2.0, 1.0, -1.0]
+DEBUG: Fixed p, re-checking...
+DEBUG: p*scale: [0.4157797396183014, 1.6026426553726196, -1.681295394897461, 0.7329809665679932, -0.5923260450363159]
+DEBUG: After fix, max_diff=0.0
+DEBUG: should be: [0.0, 2.0, -2.0, 1.0, -1.0]
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.49999988079071045
+DEBUG: Fixed p, re-checking...
+DEBUG: bad p values: [-0.012485777959227562, 0.005442463792860508, 0.0003332077758386731, 0.023576686158776283, -0.0482206866145134]
+DEBUG: After fix, max_diff=0.0
+DEBUG: p*scale: [-2.7961981296539307, 1.2188433408737183, 0.07462210208177567, 5.2800140380859375, -10.799054145812988]
+DEBUG: should be: [-3.0, 1.0, 0.0, 5.0, -11.0]DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.4999992251396179
+
+DEBUG: bad p values: [0.0007627354934811592, -0.0044672442600131035, -0.001197745674289763, 0.006805022247135639, 0.001197786070406437]
+DEBUG: Fixed p, re-checking...
+DEBUG: After fix, max_diff=4.76837158203125e-07
+DEBUG: p*scale: [0.2789495587348938, -1.6337718963623047, -0.4380425810813904, 2.4887499809265137, 0.4380573630332947]DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.4999992251396179
+
+DEBUG: bad p values: [0.0007627354934811592, -0.0044672442600131035, -0.001197745674289763, 0.006805022247135639, 0.001197786070406437]
+DEBUG: should be: [0.0, -2.0, -0.0, 2.0, 0.0]
+DEBUG: p*scale: [0.2789495587348938, -1.6337718963623047, -0.4380425810813904, 2.4887499809265137, 0.4380573630332947]
+DEBUG: Fixed p, re-checking...
+DEBUG: After fix, max_diff=0.0
+DEBUG: should be: [0.0, -2.0, -0.0, 2.0, 0.0]
+DEBUG: Fixed p, re-checking...
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.4999992549419403
+DEBUG: After fix, max_diff=0.0
+DEBUG: bad p values: [0.0005595516413450241, 0.0049837371334433556, -0.0037500520702451468, -0.0074911159463226795, -0.0010538946371525526]
+DEBUG: p*scale: [0.12531912326812744, 1.1161750555038452, -0.8398746848106384, -1.6777362823486328, -0.23603390157222748]
+DEBUG: should be: [0.0, 1.0, -1.0, -2.0, -0.0]
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.4999995231628418DEBUG: Fixed p, re-checking...
+
+DEBUG: bad p values: [-0.04337891936302185, -0.005723555106669664, -0.012056021019816399, -0.02553151734173298, -0.037128761410713196]
+DEBUG: After fix, max_diff=0.0
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.4999995231628418DEBUG: p*scale: [-9.714886665344238, -1.2818135023117065, -2.699995279312134, -5.7178874015808105, -8.31513786315918]
+
+DEBUG: bad p values: [-0.04337891936302185, -0.005723555106669664, -0.012056021019816399, -0.02553151734173298, -0.037128761410713196]
+DEBUG: should be: [-10.0, -1.0, -3.0, -6.0, -8.0]
+DEBUG: p*scale: [-9.714886665344238, -1.2818135023117065, -2.699995279312134, -5.7178874015808105, -8.31513786315918]
+DEBUG: Fixed p, re-checking...
+DEBUG: After fix, max_diff=0.0
+DEBUG: should be: [-10.0, -1.0, -3.0, -6.0, -8.0]
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.4999997913837433
+DEBUG: Fixed p, re-checking...
+DEBUG: bad p values: [-0.001521932310424745, -0.0026792294811457396, 0.0054546259343624115, 0.003585866652429104, -0.002602499444037676]
+DEBUG: After fix, max_diff=0.0
+DEBUG: p*scale: [-0.5565708875656128, -0.9797946810722351, 1.9947576522827148, 1.311352014541626, -0.9517344832420349]
+DEBUG: should be: [-1.0, -1.0, 2.0, 1.0, -1.0]
+DEBUG: Fixed p, re-checking...DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.49999916553497314
+
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.49999967217445374DEBUG: bad p values: [0.004795802291482687, 0.018641022965312004, 0.008413661271333694, 0.0018420986598357558, 0.003359530819579959]
+DEBUG: After fix, max_diff=4.76837158203125e-07
+DEBUG: p*scale: [1.0740268230438232, 4.174683570861816, 1.8842514753341675, 0.41254064440727234, 0.7523717284202576]DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.49999916553497314
+
+DEBUG: bad p values: [0.004795802291482687, 0.018641022965312004, 0.008413661271333694, 0.0018420986598357558, 0.003359530819579959]
+
+DEBUG: should be: [1.0, 4.0, 2.0, 0.0, 1.0]
+DEBUG: p*scale: [1.0740268230438232, 4.174683570861816, 1.8842514753341675, 0.41254064440727234, 0.7523717284202576]
+DEBUG: Fixed p, re-checking...
+DEBUG: After fix, max_diff=0.0
+DEBUG: should be: [1.0, 4.0, 2.0, 0.0, 1.0]
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.4999992847442627
+DEBUG: Fixed p, re-checking...
+DEBUG: bad p values: [-0.03271244093775749, 0.008911342360079288, 0.020770123228430748, -0.028999924659729004, -0.00271067232824862]
+DEBUG: After fix, max_diff=0.0DEBUG: bad p values: [-0.002346979221329093, 0.015144708566367626, -0.0038240449503064156, -0.0006401545251719654, -0.029557203873991966]
+DEBUG: p*scale: [-7.326279640197754, 1.9957845211029053, 4.65167760848999, -6.494824409484863, -0.6070822477340698]
+
+DEBUG: should be: [-7.0, 2.0, 5.0, -6.0, -1.0]
+DEBUG: Fixed p, re-checking...DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.4999995231628418
+
+DEBUG: bad p values: [0.029990991577506065, -0.014987217262387276, -0.006916770711541176, 0.0011613898677751422, -0.027449138462543488]
+DEBUG: After fix, max_diff=0.0
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.4999995231628418DEBUG: p*scale: [-0.5256024599075317, 3.391634702682495, -0.8563891649246216, -0.1433616429567337, -6.619291305541992]
+DEBUG: p*scale: [6.715375900268555, -3.3558342456817627, -1.5487555265426636, 0.2600504159927368, -6.14622163772583]
+DEBUG: bad p values: [0.029990991577506065, -0.014987217262387276, -0.006916770711541176, 0.0011613898677751422, -0.027449138462543488]
+
+DEBUG: should be: [7.0, -3.0, -2.0, 0.0, -6.0]
+DEBUG: p*scale: [6.715375900268555, -3.3558342456817627, -1.5487555265426636, 0.2600504159927368, -6.14622163772583]
+DEBUG: Fixed p, re-checking...
+DEBUG: After fix, max_diff=4.76837158203125e-07
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.4999997615814209DEBUG: should be: [-1.0, 3.0, -1.0, -0.0, -7.0]DEBUG: should be: [7.0, -3.0, -2.0, 0.0, -6.0]
+
+DEBUG: bad p values: [0.01587013155221939, -0.027547523379325867, 0.010763820260763168, -0.017063744366168976, 0.012957314029335976]
+
+DEBUG: Fixed p, re-checking...
+DEBUG: After fix, max_diff=4.76837158203125e-07DEBUG: p*scale: [3.55417799949646, -6.169375419616699, 2.41059947013855, -3.8214921951293945, 2.901841163635254]
+
+DEBUG: should be: [4.0, -6.0, 2.0, -4.0, 3.0]
+DEBUG: Fixed p, re-checking...DEBUG: Fixed p, re-checking...
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.49999964237213135
+
+DEBUG: After fix, max_diff=4.76837158203125e-07
+DEBUG: bad p values: [-0.0002944749721791595, -0.008820596151053905, 0.0015469561330974102, 0.005607975646853447, -0.0009333859779872]
+DEBUG: p*scale: [-0.06593308597803116, -1.97493577003479, 0.34636422991752625, 1.2556284666061401, -0.2089855670928955]
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.49999964237213135
+DEBUG: bad p values: [-0.0002944749721791595, -0.008820596151053905, 0.0015469561330974102, 0.005607975646853447, -0.0009333859779872]
+DEBUG: should be: [-0.0, -2.0, 0.0, 1.0, -0.0]
+DEBUG: After fix, max_diff=0.0DEBUG: Fixed p, re-checking...
+DEBUG: p*scale: [-0.06593308597803116, -1.97493577003479, 0.34636422991752625, 1.2556284666061401, -0.2089855670928955]
+
+DEBUG: After fix, max_diff=0.0
+DEBUG: should be: [-0.0, -2.0, 0.0, 1.0, -0.0]
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.5
+DEBUG: Fixed p, re-checking...
+DEBUG: bad p values: [-0.015184055082499981, -0.011020122095942497, 0.006856356281787157, 0.03372853994369507, 0.0005332111613824964]
+DEBUG: After fix, max_diff=0.0
+DEBUG: p*scale: [-3.4002809524536133, -2.4678196907043457, 1.5353959798812866, 7.553088665008545, 0.11940602958202362]
+DEBUG: should be: [-3.0, -2.0, 2.0, 8.0, 0.0]
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.5
+DEBUG: Fixed p, re-checking...
+DEBUG: bad p values: [0.008830606006085873, -0.0015042726881802082, -0.0008693423587828875, 0.001962201436981559, 0.0033715663012117147]
+DEBUG: After fix, max_diff=0.0
+DEBUG: p*scale: [3.2292487621307373, -0.5500948429107666, -0.31790825724601746, 0.717553973197937, 1.2329421043395996]DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.5
+
+DEBUG: bad p values: [0.008830606006085873, -0.0015042726881802082, -0.0008693423587828875, 0.001962201436981559, 0.0033715663012117147]
+DEBUG: should be: [3.0, -1.0, -0.0, 1.0, 1.0]
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.49999910593032837DEBUG: p*scale: [3.2292487621307373, -0.5500948429107666, -0.31790825724601746, 0.717553973197937, 1.2329421043395996]
+DEBUG: Fixed p, re-checking...
+
+DEBUG: After fix, max_diff=0.0
+DEBUG: should be: [3.0, -1.0, -0.0, 1.0, 1.0]
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.49999916553497314DEBUG: Fixed p, re-checking...DEBUG: bad p values: [-0.00033021430135704577, 0.00028184050461277366, -0.007082078605890274, -0.0018097716383635998, -7.900308264652267e-05]
+
+DEBUG: bad p values: [0.002876829355955124, -0.005070658400654793, -0.0017636916600167751, 0.0063653565011918545, 0.000690882618073374]
+
+DEBUG: After fix, max_diff=0.0
+DEBUG: p*scale: [0.6442418694496155, -1.1355315446853638, -0.39496397972106934, 1.4254683256149292, 0.15471738576889038]
+DEBUG: should be: [1.0, -1.0, -0.0, 1.0, 0.0]
+DEBUG: Fixed p, re-checking...DEBUG: p*scale: [-0.07396292686462402, 0.06312794238328934, -1.5862767696380615, -0.40536102652549744, -0.017695477232336998]
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.4999997615814209
+DEBUG: bad p values: [-0.005336795933544636, -0.002763697411864996, 0.0010824232595041394, 0.002776629524305463, -0.0006458325660787523]
+
+DEBUG: After fix, max_diff=0.0
+DEBUG: p*scale: [-1.195160150527954, -0.6189221143722534, 0.24240559339523315, 0.6218182444572449, -0.14463235437870026]
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.4999997615814209
+DEBUG: bad p values: [-0.005336795933544636, -0.002763697411864996, 0.0010824232595041394, 0.002776629524305463, -0.0006458325660787523]
+DEBUG: should be: [-0.0, 0.0, -2.0, -0.0, -0.0]DEBUG: should be: [-1.0, -1.0, 0.0, 1.0, -0.0]
+
+DEBUG: Fixed p, re-checking...DEBUG: p*scale: [-1.195160150527954, -0.6189221143722534, 0.24240559339523315, 0.6218182444572449, -0.14463235437870026]
+
+DEBUG: After fix, max_diff=4.76837158203125e-07
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.499999463558197DEBUG: should be: [-1.0, -1.0, 0.0, 1.0, -0.0]
+
+DEBUG: bad p values: [0.0016705213347449899, -0.0023635041434317827, -0.0033176830038428307, 0.0010856022126972675, 0.0004919309285469353]
+DEBUG: Fixed p, re-checking...DEBUG: Fixed p, re-checking...
+
+DEBUG: After fix, max_diff=4.76837158203125e-07
+DEBUG: p*scale: [0.6109474897384644, -0.864387035369873, -1.213351845741272, 0.397029310464859, 0.17991028726100922]
+DEBUG: should be: [1.0, -1.0, -1.0, 0.0, 0.0]
+DEBUG: Fixed p, re-checking...
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.49999916553497314
+DEBUG: After fix, max_diff=0.0DEBUG: bad p values: [-0.001660363283008337, -0.035127878189086914, 0.006569791119545698, -0.028469864279031754, 0.03522339090704918]
+DEBUG: After fix, max_diff=4.76837158203125e-07
+
+DEBUG: p*scale: [-0.3718091547489166, -7.866270542144775, 1.471189260482788, -6.375325679779053, 7.887659072875977]
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.49999916553497314
+DEBUG: bad p values: [-0.001660363283008337, -0.035127878189086914, 0.006569791119545698, -0.028469864279031754, 0.03522339090704918]
+DEBUG: should be: [-0.0, -8.0, 1.0, -6.0, 8.0]
+DEBUG: Fixed p, re-checking...
+DEBUG: p*scale: [-0.3718091547489166, -7.866270542144775, 1.471189260482788, -6.375325679779053, 7.887659072875977]
+DEBUG: After fix, max_diff=4.76837158203125e-07
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.4999995231628418
+DEBUG: should be: [-0.0, -8.0, 1.0, -6.0, 8.0]
+DEBUG: bad p values: [-0.005008022766560316, 0.005444514099508524, 0.01703895628452301, 0.013519570231437683, -0.009515234269201756]
+DEBUG: Fixed p, re-checking...
+DEBUG: After fix, max_diff=4.76837158203125e-07DEBUG: p*scale: [-1.1214460134506226, 1.2191895246505737, 3.8155317306518555, 3.0274360179901123, -2.1307454109191895]
+
+DEBUG: should be: [-1.0, 1.0, 4.0, 3.0, -2.0]
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.4999995231628418DEBUG: Fixed p, re-checking...
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.5
+
+DEBUG: bad p values: [-0.037632741034030914, 0.001970943994820118, -0.008389600552618504, 0.005465951282531023, 0.012384746223688126]DEBUG: After fix, max_diff=0.0
+
+DEBUG: bad p values: [0.00504384795203805, 0.004319828934967518, -0.004921264946460724, 0.005052023567259312, -0.004597702529281378]
+DEBUG: p*scale: [-8.427350044250488, 0.44136661291122437, -1.8787391185760498, 1.2240269184112549, 2.7733986377716064]
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.5
+DEBUG: bad p values: [-0.037632741034030914, 0.001970943994820118, -0.008389600552618504, 0.005465951282531023, 0.012384746223688126]
+DEBUG: should be: [-8.0, 0.0, -2.0, 1.0, 3.0]
+DEBUG: Fixed p, re-checking...
+DEBUG: p*scale: [1.8442646265029907, 1.5795297622680664, -1.7994426488876343, 1.8472540378570557, -1.6811331510543823]DEBUG: p*scale: [-8.427350044250488, 0.44136661291122437, -1.8787391185760498, 1.2240269184112549, 2.7733986377716064]
+
+DEBUG: After fix, max_diff=4.76837158203125e-07
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.49999964237213135
+DEBUG: bad p values: [0.012314033694565296, 0.016781384125351906, -0.030024182051420212, 0.016895148903131485, -0.03604389727115631]
+DEBUG: should be: [-8.0, 0.0, -2.0, 1.0, 3.0]
+DEBUG: Fixed p, re-checking...
+DEBUG: p*scale: [2.7573680877685547, 3.7577009201049805, -6.723038673400879, 3.783175230026245, -8.070978164672852]DEBUG: should be: [2.0, 2.0, -2.0, 2.0, -2.0]
+DEBUG: After fix, max_diff=4.76837158203125e-07
+
+DEBUG: should be: [3.0, 4.0, -7.0, 4.0, -8.0]
+DEBUG: Fixed p, re-checking...
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.4999995827674866
+DEBUG: After fix, max_diff=4.76837158203125e-07DEBUG: Fixed p, re-checking...
+DEBUG: bad p values: [-0.015528797172009945, -0.003571564331650734, 0.002682263730093837, -0.0024231330025941133, -0.00013044930528849363]
+
+DEBUG: p*scale: [-3.4772603511810303, -0.799756646156311, 0.6006215214729309, -0.5425960421562195, -0.029210645705461502]
+DEBUG: should be: [-3.0, -1.0, 1.0, -1.0, -0.0]DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.4999995827674866
+
+DEBUG: bad p values: [-0.015528797172009945, -0.003571564331650734, 0.002682263730093837, -0.0024231330025941133, -0.00013044930528849363]DEBUG: Fixed p, re-checking...
+
+DEBUG: After fix, max_diff=4.76837158203125e-07DEBUG: After fix, max_diff=0.0
+
+DEBUG: p*scale: [-3.4772603511810303, -0.799756646156311, 0.6006215214729309, -0.5425960421562195, -0.029210645705461502]
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.4999997615814209
+DEBUG: bad p values: [0.0036096139810979366, -0.03593256697058678, 0.037460681051015854, -0.01954841986298561, -0.008420430123806]DEBUG: should be: [-3.0, -1.0, 1.0, -1.0, -0.0]
+
+DEBUG: Fixed p, re-checking...
+DEBUG: p*scale: [0.8083945512771606, -8.04731273651123, 8.389542579650879, -4.377985000610352, -1.8858054876327515]DEBUG: After fix, max_diff=0.0
+
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.49999985098838806
+DEBUG: should be: [1.0, -8.0, 8.0, -4.0, -2.0]
+DEBUG: bad p values: [-0.01199368666857481, 0.0018488630885258317, -0.005029588472098112, -2.385171683272347e-05, -0.003037341171875596]
+DEBUG: Fixed p, re-checking...
+DEBUG: p*scale: [-4.386494159698486, 0.6761913895606995, -1.8394895792007446, -0.008723374456167221, -1.1108577251434326]
+DEBUG: After fix, max_diff=4.76837158203125e-07
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.4999997019767761DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.49999985098838806DEBUG: should be: [-4.0, 1.0, -2.0, -0.0, -1.0]
+
+
+DEBUG: bad p values: [-0.01199368666857481, 0.0018488630885258317, -0.005029588472098112, -2.385171683272347e-05, -0.003037341171875596]
+DEBUG: Fixed p, re-checking...
+DEBUG: After fix, max_diff=0.0
+DEBUG: p*scale: [-4.386494159698486, 0.6761913895606995, -1.8394895792007446, -0.008723374456167221, -1.1108577251434326]
+DEBUG: bad p values: [-0.01865743286907673, -0.008536727167665958, 0.02026333287358284, 0.004600859247148037, 0.012783622369170189]
+DEBUG: should be: [-4.0, 1.0, -2.0, -0.0, -1.0]
+DEBUG: Fixed p, re-checking...
+DEBUG: p*scale: [-4.178464889526367, -1.911860704421997, 4.538117408752441, 1.0303951501846313, 2.862982988357544]DEBUG: After fix, max_diff=0.0
+
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.5
+DEBUG: bad p values: [-0.042838241904973984, 0.009573009796440601, -0.022727323696017265, 0.0060713025741279125, -0.010297674685716629]
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.4999995231628418
+DEBUG: bad p values: [0.001856673276051879, 0.0071566347032785416, -0.007507860194891691, 0.0032731422688812017, -0.0026450445875525475]DEBUG: should be: [-4.0, -2.0, 5.0, 1.0, 3.0]
+DEBUG: p*scale: [-9.59379768371582, 2.143914222717285, -5.089876174926758, 1.3596926927566528, -2.3062057495117188]
+
+DEBUG: p*scale: [0.4157797396183014, 1.6026426553726196, -1.681295394897461, 0.7329809665679932, -0.5923260450363159]
+DEBUG: should be: [-10.0, 2.0, -5.0, 1.0, -2.0]
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.5
+DEBUG: Fixed p, re-checking...DEBUG: should be: [0.0, 2.0, -2.0, 1.0, -1.0]
+
+DEBUG: bad p values: [-0.042838241904973984, 0.009573009796440601, -0.022727323696017265, 0.0060713025741279125, -0.010297674685716629]
+DEBUG: Fixed p, re-checking...DEBUG: After fix, max_diff=4.76837158203125e-07DEBUG: Fixed p, re-checking...
+
+
+DEBUG: p*scale: [-9.59379768371582, 2.143914222717285, -5.089876174926758, 1.3596926927566528, -2.3062057495117188]
+DEBUG: After fix, max_diff=0.0
+DEBUG: should be: [-10.0, 2.0, -5.0, 1.0, -2.0]
+DEBUG: Fixed p, re-checking...
+DEBUG: After fix, max_diff=4.76837158203125e-07DEBUG: After fix, max_diff=4.76837158203125e-07
+
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.49999934434890747
+DEBUG: bad p values: [-0.008528937585651875, -0.037517886608839035, 0.00788093265146017, -0.012365981936454773, -0.0231576319783926]
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.4999992251396179
+DEBUG: p*scale: [-1.9099575281143188, -8.40169906616211, 1.764844298362732, -2.7692196369171143, -5.185885429382324]
+DEBUG: bad p values: [0.0007627354934811592, -0.0044672442600131035, -0.001197745674289763, 0.006805022247135639, 0.001197786070406437]
+DEBUG: should be: [-2.0, -8.0, 2.0, -3.0, -5.0]
+DEBUG: p*scale: [0.2789495587348938, -1.6337718963623047, -0.4380425810813904, 2.4887499809265137, 0.4380573630332947]
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.49999934434890747
+DEBUG: Fixed p, re-checking...
+DEBUG: bad p values: [-0.008528937585651875, -0.037517886608839035, 0.00788093265146017, -0.012365981936454773, -0.0231576319783926]
+DEBUG: After fix, max_diff=4.76837158203125e-07
+DEBUG: should be: [0.0, -2.0, -0.0, 2.0, 0.0]
+DEBUG: p*scale: [-1.9099575281143188, -8.40169906616211, 1.764844298362732, -2.7692196369171143, -5.185885429382324]DEBUG: Fixed p, re-checking...
+
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.5DEBUG: After fix, max_diff=0.0
+
+DEBUG: should be: [-2.0, -8.0, 2.0, -3.0, -5.0]
+DEBUG: Fixed p, re-checking...
+DEBUG: bad p values: [-0.023766279220581055, 0.032901134341955185, -0.0038683281745761633, 0.012383048422634602, -0.012508281506597996]
+DEBUG: After fix, max_diff=4.76837158203125e-07
+DEBUG: p*scale: [-5.321966171264648, 7.367527484893799, -0.8662319779396057, 2.7729272842407227, -2.8009705543518066]DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.4999995231628418
+DEBUG: bad p values: [-0.04337891936302185, -0.005723555106669664, -0.012056021019816399, -0.02553151734173298, -0.037128761410713196]
+
+DEBUG: p*scale: [-9.714886665344238, -1.2818135023117065, -2.699995279312134, -5.7178874015808105, -8.31513786315918]
+DEBUG: should be: [-5.0, 7.0, -1.0, 3.0, -3.0]
+DEBUG: should be: [-10.0, -1.0, -3.0, -6.0, -8.0]
+DEBUG: Fixed p, re-checking...
+DEBUG: After fix, max_diff=0.0
+DEBUG: Fixed p, re-checking...
+DEBUG: After fix, max_diff=0.0DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.49999916553497314
+
+DEBUG: bad p values: [0.004795802291482687, 0.018641022965312004, 0.008413661271333694, 0.0018420986598357558, 0.003359530819579959]
+DEBUG: p*scale: [1.0740268230438232, 4.174683570861816, 1.8842514753341675, 0.41254064440727234, 0.7523717284202576]
+DEBUG: should be: [1.0, 4.0, 2.0, 0.0, 1.0]
+DEBUG: Fixed p, re-checking...
+DEBUG: After fix, max_diff=0.0
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.49999964237213135
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.4999995231628418
+DEBUG: bad p values: [0.029990991577506065, -0.014987217262387276, -0.006916770711541176, 0.0011613898677751422, -0.027449138462543488]
+DEBUG: bad p values: [0.03623814135789871, 0.02691955491900444, -0.005432148929685354, 0.01455075852572918, -0.005636822432279587]
+DEBUG: p*scale: [6.715375900268555, -3.3558342456817627, -1.5487555265426636, 0.2600504159927368, -6.14622163772583]
+DEBUG: should be: [7.0, -3.0, -2.0, 0.0, -6.0]DEBUG: p*scale: [8.115397453308105, 6.028534889221191, -1.2165096998214722, 3.2585885524749756, -1.262345552444458]
+
+DEBUG: Fixed p, re-checking...
+DEBUG: After fix, max_diff=4.76837158203125e-07
+DEBUG: should be: [8.0, 6.0, -1.0, 3.0, -1.0]
+DEBUG: Fixed p, re-checking...DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.49999964237213135
+
+DEBUG: bad p values: [-0.0002944749721791595, -0.008820596151053905, 0.0015469561330974102, 0.005607975646853447, -0.0009333859779872]
+DEBUG: p*scale: [-0.06593308597803116, -1.97493577003479, 0.34636422991752625, 1.2556284666061401, -0.2089855670928955]
+DEBUG: should be: [-0.0, -2.0, 0.0, 1.0, -0.0]
+DEBUG: After fix, max_diff=4.76837158203125e-07DEBUG: Fixed p, re-checking...
+
+DEBUG: After fix, max_diff=0.0
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.5
+DEBUG: bad p values: [0.008830606006085873, -0.0015042726881802082, -0.0008693423587828875, 0.001962201436981559, 0.0033715663012117147]
+DEBUG: p*scale: [3.2292487621307373, -0.5500948429107666, -0.31790825724601746, 0.717553973197937, 1.2329421043395996]
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.49999991059303284DEBUG: should be: [3.0, -1.0, -0.0, 1.0, 1.0]
+
+DEBUG: Fixed p, re-checking...
+DEBUG: After fix, max_diff=0.0
+DEBUG: bad p values: [-0.0028507704846560955, -0.005429999437183142, -0.0005457500228658319, 0.00055570068070665, -0.004323939792811871]
+DEBUG: p*scale: [-0.6383287906646729, -1.215855598449707, -0.1222013384103775, 0.12442943453788757, -0.9681927561759949]
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.4999997615814209
+DEBUG: bad p values: [-0.005336795933544636, -0.002763697411864996, 0.0010824232595041394, 0.002776629524305463, -0.0006458325660787523]
+DEBUG: should be: [-1.0, -1.0, -0.0, 0.0, -1.0]
+DEBUG: p*scale: [-1.195160150527954, -0.6189221143722534, 0.24240559339523315, 0.6218182444572449, -0.14463235437870026]
+DEBUG: should be: [-1.0, -1.0, 0.0, 1.0, -0.0]
+DEBUG: Fixed p, re-checking...DEBUG: Fixed p, re-checking...
+
+DEBUG: After fix, max_diff=4.76837158203125e-07
+DEBUG: After fix, max_diff=0.0
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.49999916553497314
+DEBUG: bad p values: [-0.001660363283008337, -0.035127878189086914, 0.006569791119545698, -0.028469864279031754, 0.03522339090704918]
+DEBUG: p*scale: [-0.3718091547489166, -7.866270542144775, 1.471189260482788, -6.375325679779053, 7.887659072875977]
+DEBUG: should be: [-0.0, -8.0, 1.0, -6.0, 8.0]
+DEBUG: Fixed p, re-checking...
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.5DEBUG: After fix, max_diff=4.76837158203125e-07
+
+DEBUG: bad p values: [-0.0024994772393256426, -0.006212932523339987, 0.0032383056823164225, -0.002790621714666486, -0.0012546151410788298]
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.5
+DEBUG: bad p values: [-0.037632741034030914, 0.001970943994820118, -0.008389600552618504, 0.005465951282531023, 0.012384746223688126]
+DEBUG: p*scale: [-0.913956344127655, -2.2718145847320557, 1.1841156482696533, -1.0204159021377563, -0.4587613046169281]
+DEBUG: p*scale: [-8.427350044250488, 0.44136661291122437, -1.8787391185760498, 1.2240269184112549, 2.7733986377716064]
+DEBUG: should be: [-8.0, 0.0, -2.0, 1.0, 3.0]
+DEBUG: should be: [-1.0, -2.0, 1.0, -1.0, -0.0]DEBUG: Fixed p, re-checking...
+
+DEBUG: After fix, max_diff=4.76837158203125e-07
+DEBUG: Fixed p, re-checking...
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.4999995827674866
+DEBUG: After fix, max_diff=4.76837158203125e-07DEBUG: bad p values: [-0.015528797172009945, -0.003571564331650734, 0.002682263730093837, -0.0024231330025941133, -0.00013044930528849363]
+
+DEBUG: p*scale: [-3.4772603511810303, -0.799756646156311, 0.6006215214729309, -0.5425960421562195, -0.029210645705461502]
+DEBUG: should be: [-3.0, -1.0, 1.0, -1.0, -0.0]
+DEBUG: Fixed p, re-checking...
+DEBUG: After fix, max_diff=0.0
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.4999992847442627DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.49999985098838806
+DEBUG: bad p values: [-0.01199368666857481, 0.0018488630885258317, -0.005029588472098112, -2.385171683272347e-05, -0.003037341171875596]
+
+DEBUG: bad p values: [-0.030790679156780243, 0.003886496415361762, -0.012968318536877632, -0.04501703009009361, 0.01621382310986519]DEBUG: p*scale: [-4.386494159698486, 0.6761913895606995, -1.8394895792007446, -0.008723374456167221, -1.1108577251434326]
+
+DEBUG: should be: [-4.0, 1.0, -2.0, -0.0, -1.0]
+DEBUG: Fixed p, re-checking...
+DEBUG: p*scale: [-6.896333694458008, 0.8704769611358643, -2.9045753479003906, -10.082676887512207, 3.631486415863037]DEBUG: After fix, max_diff=0.0
+
+DEBUG: should be: [-7.0, 1.0, -3.0, -10.0, 4.0]
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.5
+DEBUG: bad p values: [-0.042838241904973984, 0.009573009796440601, -0.022727323696017265, 0.0060713025741279125, -0.010297674685716629]
+DEBUG: Fixed p, re-checking...
+DEBUG: p*scale: [-9.59379768371582, 2.143914222717285, -5.089876174926758, 1.3596926927566528, -2.3062057495117188]
+DEBUG: should be: [-10.0, 2.0, -5.0, 1.0, -2.0]
+DEBUG: Fixed p, re-checking...
+DEBUG: After fix, max_diff=0.0
+DEBUG: After fix, max_diff=4.76837158203125e-07
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.49999934434890747
+DEBUG: bad p values: [-0.008528937585651875, -0.037517886608839035, 0.00788093265146017, -0.012365981936454773, -0.0231576319783926]
+DEBUG: p*scale: [-1.9099575281143188, -8.40169906616211, 1.764844298362732, -2.7692196369171143, -5.185885429382324]
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.4999997615814209
+DEBUG: should be: [-2.0, -8.0, 2.0, -3.0, -5.0]
+DEBUG: Fixed p, re-checking...
+DEBUG: bad p values: [-0.021726436913013458, 0.01584726944565773, -0.002417089883238077, 0.012554207816720009, 0.027591722086071968]DEBUG: After fix, max_diff=4.76837158203125e-07
+
+DEBUG: p*scale: [-4.866198539733887, 3.5494065284729004, -0.5413699150085449, 2.811840057373047, 6.1798810958862305]
+DEBUG: should be: [-5.0, 4.0, -1.0, 3.0, 6.0]
+DEBUG: Fixed p, re-checking...
+DEBUG: After fix, max_diff=4.76837158203125e-07
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.49999988079071045
+DEBUG: bad p values: [-0.012485777959227562, 0.005442463792860508, 0.0003332077758386731, 0.023576686158776283, -0.0482206866145134]
+DEBUG: p*scale: [-2.7961981296539307, 1.2188433408737183, 0.07462210208177567, 5.2800140380859375, -10.799054145812988]
+DEBUG: should be: [-3.0, 1.0, 0.0, 5.0, -11.0]
+DEBUG: Fixed p, re-checking...
+DEBUG: After fix, max_diff=4.76837158203125e-07
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.4999992549419403
+DEBUG: bad p values: [0.0005595516413450241, 0.0049837371334433556, -0.0037500520702451468, -0.0074911159463226795, -0.0010538946371525526]
+DEBUG: p*scale: [0.12531912326812744, 1.1161750555038452, -0.8398746848106384, -1.6777362823486328, -0.23603390157222748]
+DEBUG: should be: [0.0, 1.0, -1.0, -2.0, -0.0]
+DEBUG: Fixed p, re-checking...
+DEBUG: After fix, max_diff=0.0
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.4999997913837433
+DEBUG: bad p values: [-0.001521932310424745, -0.0026792294811457396, 0.0054546259343624115, 0.003585866652429104, -0.002602499444037676]
+DEBUG: p*scale: [-0.5565708875656128, -0.9797946810722351, 1.9947576522827148, 1.311352014541626, -0.9517344832420349]
+DEBUG: should be: [-1.0, -1.0, 2.0, 1.0, -1.0]
+DEBUG: Fixed p, re-checking...
+DEBUG: After fix, max_diff=4.76837158203125e-07
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.4999992847442627
+DEBUG: bad p values: [-0.03271244093775749, 0.008911342360079288, 0.020770123228430748, -0.028999924659729004, -0.00271067232824862]
+DEBUG: p*scale: [-7.326279640197754, 1.9957845211029053, 4.65167760848999, -6.494824409484863, -0.6070822477340698]
+DEBUG: should be: [-7.0, 2.0, 5.0, -6.0, -1.0]
+DEBUG: Fixed p, re-checking...
+DEBUG: After fix, max_diff=0.0
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.4999997615814209
+DEBUG: bad p values: [0.01587013155221939, -0.027547523379325867, 0.010763820260763168, -0.017063744366168976, 0.012957314029335976]
+DEBUG: p*scale: [3.55417799949646, -6.169375419616699, 2.41059947013855, -3.8214921951293945, 2.901841163635254]
+DEBUG: should be: [4.0, -6.0, 2.0, -4.0, 3.0]
+DEBUG: Fixed p, re-checking...
+DEBUG: After fix, max_diff=4.76837158203125e-07
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.5
+DEBUG: bad p values: [-0.015184055082499981, -0.011020122095942497, 0.006856356281787157, 0.03372853994369507, 0.0005332111613824964]
+DEBUG: p*scale: [-3.4002809524536133, -2.4678196907043457, 1.5353959798812866, 7.553088665008545, 0.11940602958202362]
+DEBUG: should be: [-3.0, -2.0, 2.0, 8.0, 0.0]
+DEBUG: Fixed p, re-checking...
+DEBUG: After fix, max_diff=0.0
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.49999916553497314
+DEBUG: bad p values: [0.002876829355955124, -0.005070658400654793, -0.0017636916600167751, 0.0063653565011918545, 0.000690882618073374]
+DEBUG: p*scale: [0.6442418694496155, -1.1355315446853638, -0.39496397972106934, 1.4254683256149292, 0.15471738576889038]
+DEBUG: should be: [1.0, -1.0, -0.0, 1.0, 0.0]
+DEBUG: Fixed p, re-checking...
+DEBUG: After fix, max_diff=0.0
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.499999463558197
+DEBUG: bad p values: [0.0016705213347449899, -0.0023635041434317827, -0.0033176830038428307, 0.0010856022126972675, 0.0004919309285469353]
+DEBUG: p*scale: [0.6109474897384644, -0.864387035369873, -1.213351845741272, 0.397029310464859, 0.17991028726100922]
+DEBUG: should be: [1.0, -1.0, -1.0, 0.0, 0.0]
+DEBUG: Fixed p, re-checking...
+DEBUG: After fix, max_diff=4.76837158203125e-07
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.4999995231628418
+DEBUG: bad p values: [-0.005008022766560316, 0.005444514099508524, 0.01703895628452301, 0.013519570231437683, -0.009515234269201756]
+DEBUG: p*scale: [-1.1214460134506226, 1.2191895246505737, 3.8155317306518555, 3.0274360179901123, -2.1307454109191895]
+DEBUG: should be: [-1.0, 1.0, 4.0, 3.0, -2.0]
+DEBUG: Fixed p, re-checking...
+DEBUG: After fix, max_diff=0.0
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.49999964237213135
+DEBUG: bad p values: [0.012314033694565296, 0.016781384125351906, -0.030024182051420212, 0.016895148903131485, -0.03604389727115631]
+DEBUG: p*scale: [2.7573680877685547, 3.7577009201049805, -6.723038673400879, 3.783175230026245, -8.070978164672852]
+DEBUG: should be: [3.0, 4.0, -7.0, 4.0, -8.0]
+DEBUG: Fixed p, re-checking...
+DEBUG: After fix, max_diff=4.76837158203125e-07
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.4999997615814209
+DEBUG: bad p values: [0.0036096139810979366, -0.03593256697058678, 0.037460681051015854, -0.01954841986298561, -0.008420430123806]
+DEBUG: p*scale: [0.8083945512771606, -8.04731273651123, 8.389542579650879, -4.377985000610352, -1.8858054876327515]
+DEBUG: should be: [1.0, -8.0, 8.0, -4.0, -2.0]
+DEBUG: Fixed p, re-checking...
+DEBUG: After fix, max_diff=4.76837158203125e-07
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.4999995231628418
+DEBUG: bad p values: [0.001856673276051879, 0.0071566347032785416, -0.007507860194891691, 0.0032731422688812017, -0.0026450445875525475]
+DEBUG: p*scale: [0.4157797396183014, 1.6026426553726196, -1.681295394897461, 0.7329809665679932, -0.5923260450363159]
+DEBUG: should be: [0.0, 2.0, -2.0, 1.0, -1.0]
+DEBUG: Fixed p, re-checking...
+DEBUG: After fix, max_diff=0.0
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.4999992251396179
+DEBUG: bad p values: [0.0007627354934811592, -0.0044672442600131035, -0.001197745674289763, 0.006805022247135639, 0.001197786070406437]
+DEBUG: p*scale: [0.2789495587348938, -1.6337718963623047, -0.4380425810813904, 2.4887499809265137, 0.4380573630332947]
+DEBUG: should be: [0.0, -2.0, -0.0, 2.0, 0.0]
+DEBUG: Fixed p, re-checking...
+DEBUG: After fix, max_diff=0.0
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.4999995231628418
+DEBUG: bad p values: [-0.04337891936302185, -0.005723555106669664, -0.012056021019816399, -0.02553151734173298, -0.037128761410713196]
+DEBUG: p*scale: [-9.714886665344238, -1.2818135023117065, -2.699995279312134, -5.7178874015808105, -8.31513786315918]
+DEBUG: should be: [-10.0, -1.0, -3.0, -6.0, -8.0]
+DEBUG: Fixed p, re-checking...
+DEBUG: After fix, max_diff=0.0
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.49999916553497314
+DEBUG: bad p values: [0.004795802291482687, 0.018641022965312004, 0.008413661271333694, 0.0018420986598357558, 0.003359530819579959]
+DEBUG: p*scale: [1.0740268230438232, 4.174683570861816, 1.8842514753341675, 0.41254064440727234, 0.7523717284202576]
+DEBUG: should be: [1.0, 4.0, 2.0, 0.0, 1.0]
+DEBUG: Fixed p, re-checking...
+DEBUG: After fix, max_diff=0.0
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.4999995231628418
+DEBUG: bad p values: [0.029990991577506065, -0.014987217262387276, -0.006916770711541176, 0.0011613898677751422, -0.027449138462543488]
+DEBUG: p*scale: [6.715375900268555, -3.3558342456817627, -1.5487555265426636, 0.2600504159927368, -6.14622163772583]
+DEBUG: should be: [7.0, -3.0, -2.0, 0.0, -6.0]
+DEBUG: Fixed p, re-checking...
+DEBUG: After fix, max_diff=4.76837158203125e-07
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.49999964237213135
+DEBUG: bad p values: [-0.0002944749721791595, -0.008820596151053905, 0.0015469561330974102, 0.005607975646853447, -0.0009333859779872]
+DEBUG: p*scale: [-0.06593308597803116, -1.97493577003479, 0.34636422991752625, 1.2556284666061401, -0.2089855670928955]
+DEBUG: should be: [-0.0, -2.0, 0.0, 1.0, -0.0]
+DEBUG: Fixed p, re-checking...
+DEBUG: After fix, max_diff=0.0
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.5
+DEBUG: bad p values: [0.008830606006085873, -0.0015042726881802082, -0.0008693423587828875, 0.001962201436981559, 0.0033715663012117147]
+DEBUG: p*scale: [3.2292487621307373, -0.5500948429107666, -0.31790825724601746, 0.717553973197937, 1.2329421043395996]
+DEBUG: should be: [3.0, -1.0, -0.0, 1.0, 1.0]
+DEBUG: Fixed p, re-checking...
+DEBUG: After fix, max_diff=0.0
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.4999997615814209
+DEBUG: bad p values: [-0.005336795933544636, -0.002763697411864996, 0.0010824232595041394, 0.002776629524305463, -0.0006458325660787523]
+DEBUG: p*scale: [-1.195160150527954, -0.6189221143722534, 0.24240559339523315, 0.6218182444572449, -0.14463235437870026]
+DEBUG: should be: [-1.0, -1.0, 0.0, 1.0, -0.0]
+DEBUG: Fixed p, re-checking...
+DEBUG: After fix, max_diff=4.76837158203125e-07
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.49999916553497314
+DEBUG: bad p values: [-0.001660363283008337, -0.035127878189086914, 0.006569791119545698, -0.028469864279031754, 0.03522339090704918]
+DEBUG: p*scale: [-0.3718091547489166, -7.866270542144775, 1.471189260482788, -6.375325679779053, 7.887659072875977]
+DEBUG: should be: [-0.0, -8.0, 1.0, -6.0, 8.0]
+DEBUG: Fixed p, re-checking...
+DEBUG: After fix, max_diff=4.76837158203125e-07
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.5
+DEBUG: bad p values: [-0.037632741034030914, 0.001970943994820118, -0.008389600552618504, 0.005465951282531023, 0.012384746223688126]
+DEBUG: p*scale: [-8.427350044250488, 0.44136661291122437, -1.8787391185760498, 1.2240269184112549, 2.7733986377716064]
+DEBUG: should be: [-8.0, 0.0, -2.0, 1.0, 3.0]
+DEBUG: Fixed p, re-checking...
+DEBUG: After fix, max_diff=4.76837158203125e-07
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.4999995827674866
+DEBUG: bad p values: [-0.015528797172009945, -0.003571564331650734, 0.002682263730093837, -0.0024231330025941133, -0.00013044930528849363]
+DEBUG: p*scale: [-3.4772603511810303, -0.799756646156311, 0.6006215214729309, -0.5425960421562195, -0.029210645705461502]
+DEBUG: should be: [-3.0, -1.0, 1.0, -1.0, -0.0]
+DEBUG: Fixed p, re-checking...
+DEBUG: After fix, max_diff=0.0
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.49999985098838806
+DEBUG: bad p values: [-0.01199368666857481, 0.0018488630885258317, -0.005029588472098112, -2.385171683272347e-05, -0.003037341171875596]
+DEBUG: p*scale: [-4.386494159698486, 0.6761913895606995, -1.8394895792007446, -0.008723374456167221, -1.1108577251434326]
+DEBUG: should be: [-4.0, 1.0, -2.0, -0.0, -1.0]
+DEBUG: Fixed p, re-checking...
+DEBUG: After fix, max_diff=0.0
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.5
+DEBUG: bad p values: [-0.042838241904973984, 0.009573009796440601, -0.022727323696017265, 0.0060713025741279125, -0.010297674685716629]
+DEBUG: p*scale: [-9.59379768371582, 2.143914222717285, -5.089876174926758, 1.3596926927566528, -2.3062057495117188]
+DEBUG: should be: [-10.0, 2.0, -5.0, 1.0, -2.0]
+DEBUG: Fixed p, re-checking...
+DEBUG: After fix, max_diff=4.76837158203125e-07
+DEBUG BEFORE UPDATE: p is NOT on grid! max_diff=0.49999934434890747
+DEBUG: bad p values: [-0.008528937585651875, -0.037517886608839035, 0.00788093265146017, -0.012365981936454773, -0.0231576319783926]
+DEBUG: p*scale: [-1.9099575281143188, -8.40169906616211, 1.764844298362732, -2.7692196369171143, -5.185885429382324]
+DEBUG: should be: [-2.0, -8.0, 2.0, -3.0, -5.0]
+DEBUG: Fixed p, re-checking...
+DEBUG: After fix, max_diff=4.76837158203125e-07
+Training Progress:   0%|          | 1/19073 [00:16<85:39:11, 16.17s/it]Training Progress:   0%|          | 2/19073 [00:16<36:35:39,  6.91s/it]Training Progress:   0%|          | 3/19073 [00:16<20:47:42,  3.93s/it]Training Progress:   0%|          | 4/19073 [00:17<13:19:44,  2.52s/it]Training Progress:   0%|          | 5/19073 [00:17<9:09:24,  1.73s/it] Training Progress:   0%|          | 6/19073 [00:17<6:38:52,  1.26s/it]Training Progress:   0%|          | 7/19073 [00:18<5:02:05,  1.05it/s]Training Progress:   0%|          | 8/19073 [00:18<3:56:48,  1.34it/s]Training Progress:   0%|          | 9/19073 [00:18<3:12:54,  1.65it/s]Training Progress:   0%|          | 10/19073 [00:19<2:42:32,  1.95it/s]Training Progress:   0%|          | 11/19073 [00:19<2:22:19,  2.23it/s]Training Progress:   0%|          | 12/19073 [00:19<2:07:18,  2.50it/s]Training Progress:   0%|          | 13/19073 [00:20<2:00:00,  2.65it/s]Training Progress:   0%|          | 14/19073 [00:20<1:52:43,  2.82it/s]Training Progress:   0%|          | 15/19073 [00:20<1:46:37,  2.98it/s]Training Progress:   0%|          | 16/19073 [00:21<1:43:50,  3.06it/s]Training Progress:   0%|          | 17/19073 [00:21<1:40:36,  3.16it/s]Training Progress:   0%|          | 18/19073 [00:21<1:37:15,  3.27it/s]Training Progress:   0%|          | 19/19073 [00:21<1:35:00,  3.34it/s]Training Progress:   0%|          | 20/19073 [00:22<1:33:54,  3.38it/s]Training Progress:   0%|          | 21/19073 [00:22<1:31:58,  3.45it/s]Training Progress:   0%|          | 22/19073 [00:22<1:32:58,  3.41it/s]Training Progress:   0%|          | 23/19073 [00:23<1:32:35,  3.43it/s]Training Progress:   0%|          | 24/19073 [00:23<1:31:36,  3.47it/s]Training Progress:   0%|          | 25/19073 [00:23<1:30:51,  3.49it/s]Training Progress:   0%|          | 26/19073 [00:23<1:31:20,  3.48it/s]Training Progress:   0%|          | 27/19073 [00:24<1:30:41,  3.50it/s]Training Progress:   0%|          | 28/19073 [00:24<1:30:31,  3.51it/s]Training Progress:   0%|          | 29/19073 [00:24<1:30:00,  3.53it/s]Training Progress:   0%|          | 30/19073 [00:25<1:30:42,  3.50it/s]Training Progress:   0%|          | 31/19073 [00:25<1:31:28,  3.47it/s]Training Progress:   0%|          | 32/19073 [00:25<1:32:41,  3.42it/s]Training Progress:   0%|          | 33/19073 [00:25<1:31:26,  3.47it/s]Training Progress:   0%|          | 34/19073 [00:26<1:32:20,  3.44it/s]Training Progress:   0%|          | 35/19073 [00:26<1:31:00,  3.49it/s]Training Progress:   0%|          | 36/19073 [00:26<1:30:16,  3.51it/s]Training Progress:   0%|          | 37/19073 [00:27<1:30:21,  3.51it/s]Training Progress:   0%|          | 38/19073 [00:27<1:29:28,  3.55it/s]Training Progress:   0%|          | 39/19073 [00:27<1:30:16,  3.51it/s]Training Progress:   0%|          | 40/19073 [00:27<1:28:43,  3.58it/s]Training Progress:   0%|          | 41/19073 [00:28<1:29:15,  3.55it/s]Training Progress:   0%|          | 42/19073 [00:28<1:28:29,  3.58it/s]Training Progress:   0%|          | 43/19073 [00:28<1:27:42,  3.62it/s]Training Progress:   0%|          | 44/19073 [00:28<1:27:11,  3.64it/s]Training Progress:   0%|          | 45/19073 [00:29<1:27:35,  3.62it/s]Training Progress:   0%|          | 46/19073 [00:29<1:27:25,  3.63it/s]Training Progress:   0%|          | 47/19073 [00:29<1:26:53,  3.65it/s]Training Progress:   0%|          | 48/19073 [00:30<1:26:31,  3.66it/s]Training Progress:   0%|          | 49/19073 [00:30<1:26:11,  3.68it/s]Training Progress:   0%|          | 50/19073 [00:30<1:25:26,  3.71it/s]Train: Iter=50 (0.001 epochs) train_loss=10.894 iter_dt=2.64e-01s lr=1.40e-05
+Training Progress:   0%|          | 51/19073 [00:30<1:25:10,  3.72it/s]Training Progress:   0%|          | 52/19073 [00:31<1:25:34,  3.70it/s]Training Progress:   0%|          | 53/19073 [00:31<1:26:05,  3.68it/s]Training Progress:   0%|          | 54/19073 [00:31<1:25:02,  3.73it/s]Training Progress:   0%|          | 55/19073 [00:31<1:24:15,  3.76it/s]Training Progress:   0%|          | 56/19073 [00:32<1:23:49,  3.78it/s]Training Progress:   0%|          | 57/19073 [00:32<1:23:20,  3.80it/s]Training Progress:   0%|          | 58/19073 [00:32<1:23:32,  3.79it/s]Training Progress:   0%|          | 59/19073 [00:33<1:24:08,  3.77it/s]Training Progress:   0%|          | 60/19073 [00:33<1:23:35,  3.79it/s]Training Progress:   0%|          | 61/19073 [00:33<1:22:57,  3.82it/s]Training Progress:   0%|          | 62/19073 [00:33<1:22:42,  3.83it/s]Training Progress:   0%|          | 63/19073 [00:34<1:22:50,  3.82it/s]Training Progress:   0%|          | 64/19073 [00:34<1:22:26,  3.84it/s]Training Progress:   0%|          | 65/19073 [00:34<1:22:46,  3.83it/s]Training Progress:   0%|          | 66/19073 [00:34<1:23:01,  3.82it/s]Training Progress:   0%|          | 67/19073 [00:35<1:22:08,  3.86it/s]Training Progress:   0%|          | 68/19073 [00:35<1:22:17,  3.85it/s]Training Progress:   0%|          | 69/19073 [00:35<1:21:55,  3.87it/s]Training Progress:   0%|          | 70/19073 [00:35<1:21:03,  3.91it/s]Training Progress:   0%|          | 71/19073 [00:36<1:21:07,  3.90it/s]Training Progress:   0%|          | 72/19073 [00:36<1:21:12,  3.90it/s]Training Progress:   0%|          | 73/19073 [00:36<1:21:05,  3.90it/s]Training Progress:   0%|          | 74/19073 [00:36<1:21:06,  3.90it/s]Training Progress:   0%|          | 75/19073 [00:37<1:22:06,  3.86it/s]Training Progress:   0%|          | 76/19073 [00:37<1:21:49,  3.87it/s]Training Progress:   0%|          | 77/19073 [00:37<1:21:04,  3.90it/s]Training Progress:   0%|          | 78/19073 [00:37<1:20:46,  3.92it/s]Training Progress:   0%|          | 79/19073 [00:38<1:21:35,  3.88it/s]Training Progress:   0%|          | 80/19073 [00:38<1:21:04,  3.90it/s]Training Progress:   0%|          | 81/19073 [00:38<1:21:40,  3.88it/s]Training Progress:   0%|          | 82/19073 [00:38<1:21:37,  3.88it/s]Training Progress:   0%|          | 83/19073 [00:39<1:21:06,  3.90it/s]Training Progress:   0%|          | 84/19073 [00:39<1:20:13,  3.94it/s]Training Progress:   0%|          | 85/19073 [00:39<1:19:41,  3.97it/s]Training Progress:   0%|          | 86/19073 [00:39<1:19:45,  3.97it/s]Training Progress:   0%|          | 87/19073 [00:40<1:19:14,  3.99it/s]Training Progress:   0%|          | 88/19073 [00:40<1:18:45,  4.02it/s]Training Progress:   0%|          | 89/19073 [00:40<1:19:03,  4.00it/s]Training Progress:   0%|          | 90/19073 [00:40<1:19:19,  3.99it/s]Training Progress:   0%|          | 91/19073 [00:41<1:20:36,  3.93it/s]Training Progress:   0%|          | 92/19073 [00:41<1:20:42,  3.92it/s]Training Progress:   0%|          | 93/19073 [00:41<1:19:41,  3.97it/s]Training Progress:   0%|          | 94/19073 [00:41<1:20:05,  3.95it/s]Training Progress:   0%|          | 95/19073 [00:42<1:19:09,  4.00it/s]Training Progress:   1%|          | 96/19073 [00:42<1:21:19,  3.89it/s]Training Progress:   1%|          | 97/19073 [00:42<1:20:53,  3.91it/s]Training Progress:   1%|          | 98/19073 [00:42<1:21:15,  3.89it/s]Training Progress:   1%|          | 99/19073 [00:43<1:21:29,  3.88it/s]Training Progress:   1%|          | 100/19073 [00:43<1:21:37,  3.87it/s]Train: Iter=100 (0.001 epochs) train_loss=10.790 iter_dt=2.59e-01s lr=2.01e-05
+Training Progress:   1%|          | 101/19073 [00:43<1:20:34,  3.92it/s]Training Progress:   1%|          | 102/19073 [00:44<1:20:05,  3.95it/s]Training Progress:   1%|          | 103/19073 [00:44<1:19:15,  3.99it/s]Training Progress:   1%|          | 104/19073 [00:44<1:19:01,  4.00it/s]Training Progress:   1%|          | 105/19073 [00:44<1:18:56,  4.00it/s]Training Progress:   1%|          | 106/19073 [00:44<1:18:34,  4.02it/s]Training Progress:   1%|          | 107/19073 [00:45<1:18:58,  4.00it/s]Training Progress:   1%|          | 108/19073 [00:45<1:17:49,  4.06it/s]Training Progress:   1%|          | 109/19073 [00:45<1:17:43,  4.07it/s]Training Progress:   1%|          | 110/19073 [00:45<1:16:49,  4.11it/s]Training Progress:   1%|          | 111/19073 [00:46<1:16:29,  4.13it/s]Training Progress:   1%|          | 112/19073 [00:46<1:16:07,  4.15it/s]Training Progress:   1%|          | 113/19073 [00:46<1:16:58,  4.11it/s]Training Progress:   1%|          | 114/19073 [00:46<1:15:55,  4.16it/s]Training Progress:   1%|          | 115/19073 [00:47<1:15:48,  4.17it/s]Training Progress:   1%|          | 116/19073 [00:47<1:15:51,  4.17it/s]Training Progress:   1%|          | 117/19073 [00:47<1:16:10,  4.15it/s]Training Progress:   1%|          | 118/19073 [00:47<1:17:00,  4.10it/s]Training Progress:   1%|          | 119/19073 [00:48<1:16:37,  4.12it/s]Training Progress:   1%|          | 120/19073 [00:48<1:17:24,  4.08it/s]Training Progress:   1%|          | 121/19073 [00:48<1:16:40,  4.12it/s]Training Progress:   1%|          | 122/19073 [00:48<1:17:40,  4.07it/s]Training Progress:   1%|          | 123/19073 [00:49<1:17:22,  4.08it/s]Training Progress:   1%|          | 124/19073 [00:49<1:17:31,  4.07it/s]Training Progress:   1%|          | 125/19073 [00:49<1:16:16,  4.14it/s]Training Progress:   1%|          | 126/19073 [00:49<1:16:03,  4.15it/s]Training Progress:   1%|          | 127/19073 [00:50<1:16:49,  4.11it/s]Training Progress:   1%|          | 128/19073 [00:50<1:16:32,  4.12it/s]Training Progress:   1%|          | 129/19073 [00:50<1:16:06,  4.15it/s]Training Progress:   1%|          | 130/19073 [00:50<1:15:44,  4.17it/s]Training Progress:   1%|          | 131/19073 [00:51<1:15:20,  4.19it/s]Training Progress:   1%|          | 132/19073 [00:51<1:16:01,  4.15it/s]Training Progress:   1%|          | 133/19073 [00:51<1:15:23,  4.19it/s]Training Progress:   1%|          | 134/19073 [00:51<1:14:29,  4.24it/s]Training Progress:   1%|          | 135/19073 [00:51<1:14:10,  4.26it/s]Training Progress:   1%|          | 136/19073 [00:52<1:13:47,  4.28it/s]Training Progress:   1%|          | 137/19073 [00:52<1:14:40,  4.23it/s]Training Progress:   1%|          | 138/19073 [00:52<1:14:37,  4.23it/s]Training Progress:   1%|          | 139/19073 [00:52<1:13:33,  4.29it/s]Training Progress:   1%|          | 140/19073 [00:53<1:13:45,  4.28it/s]Training Progress:   1%|          | 141/19073 [00:53<1:13:09,  4.31it/s]Training Progress:   1%|          | 142/19073 [00:53<1:13:13,  4.31it/s]Training Progress:   1%|          | 143/19073 [00:53<1:13:12,  4.31it/s]Training Progress:   1%|          | 144/19073 [00:54<1:12:48,  4.33it/s]Training Progress:   1%|          | 145/19073 [00:54<1:12:35,  4.35it/s]Training Progress:   1%|          | 146/19073 [00:54<1:12:57,  4.32it/s]Training Progress:   1%|          | 147/19073 [00:54<1:12:07,  4.37it/s]Training Progress:   1%|          | 148/19073 [00:54<1:11:58,  4.38it/s]Training Progress:   1%|          | 149/19073 [00:55<1:12:37,  4.34it/s]Training Progress:   1%|          | 150/19073 [00:55<1:12:15,  4.36it/s]Train: Iter=150 (0.002 epochs) train_loss=10.788 iter_dt=2.26e-01s lr=3.01e-05
+Training Progress:   1%|          | 151/19073 [00:55<1:12:19,  4.36it/s]Training Progress:   1%|          | 152/19073 [00:55<1:12:07,  4.37it/s]Training Progress:   1%|          | 153/19073 [00:56<1:12:24,  4.35it/s]Training Progress:   1%|          | 154/19073 [00:56<1:14:14,  4.25it/s]Training Progress:   1%|          | 155/19073 [00:56<1:13:58,  4.26it/s]Training Progress:   1%|          | 156/19073 [00:56<1:14:01,  4.26it/s]Training Progress:   1%|          | 157/19073 [00:57<1:13:41,  4.28it/s]Training Progress:   1%|          | 158/19073 [00:57<1:13:13,  4.31it/s]Training Progress:   1%|          | 159/19073 [00:57<1:13:51,  4.27it/s]Training Progress:   1%|          | 160/19073 [00:57<1:12:44,  4.33it/s]Training Progress:   1%|          | 161/19073 [00:57<1:11:40,  4.40it/s]Training Progress:   1%|          | 162/19073 [00:58<1:12:38,  4.34it/s]Training Progress:   1%|          | 163/19073 [00:58<1:12:28,  4.35it/s]Training Progress:   1%|          | 164/19073 [00:58<1:11:16,  4.42it/s]Training Progress:   1%|          | 165/19073 [00:58<1:10:39,  4.46it/s]Training Progress:   1%|          | 166/19073 [00:59<1:10:42,  4.46it/s]Training Progress:   1%|          | 167/19073 [00:59<1:12:04,  4.37it/s]Training Progress:   1%|          | 168/19073 [00:59<1:11:49,  4.39it/s]Training Progress:   1%|          | 169/19073 [00:59<1:12:15,  4.36it/s]Training Progress:   1%|          | 170/19073 [01:00<1:11:47,  4.39it/s]Training Progress:   1%|          | 171/19073 [01:00<1:10:09,  4.49it/s]Training Progress:   1%|          | 172/19073 [01:00<1:10:02,  4.50it/s]DEBUG AFTER UPDATE: scale=223.946304, shape=torch.Size([2304, 768])DEBUG AFTER UPDATE: scale=223.946304, shape=torch.Size([2304, 768])DEBUG AFTER UPDATE: scale=223.946304, shape=torch.Size([2304, 768])
+
+DEBUG: bad p values: [-0.38848552107810974]
+DEBUG AFTER UPDATE: scale=223.946304, shape=torch.Size([2304, 768])DEBUG: bad p*scale: [-86.99989318847656]
+DEBUG: bad p values: [-0.38848552107810974]
+
+DEBUG: should round to: [-87.0]
+
+DEBUG: bad p*scale: [-86.99989318847656]
+DEBUG: u_q sample: [-0.004465356003493071, 0.004465356003493071, 0.004465356003493071, 0.0, 0.004465356003493071]DEBUG: should round to: [-87.0]
+DEBUG: bad p values: [-0.38848552107810974]
+
+DEBUG: update sample: [-0.0038868591655045748, 0.003062704810872674, 0.004025724716484547, 0.0020234636031091213, 0.003376422915607691]
+DEBUG: bad p*scale: [-86.99989318847656]
+DEBUG: u_q sample: [-0.004465356003493071, 0.004465356003493071, 0.004465356003493071, 0.0, 0.004465356003493071]
+DEBUG: should round to: [-87.0]
+DEBUG: update sample: [-0.0038868591655045748, 0.003062704810872674, 0.004025724716484547, 0.0020234636031091213, 0.003376422915607691]
+DEBUG: u_q sample: [-0.004465356003493071, 0.004465356003493071, 0.004465356003493071, 0.0, 0.004465356003493071]
+DEBUG: update sample: [-0.0038868591655045748, 0.003062704810872674, 0.004025724716484547, 0.0020234636031091213, 0.003376422915607691]
+DEBUG: bad p values: [-0.38848552107810974]
+DEBUG: bad p*scale: [-86.99989318847656]
+DEBUG: should round to: [-87.0]
+DEBUG: u_q sample: [-0.004465356003493071, 0.004465356003493071, 0.004465356003493071, 0.0, 0.004465356003493071]
+DEBUG: update sample: [-0.0038868591655045748, 0.003062704810872674, 0.004025724716484547, 0.0020234636031091213, 0.003376422915607691]
+[rank2]: Traceback (most recent call last):
+[rank2]:   File "/image-generation/kisufaj/optimization/cage/CAGE/./src/main.py", line 298, in <module>
+[rank2]:     main(args)
+[rank2]:   File "/image-generation/kisufaj/optimization/cage/CAGE/./src/main.py", line 190, in main
+[rank2]:     stats = train(
+[rank2]:             ^^^^^^
+[rank2]:   File "/image-generation/kisufaj/optimization/cage/CAGE/src/optim/base.py", line 207, in train
+[rank2]:     opt.step()
+[rank2]:   File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/optim/lr_scheduler.py", line 133, in wrapper
+[rank2]:     return func.__get__(opt, opt.__class__)(*args, **kwargs)
+[rank2]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/optim/optimizer.py", line 517, in wrapper
+[rank2]:     out = func(*args, **kwargs)
+[rank2]:           ^^^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 120, in decorate_context
+[rank2]:     return func(*args, **kwargs)
+[rank2]:            ^^^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/image-generation/kisufaj/optimization/cage/CAGE/src/optim/QCRI_Adamw.py", line 154, in step
+[rank2]:     assert False, f"Weights drifted off grid! max_diff={max_diff}"
+[rank2]:            ^^^^^
+[rank2]: AssertionError: Weights drifted off grid! max_diff=0.0001068115234375
+[rank3]: Traceback (most recent call last):
+[rank3]:   File "/image-generation/kisufaj/optimization/cage/CAGE/./src/main.py", line 298, in <module>
+[rank3]:     main(args)
+[rank3]:   File "/image-generation/kisufaj/optimization/cage/CAGE/./src/main.py", line 190, in main
+[rank3]:     stats = train(
+[rank3]:             ^^^^^^
+[rank3]:   File "/image-generation/kisufaj/optimization/cage/CAGE/src/optim/base.py", line 207, in train
+[rank3]:     opt.step()
+[rank3]:   File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/optim/lr_scheduler.py", line 133, in wrapper
+[rank3]:     return func.__get__(opt, opt.__class__)(*args, **kwargs)
+[rank3]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/optim/optimizer.py", line 517, in wrapper
+[rank3]:     out = func(*args, **kwargs)
+[rank3]:           ^^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 120, in decorate_context
+[rank3]:     return func(*args, **kwargs)
+[rank3]:            ^^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/image-generation/kisufaj/optimization/cage/CAGE/src/optim/QCRI_Adamw.py", line 154, in step
+[rank3]:     assert False, f"Weights drifted off grid! max_diff={max_diff}"
+[rank3]:            ^^^^^
+[rank3]: AssertionError: Weights drifted off grid! max_diff=0.0001068115234375
+Traceback (most recent call last):
+[rank1]: Traceback (most recent call last):
+[rank1]:   File "/image-generation/kisufaj/optimization/cage/CAGE/./src/main.py", line 298, in <module>
+[rank1]:     main(args)
+[rank1]:   File "/image-generation/kisufaj/optimization/cage/CAGE/./src/main.py", line 190, in main
+[rank1]:     stats = train(
+[rank1]:             ^^^^^^
+[rank1]:   File "/image-generation/kisufaj/optimization/cage/CAGE/src/optim/base.py", line 207, in train
+[rank1]:     opt.step()
+[rank1]:   File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/optim/lr_scheduler.py", line 133, in wrapper
+[rank1]:     return func.__get__(opt, opt.__class__)(*args, **kwargs)
+[rank1]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/optim/optimizer.py", line 517, in wrapper
+[rank1]:     out = func(*args, **kwargs)
+[rank1]:           ^^^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 120, in decorate_context
+[rank1]:     return func(*args, **kwargs)
+[rank1]:            ^^^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/image-generation/kisufaj/optimization/cage/CAGE/src/optim/QCRI_Adamw.py", line 154, in step
+[rank1]:     assert False, f"Weights drifted off grid! max_diff={max_diff}"
+[rank1]:            ^^^^^
+[rank1]: AssertionError: Weights drifted off grid! max_diff=0.0001068115234375
+  File "/image-generation/kisufaj/optimization/cage/CAGE/./src/main.py", line 298, in <module>
+    main(args)
+  File "/image-generation/kisufaj/optimization/cage/CAGE/./src/main.py", line 190, in main
+    stats = train(
+            ^^^^^^
+  File "/image-generation/kisufaj/optimization/cage/CAGE/src/optim/base.py", line 207, in train
+    opt.step()
+  File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/optim/lr_scheduler.py", line 133, in wrapper
+    return func.__get__(opt, opt.__class__)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/optim/optimizer.py", line 517, in wrapper
+    out = func(*args, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 120, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/image-generation/kisufaj/optimization/cage/CAGE/src/optim/QCRI_Adamw.py", line 154, in step
+    assert False, f"Weights drifted off grid! max_diff={max_diff}"
+           ^^^^^
+AssertionError: Weights drifted off grid! max_diff=0.0001068115234375
+[rank0]: Traceback (most recent call last):
+[rank0]:   File "/image-generation/kisufaj/optimization/cage/CAGE/./src/main.py", line 298, in <module>
+[rank0]:     main(args)
+[rank0]:   File "/image-generation/kisufaj/optimization/cage/CAGE/./src/main.py", line 190, in main
+[rank0]:     stats = train(
+[rank0]:             ^^^^^^
+[rank0]:   File "/image-generation/kisufaj/optimization/cage/CAGE/src/optim/base.py", line 207, in train
+[rank0]:     opt.step()
+[rank0]:   File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/optim/lr_scheduler.py", line 133, in wrapper
+[rank0]:     return func.__get__(opt, opt.__class__)(*args, **kwargs)
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/optim/optimizer.py", line 517, in wrapper
+[rank0]:     out = func(*args, **kwargs)
+[rank0]:           ^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 120, in decorate_context
+[rank0]:     return func(*args, **kwargs)
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/image-generation/kisufaj/optimization/cage/CAGE/src/optim/QCRI_Adamw.py", line 154, in step
+[rank0]:     assert False, f"Weights drifted off grid! max_diff={max_diff}"
+[rank0]:            ^^^^^
+[rank0]: AssertionError: Weights drifted off grid! max_diff=0.0001068115234375
+[1;34mwandb[0m: 
+[1;34mwandb[0m: 🚀 View run [33mQCRI-LLAMA-50M-CAGE=False-CAGE_L=0.5-CAGE_S_R=0.5-CAGE_SCH=linear_ramp-Q99IntQuantizer@4:Q99IntQuantizer@4-c4-15650_c4_llama_nlayers7_nhead6_lr0.0012_sched_cos_warmup1907_decay_linear_0.1_iter19073_bs64x2_ws4_seed0_data_seed1337[0m at: [34mhttps://wandb.ai/keisufaj-hamad-bin-khalifa-university/CAGE-QCRI/runs/plk5onor[0m
+[1;34mwandb[0m: Find logs at: [1;35mwandb/run-20260126_131110-plk5onor/logs[0m
+W0126 13:12:30.985000 148385 site-packages/torch/distributed/elastic/multiprocessing/api.py:908] Sending process 148417 closing signal SIGTERM
+W0126 13:12:30.986000 148385 site-packages/torch/distributed/elastic/multiprocessing/api.py:908] Sending process 148418 closing signal SIGTERM
+W0126 13:12:30.988000 148385 site-packages/torch/distributed/elastic/multiprocessing/api.py:908] Sending process 148420 closing signal SIGTERM
+E0126 13:12:31.682000 148385 site-packages/torch/distributed/elastic/multiprocessing/api.py:882] failed (exitcode: 1) local_rank: 2 (pid: 148419) of binary: /home/local/QCRI/kisufaj/miniconda3/envs/qwen/bin/python3.12
+Traceback (most recent call last):
+  File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/bin/torchrun", line 7, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 357, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/distributed/run.py", line 936, in main
+    run(args)
+  File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/distributed/run.py", line 927, in run
+    elastic_launch(
+  File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/distributed/launcher/api.py", line 156, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/distributed/launcher/api.py", line 293, in launch_agent
+    raise ChildFailedError(
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
+============================================================
+./src/main.py FAILED
+------------------------------------------------------------
+Failures:
+  <NO_OTHER_FAILURES>
+------------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2026-01-26_13:12:30
+  host      : a3mega2-a3meganodeset-1.europe-west4-b.c.prj-gss-prod-arabicllm-svc-01.internal
+  rank      : 2 (local_rank: 2)
+  exitcode  : 1 (pid: 148419)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+============================================================

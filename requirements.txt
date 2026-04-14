@@ -1,0 +1,11 @@
+tiktoken
+torch
+torchaudio
+torchvision
+tqdm
+schedulefree
+transformers
+wandb
+datasets
+zstandard
+scipy

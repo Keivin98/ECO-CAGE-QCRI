@@ -1,0 +1,716 @@
+Using datasets from /image-generation/kisufaj/optimization/cage/CAGE/datasets
+/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+W0201 07:44:43.783000 27843 site-packages/torch/distributed/run.py:803] 
+W0201 07:44:43.783000 27843 site-packages/torch/distributed/run.py:803] *****************************************
+W0201 07:44:43.783000 27843 site-packages/torch/distributed/run.py:803] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W0201 07:44:43.783000 27843 site-packages/torch/distributed/run.py:803] *****************************************
+/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+wandb: Currently logged in as: keisufaj (keisufaj-hamad-bin-khalifa-university) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
+Starting Experiment: NAIVE-QUANTIZER-LLAMA-50M-CAGE=False-CAGE_L=2.5-CAGE_S_R=0.95-CAGE_SCH=linear_ramp-Q99IntQuantizer@4:Q99IntQuantizer@4-c4-9723_c4_llama_nlayers7_nhead6_lr0.0012_sched_cos_warmup1907_decay_linear_0.1_iter19073_bs64x1_ws8_seed0_data_seed1337
+Experiment Directory: exps/NAIVE-QUANTIZER-LLAMA-50M-CAGE=False-CAGE_L=2.5-CAGE_S_R=0.95-CAGE_SCH=linear_ramp-Q99IntQuantizer@4:Q99IntQuantizer@4-c4-9723_c4_llama_nlayers7_nhead6_lr0.0012_sched_cos_warmup1907_decay_linear_0.1_iter19073_bs64x1_ws8_seed0_data_seed1337
+Config:
+{'config_format': 'base', 'experiment_name': None, 'seed': 3, 'data_seed': 1337, 'eval_interval': 200, 'full_eval_at': [], 'eval_batches': 32, 'device': 'cuda:3', 'distributed_backend': 'nccl', 'log_interval': 50, 'results_base_folder': './exps', 'permanent_ckpt_interval': 0, 'latest_ckpt_interval': 1000, 'resume_from': None, 'resume_from_swa': None, 'auto_resume': True, 'wandb': True, 'wandb_project': 'CAGE-QCRI', 'wandb_run_prefix': 'NAIVE-QUANTIZER-LLAMA-50M-CAGE=False-CAGE_L=2.5-CAGE_S_R=0.95-CAGE_SCH=linear_ramp-Q99IntQuantizer@4:Q99IntQuantizer@4-c4-9723', 'eval_seq_prefix': 'none', 'log_dynamics': False, 'dynamics_logger_cfg': './src/logger/rotational_logger.yaml', 'scheduler': 'cos', 'cos_inf_steps': 0, 'iterations': 19073, 'warmup_steps': 1907, 'lr': 0.0012, 'wsd_final_lr_scale': 0.0, 'wsd_fract_decay': 0.1, 'decay_type': 'linear', 'opt': 'naive', 'batch_size': 64, 'acc_steps': 1, 'weight_decay': 0.1, 'beta1': 0.9, 'beta2': 0.95, 'grad_clip': 1.0, 'use_cage': False, 'cage_lambda': 2.5, 'cage_silence_ratio': 0.95, 'cage_schedule': 'linear_ramp', 'cage_track_stats': True, 'cage_verbose': False, 'weight_average': False, 'wa_interval': 5, 'wa_horizon': 500, 'wa_dtype': 'float32', 'wa_use_temp_dir': False, 'wa_sweep_horizon': False, 'max_num_wa_sweeps': 5, 'exponential_moving_average': False, 'ema_interval': 10, 'ema_decay': 0.95, 'ema_after_warmup': False, 'datasets_dir': '/image-generation/kisufaj/optimization/cage/CAGE/datasets', 'dataset': 'c4', 'tokenizer': 'gpt2', 'vocab_size': 50304, 'data_in_ram': False, 'model': 'llama', 'parallel_block': False, 'use_pretrained': 'none', 'from_dense': False, 'init_std': 0.02, 'dropout': 0.0, 'n_head': 6, 'n_layer': 7, 'sequence_length': 512, 'n_embd': 768, 'multiple_of': 256, 'rmsnorm_eps': 1e-05, 'dtype': 'bfloat16', 'bias': False, 'compile': True, 'mlp_dim_exp_factor': 1.0, 'w_quant': 'Q99IntQuantizer', 'w_quant_kwargs': {'bits': 4}, 'a_quant': 'Q99IntQuantizer', 'a_quant_kwargs': {'bits': 4}, 'world_size': 8}
+
+Loading dataset: 'c4'
+Distributed DataReader Initialized for Worker 3/8
+Starting Experiment: NAIVE-QUANTIZER-LLAMA-50M-CAGE=False-CAGE_L=2.5-CAGE_S_R=0.95-CAGE_SCH=linear_ramp-Q99IntQuantizer@4:Q99IntQuantizer@4-c4-9723_c4_llama_nlayers7_nhead6_lr0.0012_sched_cos_warmup1907_decay_linear_0.1_iter19073_bs64x1_ws8_seed0_data_seed1337
+Experiment Directory: exps/NAIVE-QUANTIZER-LLAMA-50M-CAGE=False-CAGE_L=2.5-CAGE_S_R=0.95-CAGE_SCH=linear_ramp-Q99IntQuantizer@4:Q99IntQuantizer@4-c4-9723_c4_llama_nlayers7_nhead6_lr0.0012_sched_cos_warmup1907_decay_linear_0.1_iter19073_bs64x1_ws8_seed0_data_seed1337
+Config:
+{'config_format': 'base', 'experiment_name': None, 'seed': 4, 'data_seed': 1337, 'eval_interval': 200, 'full_eval_at': [], 'eval_batches': 32, 'device': 'cuda:4', 'distributed_backend': 'nccl', 'log_interval': 50, 'results_base_folder': './exps', 'permanent_ckpt_interval': 0, 'latest_ckpt_interval': 1000, 'resume_from': None, 'resume_from_swa': None, 'auto_resume': True, 'wandb': True, 'wandb_project': 'CAGE-QCRI', 'wandb_run_prefix': 'NAIVE-QUANTIZER-LLAMA-50M-CAGE=False-CAGE_L=2.5-CAGE_S_R=0.95-CAGE_SCH=linear_ramp-Q99IntQuantizer@4:Q99IntQuantizer@4-c4-9723', 'eval_seq_prefix': 'none', 'log_dynamics': False, 'dynamics_logger_cfg': './src/logger/rotational_logger.yaml', 'scheduler': 'cos', 'cos_inf_steps': 0, 'iterations': 19073, 'warmup_steps': 1907, 'lr': 0.0012, 'wsd_final_lr_scale': 0.0, 'wsd_fract_decay': 0.1, 'decay_type': 'linear', 'opt': 'naive', 'batch_size': 64, 'acc_steps': 1, 'weight_decay': 0.1, 'beta1': 0.9, 'beta2': 0.95, 'grad_clip': 1.0, 'use_cage': False, 'cage_lambda': 2.5, 'cage_silence_ratio': 0.95, 'cage_schedule': 'linear_ramp', 'cage_track_stats': True, 'cage_verbose': False, 'weight_average': False, 'wa_interval': 5, 'wa_horizon': 500, 'wa_dtype': 'float32', 'wa_use_temp_dir': False, 'wa_sweep_horizon': False, 'max_num_wa_sweeps': 5, 'exponential_moving_average': False, 'ema_interval': 10, 'ema_decay': 0.95, 'ema_after_warmup': False, 'datasets_dir': '/image-generation/kisufaj/optimization/cage/CAGE/datasets', 'dataset': 'c4', 'tokenizer': 'gpt2', 'vocab_size': 50304, 'data_in_ram': False, 'model': 'llama', 'parallel_block': False, 'use_pretrained': 'none', 'from_dense': False, 'init_std': 0.02, 'dropout': 0.0, 'n_head': 6, 'n_layer': 7, 'sequence_length': 512, 'n_embd': 768, 'multiple_of': 256, 'rmsnorm_eps': 1e-05, 'dtype': 'bfloat16', 'bias': False, 'compile': True, 'mlp_dim_exp_factor': 1.0, 'w_quant': 'Q99IntQuantizer', 'w_quant_kwargs': {'bits': 4}, 'a_quant': 'Q99IntQuantizer', 'a_quant_kwargs': {'bits': 4}, 'world_size': 8}
+
+Loading dataset: 'c4'
+Distributed DataReader Initialized for Worker 4/8
+Starting Experiment: NAIVE-QUANTIZER-LLAMA-50M-CAGE=False-CAGE_L=2.5-CAGE_S_R=0.95-CAGE_SCH=linear_ramp-Q99IntQuantizer@4:Q99IntQuantizer@4-c4-9723_c4_llama_nlayers7_nhead6_lr0.0012_sched_cos_warmup1907_decay_linear_0.1_iter19073_bs64x1_ws8_seed0_data_seed1337
+Starting Experiment: NAIVE-QUANTIZER-LLAMA-50M-CAGE=False-CAGE_L=2.5-CAGE_S_R=0.95-CAGE_SCH=linear_ramp-Q99IntQuantizer@4:Q99IntQuantizer@4-c4-9723_c4_llama_nlayers7_nhead6_lr0.0012_sched_cos_warmup1907_decay_linear_0.1_iter19073_bs64x1_ws8_seed0_data_seed1337Experiment Directory: exps/NAIVE-QUANTIZER-LLAMA-50M-CAGE=False-CAGE_L=2.5-CAGE_S_R=0.95-CAGE_SCH=linear_ramp-Q99IntQuantizer@4:Q99IntQuantizer@4-c4-9723_c4_llama_nlayers7_nhead6_lr0.0012_sched_cos_warmup1907_decay_linear_0.1_iter19073_bs64x1_ws8_seed0_data_seed1337
+
+Config:
+{'config_format': 'base', 'experiment_name': None, 'seed': 5, 'data_seed': 1337, 'eval_interval': 200, 'full_eval_at': [], 'eval_batches': 32, 'device': 'cuda:5', 'distributed_backend': 'nccl', 'log_interval': 50, 'results_base_folder': './exps', 'permanent_ckpt_interval': 0, 'latest_ckpt_interval': 1000, 'resume_from': None, 'resume_from_swa': None, 'auto_resume': True, 'wandb': True, 'wandb_project': 'CAGE-QCRI', 'wandb_run_prefix': 'NAIVE-QUANTIZER-LLAMA-50M-CAGE=False-CAGE_L=2.5-CAGE_S_R=0.95-CAGE_SCH=linear_ramp-Q99IntQuantizer@4:Q99IntQuantizer@4-c4-9723', 'eval_seq_prefix': 'none', 'log_dynamics': False, 'dynamics_logger_cfg': './src/logger/rotational_logger.yaml', 'scheduler': 'cos', 'cos_inf_steps': 0, 'iterations': 19073, 'warmup_steps': 1907, 'lr': 0.0012, 'wsd_final_lr_scale': 0.0, 'wsd_fract_decay': 0.1, 'decay_type': 'linear', 'opt': 'naive', 'batch_size': 64, 'acc_steps': 1, 'weight_decay': 0.1, 'beta1': 0.9, 'beta2': 0.95, 'grad_clip': 1.0, 'use_cage': False, 'cage_lambda': 2.5, 'cage_silence_ratio': 0.95, 'cage_schedule': 'linear_ramp', 'cage_track_stats': True, 'cage_verbose': False, 'weight_average': False, 'wa_interval': 5, 'wa_horizon': 500, 'wa_dtype': 'float32', 'wa_use_temp_dir': False, 'wa_sweep_horizon': False, 'max_num_wa_sweeps': 5, 'exponential_moving_average': False, 'ema_interval': 10, 'ema_decay': 0.95, 'ema_after_warmup': False, 'datasets_dir': '/image-generation/kisufaj/optimization/cage/CAGE/datasets', 'dataset': 'c4', 'tokenizer': 'gpt2', 'vocab_size': 50304, 'data_in_ram': False, 'model': 'llama', 'parallel_block': False, 'use_pretrained': 'none', 'from_dense': False, 'init_std': 0.02, 'dropout': 0.0, 'n_head': 6, 'n_layer': 7, 'sequence_length': 512, 'n_embd': 768, 'multiple_of': 256, 'rmsnorm_eps': 1e-05, 'dtype': 'bfloat16', 'bias': False, 'compile': True, 'mlp_dim_exp_factor': 1.0, 'w_quant': 'Q99IntQuantizer', 'w_quant_kwargs': {'bits': 4}, 'a_quant': 'Q99IntQuantizer', 'a_quant_kwargs': {'bits': 4}, 'world_size': 8}
+
+Loading dataset: 'c4'
+Experiment Directory: exps/NAIVE-QUANTIZER-LLAMA-50M-CAGE=False-CAGE_L=2.5-CAGE_S_R=0.95-CAGE_SCH=linear_ramp-Q99IntQuantizer@4:Q99IntQuantizer@4-c4-9723_c4_llama_nlayers7_nhead6_lr0.0012_sched_cos_warmup1907_decay_linear_0.1_iter19073_bs64x1_ws8_seed0_data_seed1337
+Config:
+{'config_format': 'base', 'experiment_name': None, 'seed': 1, 'data_seed': 1337, 'eval_interval': 200, 'full_eval_at': [], 'eval_batches': 32, 'device': 'cuda:1', 'distributed_backend': 'nccl', 'log_interval': 50, 'results_base_folder': './exps', 'permanent_ckpt_interval': 0, 'latest_ckpt_interval': 1000, 'resume_from': None, 'resume_from_swa': None, 'auto_resume': True, 'wandb': True, 'wandb_project': 'CAGE-QCRI', 'wandb_run_prefix': 'NAIVE-QUANTIZER-LLAMA-50M-CAGE=False-CAGE_L=2.5-CAGE_S_R=0.95-CAGE_SCH=linear_ramp-Q99IntQuantizer@4:Q99IntQuantizer@4-c4-9723', 'eval_seq_prefix': 'none', 'log_dynamics': False, 'dynamics_logger_cfg': './src/logger/rotational_logger.yaml', 'scheduler': 'cos', 'cos_inf_steps': 0, 'iterations': 19073, 'warmup_steps': 1907, 'lr': 0.0012, 'wsd_final_lr_scale': 0.0, 'wsd_fract_decay': 0.1, 'decay_type': 'linear', 'opt': 'naive', 'batch_size': 64, 'acc_steps': 1, 'weight_decay': 0.1, 'beta1': 0.9, 'beta2': 0.95, 'grad_clip': 1.0, 'use_cage': False, 'cage_lambda': 2.5, 'cage_silence_ratio': 0.95, 'cage_schedule': 'linear_ramp', 'cage_track_stats': True, 'cage_verbose': False, 'weight_average': False, 'wa_interval': 5, 'wa_horizon': 500, 'wa_dtype': 'float32', 'wa_use_temp_dir': False, 'wa_sweep_horizon': False, 'max_num_wa_sweeps': 5, 'exponential_moving_average': False, 'ema_interval': 10, 'ema_decay': 0.95, 'ema_after_warmup': False, 'datasets_dir': '/image-generation/kisufaj/optimization/cage/CAGE/datasets', 'dataset': 'c4', 'tokenizer': 'gpt2', 'vocab_size': 50304, 'data_in_ram': False, 'model': 'llama', 'parallel_block': False, 'use_pretrained': 'none', 'from_dense': False, 'init_std': 0.02, 'dropout': 0.0, 'n_head': 6, 'n_layer': 7, 'sequence_length': 512, 'n_embd': 768, 'multiple_of': 256, 'rmsnorm_eps': 1e-05, 'dtype': 'bfloat16', 'bias': False, 'compile': True, 'mlp_dim_exp_factor': 1.0, 'w_quant': 'Q99IntQuantizer', 'w_quant_kwargs': {'bits': 4}, 'a_quant': 'Q99IntQuantizer', 'a_quant_kwargs': {'bits': 4}, 'world_size': 8}
+
+Loading dataset: 'c4'
+Starting Experiment: NAIVE-QUANTIZER-LLAMA-50M-CAGE=False-CAGE_L=2.5-CAGE_S_R=0.95-CAGE_SCH=linear_ramp-Q99IntQuantizer@4:Q99IntQuantizer@4-c4-9723_c4_llama_nlayers7_nhead6_lr0.0012_sched_cos_warmup1907_decay_linear_0.1_iter19073_bs64x1_ws8_seed0_data_seed1337
+Experiment Directory: exps/NAIVE-QUANTIZER-LLAMA-50M-CAGE=False-CAGE_L=2.5-CAGE_S_R=0.95-CAGE_SCH=linear_ramp-Q99IntQuantizer@4:Q99IntQuantizer@4-c4-9723_c4_llama_nlayers7_nhead6_lr0.0012_sched_cos_warmup1907_decay_linear_0.1_iter19073_bs64x1_ws8_seed0_data_seed1337
+Config:
+{'config_format': 'base', 'experiment_name': None, 'seed': 2, 'data_seed': 1337, 'eval_interval': 200, 'full_eval_at': [], 'eval_batches': 32, 'device': 'cuda:2', 'distributed_backend': 'nccl', 'log_interval': 50, 'results_base_folder': './exps', 'permanent_ckpt_interval': 0, 'latest_ckpt_interval': 1000, 'resume_from': None, 'resume_from_swa': None, 'auto_resume': True, 'wandb': True, 'wandb_project': 'CAGE-QCRI', 'wandb_run_prefix': 'NAIVE-QUANTIZER-LLAMA-50M-CAGE=False-CAGE_L=2.5-CAGE_S_R=0.95-CAGE_SCH=linear_ramp-Q99IntQuantizer@4:Q99IntQuantizer@4-c4-9723', 'eval_seq_prefix': 'none', 'log_dynamics': False, 'dynamics_logger_cfg': './src/logger/rotational_logger.yaml', 'scheduler': 'cos', 'cos_inf_steps': 0, 'iterations': 19073, 'warmup_steps': 1907, 'lr': 0.0012, 'wsd_final_lr_scale': 0.0, 'wsd_fract_decay': 0.1, 'decay_type': 'linear', 'opt': 'naive', 'batch_size': 64, 'acc_steps': 1, 'weight_decay': 0.1, 'beta1': 0.9, 'beta2': 0.95, 'grad_clip': 1.0, 'use_cage': False, 'cage_lambda': 2.5, 'cage_silence_ratio': 0.95, 'cage_schedule': 'linear_ramp', 'cage_track_stats': True, 'cage_verbose': False, 'weight_average': False, 'wa_interval': 5, 'wa_horizon': 500, 'wa_dtype': 'float32', 'wa_use_temp_dir': False, 'wa_sweep_horizon': False, 'max_num_wa_sweeps': 5, 'exponential_moving_average': False, 'ema_interval': 10, 'ema_decay': 0.95, 'ema_after_warmup': False, 'datasets_dir': '/image-generation/kisufaj/optimization/cage/CAGE/datasets', 'dataset': 'c4', 'tokenizer': 'gpt2', 'vocab_size': 50304, 'data_in_ram': False, 'model': 'llama', 'parallel_block': False, 'use_pretrained': 'none', 'from_dense': False, 'init_std': 0.02, 'dropout': 0.0, 'n_head': 6, 'n_layer': 7, 'sequence_length': 512, 'n_embd': 768, 'multiple_of': 256, 'rmsnorm_eps': 1e-05, 'dtype': 'bfloat16', 'bias': False, 'compile': True, 'mlp_dim_exp_factor': 1.0, 'w_quant': 'Q99IntQuantizer', 'w_quant_kwargs': {'bits': 4}, 'a_quant': 'Q99IntQuantizer', 'a_quant_kwargs': {'bits': 4}, 'world_size': 8}
+
+Loading dataset: 'c4'
+Distributed DataReader Initialized for Worker 5/8
+Distributed DataReader Initialized for Worker 2/8
+Distributed DataReader Initialized for Worker 1/8
+Starting Experiment: NAIVE-QUANTIZER-LLAMA-50M-CAGE=False-CAGE_L=2.5-CAGE_S_R=0.95-CAGE_SCH=linear_ramp-Q99IntQuantizer@4:Q99IntQuantizer@4-c4-9723_c4_llama_nlayers7_nhead6_lr0.0012_sched_cos_warmup1907_decay_linear_0.1_iter19073_bs64x1_ws8_seed0_data_seed1337
+Experiment Directory: exps/NAIVE-QUANTIZER-LLAMA-50M-CAGE=False-CAGE_L=2.5-CAGE_S_R=0.95-CAGE_SCH=linear_ramp-Q99IntQuantizer@4:Q99IntQuantizer@4-c4-9723_c4_llama_nlayers7_nhead6_lr0.0012_sched_cos_warmup1907_decay_linear_0.1_iter19073_bs64x1_ws8_seed0_data_seed1337
+Config:
+{'config_format': 'base', 'experiment_name': None, 'seed': 7, 'data_seed': 1337, 'eval_interval': 200, 'full_eval_at': [], 'eval_batches': 32, 'device': 'cuda:7', 'distributed_backend': 'nccl', 'log_interval': 50, 'results_base_folder': './exps', 'permanent_ckpt_interval': 0, 'latest_ckpt_interval': 1000, 'resume_from': None, 'resume_from_swa': None, 'auto_resume': True, 'wandb': True, 'wandb_project': 'CAGE-QCRI', 'wandb_run_prefix': 'NAIVE-QUANTIZER-LLAMA-50M-CAGE=False-CAGE_L=2.5-CAGE_S_R=0.95-CAGE_SCH=linear_ramp-Q99IntQuantizer@4:Q99IntQuantizer@4-c4-9723', 'eval_seq_prefix': 'none', 'log_dynamics': False, 'dynamics_logger_cfg': './src/logger/rotational_logger.yaml', 'scheduler': 'cos', 'cos_inf_steps': 0, 'iterations': 19073, 'warmup_steps': 1907, 'lr': 0.0012, 'wsd_final_lr_scale': 0.0, 'wsd_fract_decay': 0.1, 'decay_type': 'linear', 'opt': 'naive', 'batch_size': 64, 'acc_steps': 1, 'weight_decay': 0.1, 'beta1': 0.9, 'beta2': 0.95, 'grad_clip': 1.0, 'use_cage': False, 'cage_lambda': 2.5, 'cage_silence_ratio': 0.95, 'cage_schedule': 'linear_ramp', 'cage_track_stats': True, 'cage_verbose': False, 'weight_average': False, 'wa_interval': 5, 'wa_horizon': 500, 'wa_dtype': 'float32', 'wa_use_temp_dir': False, 'wa_sweep_horizon': False, 'max_num_wa_sweeps': 5, 'exponential_moving_average': False, 'ema_interval': 10, 'ema_decay': 0.95, 'ema_after_warmup': False, 'datasets_dir': '/image-generation/kisufaj/optimization/cage/CAGE/datasets', 'dataset': 'c4', 'tokenizer': 'gpt2', 'vocab_size': 50304, 'data_in_ram': False, 'model': 'llama', 'parallel_block': False, 'use_pretrained': 'none', 'from_dense': False, 'init_std': 0.02, 'dropout': 0.0, 'n_head': 6, 'n_layer': 7, 'sequence_length': 512, 'n_embd': 768, 'multiple_of': 256, 'rmsnorm_eps': 1e-05, 'dtype': 'bfloat16', 'bias': False, 'compile': True, 'mlp_dim_exp_factor': 1.0, 'w_quant': 'Q99IntQuantizer', 'w_quant_kwargs': {'bits': 4}, 'a_quant': 'Q99IntQuantizer', 'a_quant_kwargs': {'bits': 4}, 'world_size': 8}
+
+Loading dataset: 'c4'
+Distributed DataReader Initialized for Worker 7/8
+Starting Experiment: NAIVE-QUANTIZER-LLAMA-50M-CAGE=False-CAGE_L=2.5-CAGE_S_R=0.95-CAGE_SCH=linear_ramp-Q99IntQuantizer@4:Q99IntQuantizer@4-c4-9723_c4_llama_nlayers7_nhead6_lr0.0012_sched_cos_warmup1907_decay_linear_0.1_iter19073_bs64x1_ws8_seed0_data_seed1337
+Experiment Directory: exps/NAIVE-QUANTIZER-LLAMA-50M-CAGE=False-CAGE_L=2.5-CAGE_S_R=0.95-CAGE_SCH=linear_ramp-Q99IntQuantizer@4:Q99IntQuantizer@4-c4-9723_c4_llama_nlayers7_nhead6_lr0.0012_sched_cos_warmup1907_decay_linear_0.1_iter19073_bs64x1_ws8_seed0_data_seed1337
+Config:
+{'config_format': 'base', 'experiment_name': None, 'seed': 6, 'data_seed': 1337, 'eval_interval': 200, 'full_eval_at': [], 'eval_batches': 32, 'device': 'cuda:6', 'distributed_backend': 'nccl', 'log_interval': 50, 'results_base_folder': './exps', 'permanent_ckpt_interval': 0, 'latest_ckpt_interval': 1000, 'resume_from': None, 'resume_from_swa': None, 'auto_resume': True, 'wandb': True, 'wandb_project': 'CAGE-QCRI', 'wandb_run_prefix': 'NAIVE-QUANTIZER-LLAMA-50M-CAGE=False-CAGE_L=2.5-CAGE_S_R=0.95-CAGE_SCH=linear_ramp-Q99IntQuantizer@4:Q99IntQuantizer@4-c4-9723', 'eval_seq_prefix': 'none', 'log_dynamics': False, 'dynamics_logger_cfg': './src/logger/rotational_logger.yaml', 'scheduler': 'cos', 'cos_inf_steps': 0, 'iterations': 19073, 'warmup_steps': 1907, 'lr': 0.0012, 'wsd_final_lr_scale': 0.0, 'wsd_fract_decay': 0.1, 'decay_type': 'linear', 'opt': 'naive', 'batch_size': 64, 'acc_steps': 1, 'weight_decay': 0.1, 'beta1': 0.9, 'beta2': 0.95, 'grad_clip': 1.0, 'use_cage': False, 'cage_lambda': 2.5, 'cage_silence_ratio': 0.95, 'cage_schedule': 'linear_ramp', 'cage_track_stats': True, 'cage_verbose': False, 'weight_average': False, 'wa_interval': 5, 'wa_horizon': 500, 'wa_dtype': 'float32', 'wa_use_temp_dir': False, 'wa_sweep_horizon': False, 'max_num_wa_sweeps': 5, 'exponential_moving_average': False, 'ema_interval': 10, 'ema_decay': 0.95, 'ema_after_warmup': False, 'datasets_dir': '/image-generation/kisufaj/optimization/cage/CAGE/datasets', 'dataset': 'c4', 'tokenizer': 'gpt2', 'vocab_size': 50304, 'data_in_ram': False, 'model': 'llama', 'parallel_block': False, 'use_pretrained': 'none', 'from_dense': False, 'init_std': 0.02, 'dropout': 0.0, 'n_head': 6, 'n_layer': 7, 'sequence_length': 512, 'n_embd': 768, 'multiple_of': 256, 'rmsnorm_eps': 1e-05, 'dtype': 'bfloat16', 'bias': False, 'compile': True, 'mlp_dim_exp_factor': 1.0, 'w_quant': 'Q99IntQuantizer', 'w_quant_kwargs': {'bits': 4}, 'a_quant': 'Q99IntQuantizer', 'a_quant_kwargs': {'bits': 4}, 'world_size': 8}
+
+Loading dataset: 'c4'
+Distributed DataReader Initialized for Worker 6/8
+wandb: setting up run 8t73lj7t
+wandb: Tracking run with wandb version 0.23.1
+wandb: Run data is saved locally in /image-generation/kisufaj/optimization/cage/CAGE/wandb/run-20260201_074455-8t73lj7t
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run NAIVE-QUANTIZER-LLAMA-50M-CAGE=False-CAGE_L=2.5-CAGE_S_R=0.95-CAGE_SCH=linear_ramp-Q99IntQuantizer@4:Q99IntQuantizer@4-c4-9723_c4_llama_nlayers7_nhead6_lr0.0012_sched_cos_warmup1907_decay_linear_0.1_iter19073_bs64x1_ws8_seed0_data_seed1337
+wandb: ⭐️ View project at https://wandb.ai/keisufaj-hamad-bin-khalifa-university/CAGE-QCRI
+wandb: 🚀 View run at https://wandb.ai/keisufaj-hamad-bin-khalifa-university/CAGE-QCRI/runs/8t73lj7t
+Starting Experiment: NAIVE-QUANTIZER-LLAMA-50M-CAGE=False-CAGE_L=2.5-CAGE_S_R=0.95-CAGE_SCH=linear_ramp-Q99IntQuantizer@4:Q99IntQuantizer@4-c4-9723_c4_llama_nlayers7_nhead6_lr0.0012_sched_cos_warmup1907_decay_linear_0.1_iter19073_bs64x1_ws8_seed0_data_seed1337
+Experiment Directory: exps/NAIVE-QUANTIZER-LLAMA-50M-CAGE=False-CAGE_L=2.5-CAGE_S_R=0.95-CAGE_SCH=linear_ramp-Q99IntQuantizer@4:Q99IntQuantizer@4-c4-9723_c4_llama_nlayers7_nhead6_lr0.0012_sched_cos_warmup1907_decay_linear_0.1_iter19073_bs64x1_ws8_seed0_data_seed1337
+Config:
+{'config_format': 'base', 'experiment_name': None, 'seed': 0, 'data_seed': 1337, 'eval_interval': 200, 'full_eval_at': [], 'eval_batches': 32, 'device': 'cuda:0', 'distributed_backend': 'nccl', 'log_interval': 50, 'results_base_folder': './exps', 'permanent_ckpt_interval': 0, 'latest_ckpt_interval': 1000, 'resume_from': None, 'resume_from_swa': None, 'auto_resume': True, 'wandb': True, 'wandb_project': 'CAGE-QCRI', 'wandb_run_prefix': 'NAIVE-QUANTIZER-LLAMA-50M-CAGE=False-CAGE_L=2.5-CAGE_S_R=0.95-CAGE_SCH=linear_ramp-Q99IntQuantizer@4:Q99IntQuantizer@4-c4-9723', 'eval_seq_prefix': 'none', 'log_dynamics': False, 'dynamics_logger_cfg': './src/logger/rotational_logger.yaml', 'scheduler': 'cos', 'cos_inf_steps': 0, 'iterations': 19073, 'warmup_steps': 1907, 'lr': 0.0012, 'wsd_final_lr_scale': 0.0, 'wsd_fract_decay': 0.1, 'decay_type': 'linear', 'opt': 'naive', 'batch_size': 64, 'acc_steps': 1, 'weight_decay': 0.1, 'beta1': 0.9, 'beta2': 0.95, 'grad_clip': 1.0, 'use_cage': False, 'cage_lambda': 2.5, 'cage_silence_ratio': 0.95, 'cage_schedule': 'linear_ramp', 'cage_track_stats': True, 'cage_verbose': False, 'weight_average': False, 'wa_interval': 5, 'wa_horizon': 500, 'wa_dtype': 'float32', 'wa_use_temp_dir': False, 'wa_sweep_horizon': False, 'max_num_wa_sweeps': 5, 'exponential_moving_average': False, 'ema_interval': 10, 'ema_decay': 0.95, 'ema_after_warmup': False, 'datasets_dir': '/image-generation/kisufaj/optimization/cage/CAGE/datasets', 'dataset': 'c4', 'tokenizer': 'gpt2', 'vocab_size': 50304, 'data_in_ram': False, 'model': 'llama', 'parallel_block': False, 'use_pretrained': 'none', 'from_dense': False, 'init_std': 0.02, 'dropout': 0.0, 'n_head': 6, 'n_layer': 7, 'sequence_length': 512, 'n_embd': 768, 'multiple_of': 256, 'rmsnorm_eps': 1e-05, 'dtype': 'bfloat16', 'bias': False, 'compile': True, 'mlp_dim_exp_factor': 1.0, 'w_quant': 'Q99IntQuantizer', 'w_quant_kwargs': {'bits': 4}, 'a_quant': 'Q99IntQuantizer', 'a_quant_kwargs': {'bits': 4}, 'world_size': 8}
+
+Loading dataset: 'c4'
+Distributed DataReader Initialized for Worker 0/8
+Num training tokens: 20000000000
+Num validation tokens: 50000000
+Num training tokens: 20000000000
+Num validation tokens: 50000000
+Num training tokens: 20000000000
+Num validation tokens: 50000000
+Num training tokens: 20000000000
+Num validation tokens: 50000000
+Num training tokens: 20000000000
+Num validation tokens: 50000000
+Num training tokens: 20000000000
+Num validation tokens: 50000000
+Num training tokens: 20000000000
+Num validation tokens: 50000000
+Num training tokens: 20000000000
+Num validation tokens: 50000000
+
+Model:
+Llama(
+  (transformer): ModuleDict(
+    (wte): Embedding(50304, 768)
+    (drop): Dropout(p=0.0, inplace=False)
+    (h): ModuleList(
+      (0-6): 7 x LlamaBlock(
+        (ln_1): RMSNorm()
+        (attn): LlamaAttention(
+          (c_attn): QuantizedLinear(
+            in_features=768, out_features=2304, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+          (c_proj): QuantizedLinear(
+            in_features=768, out_features=768, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+          (attn_dropout): Dropout(p=0.0, inplace=False)
+          (resid_dropout): Dropout(p=0.0, inplace=False)
+        )
+        (ln_2): RMSNorm()
+        (mlp): LlamaMLP(
+          (w1): QuantizedLinear(
+            in_features=768, out_features=2048, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+          (w2): QuantizedLinear(
+            in_features=768, out_features=2048, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+          (c_proj): QuantizedLinear(
+            in_features=2048, out_features=768, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+        )
+      )
+    )
+    (ln_f): RMSNorm()
+  )
+  (lm_head): Linear(in_features=768, out_features=50304, bias=False)
+)
+
+Model:
+Llama(
+  (transformer): ModuleDict(
+    (wte): Embedding(50304, 768)
+    (drop): Dropout(p=0.0, inplace=False)
+    (h): ModuleList(
+      (0-6): 7 x LlamaBlock(
+        (ln_1): RMSNorm()
+        (attn): LlamaAttention(
+          (c_attn): QuantizedLinear(
+            in_features=768, out_features=2304, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+          (c_proj): QuantizedLinear(
+            in_features=768, out_features=768, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+          (attn_dropout): Dropout(p=0.0, inplace=False)
+          (resid_dropout): Dropout(p=0.0, inplace=False)
+        )
+        (ln_2): RMSNorm()
+        (mlp): LlamaMLP(
+          (w1): QuantizedLinear(
+            in_features=768, out_features=2048, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+          (w2): QuantizedLinear(
+            in_features=768, out_features=2048, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+          (c_proj): QuantizedLinear(
+            in_features=2048, out_features=768, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+        )
+      )
+    )
+    (ln_f): RMSNorm()
+  )
+  (lm_head): Linear(in_features=768, out_features=50304, bias=False)
+)
+
+Model:
+Llama(
+  (transformer): ModuleDict(
+    (wte): Embedding(50304, 768)
+    (drop): Dropout(p=0.0, inplace=False)
+    (h): ModuleList(
+      (0-6): 7 x LlamaBlock(
+        (ln_1): RMSNorm()
+        (attn): LlamaAttention(
+          (c_attn): QuantizedLinear(
+            in_features=768, out_features=2304, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+          (c_proj): QuantizedLinear(
+            in_features=768, out_features=768, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+          (attn_dropout): Dropout(p=0.0, inplace=False)
+          (resid_dropout): Dropout(p=0.0, inplace=False)
+        )
+        (ln_2): RMSNorm()
+        (mlp): LlamaMLP(
+          (w1): QuantizedLinear(
+            in_features=768, out_features=2048, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+          (w2): QuantizedLinear(
+            in_features=768, out_features=2048, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+          (c_proj): QuantizedLinear(
+            in_features=2048, out_features=768, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+        )
+      )
+    )
+    (ln_f): RMSNorm()
+  )
+  (lm_head): Linear(in_features=768, out_features=50304, bias=False)
+)
+
+Model:
+Llama(
+  (transformer): ModuleDict(
+    (wte): Embedding(50304, 768)
+    (drop): Dropout(p=0.0, inplace=False)
+    (h): ModuleList(
+      (0-6): 7 x LlamaBlock(
+        (ln_1): RMSNorm()
+        (attn): LlamaAttention(
+          (c_attn): QuantizedLinear(
+            in_features=768, out_features=2304, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+          (c_proj): QuantizedLinear(
+            in_features=768, out_features=768, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+          (attn_dropout): Dropout(p=0.0, inplace=False)
+          (resid_dropout): Dropout(p=0.0, inplace=False)
+        )
+        (ln_2): RMSNorm()
+        (mlp): LlamaMLP(
+          (w1): QuantizedLinear(
+            in_features=768, out_features=2048, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+          (w2): QuantizedLinear(
+            in_features=768, out_features=2048, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+          (c_proj): QuantizedLinear(
+            in_features=2048, out_features=768, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+        )
+      )
+    )
+    (ln_f): RMSNorm()
+  )
+  (lm_head): Linear(in_features=768, out_features=50304, bias=False)
+)
+
+Model:
+Llama(
+  (transformer): ModuleDict(
+    (wte): Embedding(50304, 768)
+    (drop): Dropout(p=0.0, inplace=False)
+    (h): ModuleList(
+      (0-6): 7 x LlamaBlock(
+        (ln_1): RMSNorm()
+        (attn): LlamaAttention(
+          (c_attn): QuantizedLinear(
+            in_features=768, out_features=2304, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+          (c_proj): QuantizedLinear(
+            in_features=768, out_features=768, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+          (attn_dropout): Dropout(p=0.0, inplace=False)
+          (resid_dropout): Dropout(p=0.0, inplace=False)
+        )
+        (ln_2): RMSNorm()
+        (mlp): LlamaMLP(
+          (w1): QuantizedLinear(
+            in_features=768, out_features=2048, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+          (w2): QuantizedLinear(
+            in_features=768, out_features=2048, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+          (c_proj): QuantizedLinear(
+            in_features=2048, out_features=768, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+        )
+      )
+    )
+    (ln_f): RMSNorm()
+  )
+  (lm_head): Linear(in_features=768, out_features=50304, bias=False)
+)
+
+Model:
+Llama(
+  (transformer): ModuleDict(
+    (wte): Embedding(50304, 768)
+    (drop): Dropout(p=0.0, inplace=False)
+    (h): ModuleList(
+      (0-6): 7 x LlamaBlock(
+        (ln_1): RMSNorm()
+        (attn): LlamaAttention(
+          (c_attn): QuantizedLinear(
+            in_features=768, out_features=2304, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+          (c_proj): QuantizedLinear(
+            in_features=768, out_features=768, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+          (attn_dropout): Dropout(p=0.0, inplace=False)
+          (resid_dropout): Dropout(p=0.0, inplace=False)
+        )
+        (ln_2): RMSNorm()
+        (mlp): LlamaMLP(
+          (w1): QuantizedLinear(
+            in_features=768, out_features=2048, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+          (w2): QuantizedLinear(
+            in_features=768, out_features=2048, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+          (c_proj): QuantizedLinear(
+            in_features=2048, out_features=768, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+        )
+      )
+    )
+    (ln_f): RMSNorm()
+  )
+  (lm_head): Linear(in_features=768, out_features=50304, bias=False)
+)
+
+Model:
+Llama(
+  (transformer): ModuleDict(
+    (wte): Embedding(50304, 768)
+    (drop): Dropout(p=0.0, inplace=False)
+    (h): ModuleList(
+      (0-6): 7 x LlamaBlock(
+        (ln_1): RMSNorm()
+        (attn): LlamaAttention(
+          (c_attn): QuantizedLinear(
+            in_features=768, out_features=2304, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+          (c_proj): QuantizedLinear(
+            in_features=768, out_features=768, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+          (attn_dropout): Dropout(p=0.0, inplace=False)
+          (resid_dropout): Dropout(p=0.0, inplace=False)
+        )
+        (ln_2): RMSNorm()
+        (mlp): LlamaMLP(
+          (w1): QuantizedLinear(
+            in_features=768, out_features=2048, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+          (w2): QuantizedLinear(
+            in_features=768, out_features=2048, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+          (c_proj): QuantizedLinear(
+            in_features=2048, out_features=768, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+        )
+      )
+    )
+    (ln_f): RMSNorm()
+  )
+  (lm_head): Linear(in_features=768, out_features=50304, bias=False)
+)
+
+Model:
+Llama(
+  (transformer): ModuleDict(
+    (wte): Embedding(50304, 768)
+    (drop): Dropout(p=0.0, inplace=False)
+    (h): ModuleList(
+      (0-6): 7 x LlamaBlock(
+        (ln_1): RMSNorm()
+        (attn): LlamaAttention(
+          (c_attn): QuantizedLinear(
+            in_features=768, out_features=2304, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+          (c_proj): QuantizedLinear(
+            in_features=768, out_features=768, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+          (attn_dropout): Dropout(p=0.0, inplace=False)
+          (resid_dropout): Dropout(p=0.0, inplace=False)
+        )
+        (ln_2): RMSNorm()
+        (mlp): LlamaMLP(
+          (w1): QuantizedLinear(
+            in_features=768, out_features=2048, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+          (w2): QuantizedLinear(
+            in_features=768, out_features=2048, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+          (c_proj): QuantizedLinear(
+            in_features=2048, out_features=768, bias=False
+            (weight_quantizer): Q99IntQuantizer()
+            (activation_quantizer): Q99IntQuantizer()
+          )
+        )
+      )
+    )
+    (ln_f): RMSNorm()
+  )
+  (lm_head): Linear(in_features=768, out_features=50304, bias=False)
+)
+number of parameters: 126.82M
+number of optimized parameters: 126.82M
+number of parameters: 126.82Mnumber of non-embedding parameters: 49.56M
+
+number of optimized parameters: 126.82M
+number of non-embedding parameters: 49.56M
+number of parameters: 126.82Mnumber of parameters: 126.82M
+number of optimized parameters: 126.82M
+Optimizer:
+NaiveOptimizer (
+Parameter Group 0
+    betas: (0.9, 0.95)
+    eps: 1e-08
+    lr: 0.0012
+    weight_decay: 0.1
+
+Parameter Group 1
+    betas: (0.9, 0.95)
+    eps: 1e-08
+    lr: 0.0012
+    weight_decay: 0.0
+)
+
+number of non-embedding parameters: 49.56M
+
+Optimizer:
+NaiveOptimizer (
+Parameter Group 0
+    betas: (0.9, 0.95)
+    eps: 1e-08
+    lr: 0.0012
+    weight_decay: 0.1
+
+Parameter Group 1
+    betas: (0.9, 0.95)
+    eps: 1e-08
+    lr: 0.0012
+    weight_decay: 0.0
+)
+
+number of optimized parameters: 126.82M
+
+Optimizer:
+NaiveOptimizer (
+Parameter Group 0
+    betas: (0.9, 0.95)
+    eps: 1e-08
+    lr: 0.0012
+    weight_decay: 0.1
+
+Parameter Group 1
+    betas: (0.9, 0.95)
+    eps: 1e-08
+    lr: 0.0012
+    weight_decay: 0.0
+)number of non-embedding parameters: 49.56M
+
+number of parameters: 126.82Mnumber of parameters: 126.82M
+number of optimized parameters: 126.82M
+
+number of non-embedding parameters: 49.56M
+number of optimized parameters: 126.82M
+number of non-embedding parameters: 49.56M
+Compiling model ...Compiling model ...Compiling model ...
+
+
+
+Optimizer:
+NaiveOptimizer (
+Parameter Group 0
+    betas: (0.9, 0.95)
+    eps: 1e-08
+    lr: 0.0012
+    weight_decay: 0.1
+
+Parameter Group 1
+    betas: (0.9, 0.95)
+    eps: 1e-08
+    lr: 0.0012
+    weight_decay: 0.0
+)
+
+Optimizer:
+NaiveOptimizer (
+Parameter Group 0
+    betas: (0.9, 0.95)
+    eps: 1e-08
+    lr: 0.0012
+    weight_decay: 0.1
+
+Parameter Group 1
+    betas: (0.9, 0.95)
+    eps: 1e-08
+    lr: 0.0012
+    weight_decay: 0.0
+)
+Compiling model ...
+Compiling model ...
+
+Optimizer:
+NaiveOptimizer (
+Parameter Group 0
+    betas: (0.9, 0.95)
+    eps: 1e-08
+    lr: 0.0012
+    weight_decay: 0.1
+
+Parameter Group 1
+    betas: (0.9, 0.95)
+    eps: 1e-08
+    lr: 0.0012
+    weight_decay: 0.0
+)
+number of parameters: 126.82Mnumber of parameters: 126.82M
+number of optimized parameters: 126.82M
+
+number of optimized parameters: 126.82Mnumber of non-embedding parameters: 49.56M
+
+number of non-embedding parameters: 49.56M
+
+Optimizer:
+NaiveOptimizer (
+Parameter Group 0
+    betas: (0.9, 0.95)
+    eps: 1e-08
+    lr: 0.0012
+    weight_decay: 0.1
+
+Parameter Group 1
+    betas: (0.9, 0.95)
+    eps: 1e-08
+    lr: 0.0012
+    weight_decay: 0.0
+)
+Optimizer:
+NaiveOptimizer (
+Parameter Group 0
+    betas: (0.9, 0.95)
+    eps: 1e-08
+    lr: 0.0012
+    weight_decay: 0.1
+
+Parameter Group 1
+    betas: (0.9, 0.95)
+    eps: 1e-08
+    lr: 0.0012
+    weight_decay: 0.0
+)
+
+Compiling model ...Compiling model ...
+
+Compiling model ...
+[rank4]:W0201 07:45:17.620000 27875 site-packages/torch/_logging/_internal.py:1199] [0/0] Profiler function <class 'torch.autograd.profiler.record_function'> will be ignored
+[rank5]:W0201 07:45:17.620000 27876 site-packages/torch/_logging/_internal.py:1199] [0/0] Profiler function <class 'torch.autograd.profiler.record_function'> will be ignored
+[rank6]:W0201 07:45:17.625000 27877 site-packages/torch/_logging/_internal.py:1199] [0/0] Profiler function <class 'torch.autograd.profiler.record_function'> will be ignored
+[rank2]:W0201 07:45:17.630000 27873 site-packages/torch/_logging/_internal.py:1199] [0/0] Profiler function <class 'torch.autograd.profiler.record_function'> will be ignored
+Training Progress:   0%|          | 0/19073 [00:00<?, ?it/s][rank7]:W0201 07:45:17.687000 27878 site-packages/torch/_logging/_internal.py:1199] [0/0] Profiler function <class 'torch.autograd.profiler.record_function'> will be ignored
+[rank3]:W0201 07:45:17.735000 27874 site-packages/torch/_logging/_internal.py:1199] [0/0] Profiler function <class 'torch.autograd.profiler.record_function'> will be ignored
+[rank1]:W0201 07:45:17.851000 27872 site-packages/torch/_logging/_internal.py:1199] [0/0] Profiler function <class 'torch.autograd.profiler.record_function'> will be ignored
+
+  0%|          | 0/32 [00:00<?, ?it/s][A[rank0]:W0201 07:45:22.909000 27871 site-packages/torch/_logging/_internal.py:1199] [0/0] Profiler function <class 'torch.autograd.profiler.record_function'> will be ignored
+/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/_dynamo/variables/functions.py:1598: UserWarning: Dynamo does not know how to trace the builtin `torch._C._distributed_c10d.pybind11_detail_function_record_v1_system_libstdcpp_gxx_abi_1xxx_use_cxx11_abi_1._broadcast_coalesced.` This function is either a Python builtin (e.g. _warnings.warn) or a third-party C/C++ Python extension (perhaps created with pybind).
+If it is a Python builtin, please file an issue on GitHub so the PyTorch team can add support for it and see the next case for a workaround.
+If it is a third-party C/C++ Python extension, please either wrap it into a PyTorch-understood custom operator (see https://pytorch.org/tutorials/advanced/custom_ops_landing_page.html for more details) or, if it is traceable, use `torch.compiler.allow_in_graph`.
+  torch._dynamo.utils.warn_once(explanation + "\n" + "\n".join(hints))
+
+  3%|▎         | 1/32 [00:06<03:23,  6.58s/it][A
+ 25%|██▌       | 8/32 [00:06<00:14,  1.63it/s][A
+ 44%|████▍     | 14/32 [00:06<00:05,  3.33it/s][A
+ 62%|██████▎   | 20/32 [00:06<00:02,  5.58it/s][A
+ 81%|████████▏ | 26/32 [00:07<00:00,  8.46it/s][A
+100%|██████████| 32/32 [00:07<00:00, 12.02it/s][A100%|██████████| 32/32 [00:07<00:00,  4.48it/s]
+>Eval: Iter=0 (0.000 epochs) val_loss=10.978 val_pp=58553.475 val_acc=0.000011
+Training Progress:   0%|          | 1/19073 [00:22<118:58:08, 22.46s/it]Training Progress:   0%|          | 3/19073 [00:22<31:09:52,  5.88s/it] Training Progress:   0%|          | 5/19073 [00:22<15:19:44,  2.89s/it]Training Progress:   0%|          | 7/19073 [00:22<8:59:34,  1.70s/it] Training Progress:   0%|          | 9/19073 [00:23<5:44:14,  1.08s/it]Training Progress:   0%|          | 11/19073 [00:23<3:51:34,  1.37it/s]Training Progress:   0%|          | 13/19073 [00:23<2:41:43,  1.96it/s]Training Progress:   0%|          | 15/19073 [00:23<1:56:36,  2.72it/s]Training Progress:   0%|          | 17/19073 [00:23<1:26:43,  3.66it/s]Training Progress:   0%|          | 19/19073 [00:23<1:06:36,  4.77it/s]Training Progress:   0%|          | 21/19073 [00:23<52:54,  6.00it/s]  Training Progress:   0%|          | 23/19073 [00:24<43:39,  7.27it/s]Training Progress:   0%|          | 25/19073 [00:24<37:02,  8.57it/s]Training Progress:   0%|          | 27/19073 [00:24<32:27,  9.78it/s]Training Progress:   0%|          | 29/19073 [00:24<29:15, 10.85it/s]Training Progress:   0%|          | 31/19073 [00:24<27:03, 11.73it/s]Training Progress:   0%|          | 33/19073 [00:24<25:30, 12.44it/s]Training Progress:   0%|          | 35/19073 [00:24<24:26, 12.98it/s]Training Progress:   0%|          | 37/19073 [00:24<23:27, 13.52it/s]Training Progress:   0%|          | 39/19073 [00:25<22:59, 13.80it/s]Training Progress:   0%|          | 41/19073 [00:25<22:28, 14.12it/s]Training Progress:   0%|          | 43/19073 [00:25<22:17, 14.22it/s]Training Progress:   0%|          | 45/19073 [00:25<21:53, 14.49it/s]Training Progress:   0%|          | 47/19073 [00:25<21:56, 14.45it/s]Training Progress:   0%|          | 49/19073 [00:25<21:57, 14.44it/s]Train: Iter=50 (0.001 epochs) train_loss=10.935 iter_dt=7.03e-02s lr=1.40e-05
+Traceback (most recent call last):
+  File "/image-generation/kisufaj/optimization/cage/CAGE/./src/main.py", line 318, in <module>
+    main(args)
+  File "/image-generation/kisufaj/optimization/cage/CAGE/./src/main.py", line 210, in main
+    stats = train(
+            ^^^^^^
+  File "/image-generation/kisufaj/optimization/cage/CAGE/src/optim/base.py", line 268, in train
+    log_dict["train/carry_norm/mean"] = len(carry_norms) > 0 and sum(carry_norms) / len(carry_norms) or 0
+                                        ^^^^^^^^^^^^^^^^
+TypeError: object of type 'NoneType' has no len()
+[rank0]: Traceback (most recent call last):
+[rank0]:   File "/image-generation/kisufaj/optimization/cage/CAGE/./src/main.py", line 318, in <module>
+[rank0]:     main(args)
+[rank0]:   File "/image-generation/kisufaj/optimization/cage/CAGE/./src/main.py", line 210, in main
+[rank0]:     stats = train(
+[rank0]:             ^^^^^^
+[rank0]:   File "/image-generation/kisufaj/optimization/cage/CAGE/src/optim/base.py", line 268, in train
+[rank0]:     log_dict["train/carry_norm/mean"] = len(carry_norms) > 0 and sum(carry_norms) / len(carry_norms) or 0
+[rank0]:                                         ^^^^^^^^^^^^^^^^
+[rank0]: TypeError: object of type 'NoneType' has no len()
+[1;34mwandb[0m: 
+[1;34mwandb[0m: 🚀 View run [33mNAIVE-QUANTIZER-LLAMA-50M-CAGE=False-CAGE_L=2.5-CAGE_S_R=0.95-CAGE_SCH=linear_ramp-Q99IntQuantizer@4:Q99IntQuantizer@4-c4-9723_c4_llama_nlayers7_nhead6_lr0.0012_sched_cos_warmup1907_decay_linear_0.1_iter19073_bs64x1_ws8_seed0_data_seed1337[0m at: [34mhttps://wandb.ai/keisufaj-hamad-bin-khalifa-university/CAGE-QCRI/runs/8t73lj7t[0m
+[1;34mwandb[0m: Find logs at: [1;35mwandb/run-20260201_074455-8t73lj7t/logs[0m
+W0201 07:45:46.327000 27843 site-packages/torch/distributed/elastic/multiprocessing/api.py:908] Sending process 27872 closing signal SIGTERM
+W0201 07:45:46.329000 27843 site-packages/torch/distributed/elastic/multiprocessing/api.py:908] Sending process 27873 closing signal SIGTERM
+W0201 07:45:46.330000 27843 site-packages/torch/distributed/elastic/multiprocessing/api.py:908] Sending process 27874 closing signal SIGTERM
+W0201 07:45:46.330000 27843 site-packages/torch/distributed/elastic/multiprocessing/api.py:908] Sending process 27875 closing signal SIGTERM
+W0201 07:45:46.331000 27843 site-packages/torch/distributed/elastic/multiprocessing/api.py:908] Sending process 27876 closing signal SIGTERM
+W0201 07:45:46.331000 27843 site-packages/torch/distributed/elastic/multiprocessing/api.py:908] Sending process 27877 closing signal SIGTERM
+W0201 07:45:46.371000 27843 site-packages/torch/distributed/elastic/multiprocessing/api.py:908] Sending process 27878 closing signal SIGTERM
+E0201 07:45:48.664000 27843 site-packages/torch/distributed/elastic/multiprocessing/api.py:882] failed (exitcode: 1) local_rank: 0 (pid: 27871) of binary: /home/local/QCRI/kisufaj/miniconda3/envs/qwen/bin/python3.12
+Traceback (most recent call last):
+  File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/bin/torchrun", line 7, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 357, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/distributed/run.py", line 936, in main
+    run(args)
+  File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/distributed/run.py", line 927, in run
+    elastic_launch(
+  File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/distributed/launcher/api.py", line 156, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/distributed/launcher/api.py", line 293, in launch_agent
+    raise ChildFailedError(
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
+============================================================
+./src/main.py FAILED
+------------------------------------------------------------
+Failures:
+  <NO_OTHER_FAILURES>
+------------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2026-02-01_07:45:46
+  host      : a3mega2-a3meganodeset-1.europe-west4-b.c.prj-gss-prod-arabicllm-svc-01.internal
+  rank      : 0 (local_rank: 0)
+  exitcode  : 1 (pid: 27871)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+============================================================

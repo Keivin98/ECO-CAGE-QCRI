@@ -1,0 +1,396 @@
+Using datasets from /image-generation/kisufaj/optimization/cage/CAGE/datasets
+/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+W0127 13:10:33.924000 323242 site-packages/torch/distributed/run.py:803] 
+W0127 13:10:33.924000 323242 site-packages/torch/distributed/run.py:803] *****************************************
+W0127 13:10:33.924000 323242 site-packages/torch/distributed/run.py:803] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W0127 13:10:33.924000 323242 site-packages/torch/distributed/run.py:803] *****************************************
+/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+wandb: Currently logged in as: keisufaj (keisufaj-hamad-bin-khalifa-university) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
+Starting Experiment: GRADIENTCARRY-LLAMA-50M-CAGE=False-CAGE_L=0.5-CAGE_S_R=0.5-CAGE_SCH=linear_ramp-HadamardMSEQuantizer@4:HadamardMSEQuantizer@4-c4-9227_c4_llama_nlayers7_nhead6_lr0.0012_sched_cos_warmup1907_decay_linear_0.1_iter19073_bs64x2_ws4_seed0_data_seed1337
+Experiment Directory: exps/GRADIENTCARRY-LLAMA-50M-CAGE=False-CAGE_L=0.5-CAGE_S_R=0.5-CAGE_SCH=linear_ramp-HadamardMSEQuantizer@4:HadamardMSEQuantizer@4-c4-9227_c4_llama_nlayers7_nhead6_lr0.0012_sched_cos_warmup1907_decay_linear_0.1_iter19073_bs64x2_ws4_seed0_data_seed1337
+Config:
+{'config_format': 'base', 'experiment_name': None, 'seed': 2, 'data_seed': 1337, 'eval_interval': 200, 'full_eval_at': [], 'eval_batches': 32, 'device': 'cuda:2', 'distributed_backend': 'nccl', 'log_interval': 50, 'results_base_folder': './exps', 'permanent_ckpt_interval': 0, 'latest_ckpt_interval': 1000, 'resume_from': None, 'resume_from_swa': None, 'auto_resume': True, 'wandb': True, 'wandb_project': 'CAGE-QCRI', 'wandb_run_prefix': 'GRADIENTCARRY-LLAMA-50M-CAGE=False-CAGE_L=0.5-CAGE_S_R=0.5-CAGE_SCH=linear_ramp-HadamardMSEQuantizer@4:HadamardMSEQuantizer@4-c4-9227', 'eval_seq_prefix': 'none', 'log_dynamics': False, 'dynamics_logger_cfg': './src/logger/rotational_logger.yaml', 'scheduler': 'cos', 'cos_inf_steps': 0, 'iterations': 19073, 'warmup_steps': 1907, 'lr': 0.0012, 'wsd_final_lr_scale': 0.0, 'wsd_fract_decay': 0.1, 'decay_type': 'linear', 'opt': 'qcriadamwgradaccumulator', 'batch_size': 64, 'acc_steps': 2, 'weight_decay': 0.1, 'beta1': 0.9, 'beta2': 0.95, 'grad_clip': 1.0, 'use_cage': False, 'cage_lambda': 0.5, 'cage_silence_ratio': 0.5, 'cage_schedule': 'linear_ramp', 'cage_track_stats': True, 'cage_verbose': False, 'weight_average': False, 'wa_interval': 5, 'wa_horizon': 500, 'wa_dtype': 'float32', 'wa_use_temp_dir': False, 'wa_sweep_horizon': False, 'max_num_wa_sweeps': 5, 'exponential_moving_average': False, 'ema_interval': 10, 'ema_decay': 0.95, 'ema_after_warmup': False, 'datasets_dir': '/image-generation/kisufaj/optimization/cage/CAGE/datasets', 'dataset': 'c4', 'tokenizer': 'gpt2', 'vocab_size': 50304, 'data_in_ram': False, 'model': 'llama', 'parallel_block': False, 'use_pretrained': 'none', 'from_dense': False, 'init_std': 0.02, 'dropout': 0.0, 'n_head': 6, 'n_layer': 7, 'sequence_length': 512, 'n_embd': 768, 'multiple_of': 256, 'rmsnorm_eps': 1e-05, 'dtype': 'bfloat16', 'bias': False, 'compile': True, 'mlp_dim_exp_factor': 1.0, 'w_quant': 'HadamardMSEQuantizer', 'w_quant_kwargs': {'bits': 4}, 'a_quant': 'HadamardMSEQuantizer', 'a_quant_kwargs': {'bits': 4}, 'world_size': 4}
+
+Loading dataset: 'c4'
+Distributed DataReader Initialized for Worker 2/4
+Starting Experiment: GRADIENTCARRY-LLAMA-50M-CAGE=False-CAGE_L=0.5-CAGE_S_R=0.5-CAGE_SCH=linear_ramp-HadamardMSEQuantizer@4:HadamardMSEQuantizer@4-c4-9227_c4_llama_nlayers7_nhead6_lr0.0012_sched_cos_warmup1907_decay_linear_0.1_iter19073_bs64x2_ws4_seed0_data_seed1337
+Experiment Directory: exps/GRADIENTCARRY-LLAMA-50M-CAGE=False-CAGE_L=0.5-CAGE_S_R=0.5-CAGE_SCH=linear_ramp-HadamardMSEQuantizer@4:HadamardMSEQuantizer@4-c4-9227_c4_llama_nlayers7_nhead6_lr0.0012_sched_cos_warmup1907_decay_linear_0.1_iter19073_bs64x2_ws4_seed0_data_seed1337
+Config:
+{'config_format': 'base', 'experiment_name': None, 'seed': 1, 'data_seed': 1337, 'eval_interval': 200, 'full_eval_at': [], 'eval_batches': 32, 'device': 'cuda:1', 'distributed_backend': 'nccl', 'log_interval': 50, 'results_base_folder': './exps', 'permanent_ckpt_interval': 0, 'latest_ckpt_interval': 1000, 'resume_from': None, 'resume_from_swa': None, 'auto_resume': True, 'wandb': True, 'wandb_project': 'CAGE-QCRI', 'wandb_run_prefix': 'GRADIENTCARRY-LLAMA-50M-CAGE=False-CAGE_L=0.5-CAGE_S_R=0.5-CAGE_SCH=linear_ramp-HadamardMSEQuantizer@4:HadamardMSEQuantizer@4-c4-9227', 'eval_seq_prefix': 'none', 'log_dynamics': False, 'dynamics_logger_cfg': './src/logger/rotational_logger.yaml', 'scheduler': 'cos', 'cos_inf_steps': 0, 'iterations': 19073, 'warmup_steps': 1907, 'lr': 0.0012, 'wsd_final_lr_scale': 0.0, 'wsd_fract_decay': 0.1, 'decay_type': 'linear', 'opt': 'qcriadamwgradaccumulator', 'batch_size': 64, 'acc_steps': 2, 'weight_decay': 0.1, 'beta1': 0.9, 'beta2': 0.95, 'grad_clip': 1.0, 'use_cage': False, 'cage_lambda': 0.5, 'cage_silence_ratio': 0.5, 'cage_schedule': 'linear_ramp', 'cage_track_stats': True, 'cage_verbose': False, 'weight_average': False, 'wa_interval': 5, 'wa_horizon': 500, 'wa_dtype': 'float32', 'wa_use_temp_dir': False, 'wa_sweep_horizon': False, 'max_num_wa_sweeps': 5, 'exponential_moving_average': False, 'ema_interval': 10, 'ema_decay': 0.95, 'ema_after_warmup': False, 'datasets_dir': '/image-generation/kisufaj/optimization/cage/CAGE/datasets', 'dataset': 'c4', 'tokenizer': 'gpt2', 'vocab_size': 50304, 'data_in_ram': False, 'model': 'llama', 'parallel_block': False, 'use_pretrained': 'none', 'from_dense': False, 'init_std': 0.02, 'dropout': 0.0, 'n_head': 6, 'n_layer': 7, 'sequence_length': 512, 'n_embd': 768, 'multiple_of': 256, 'rmsnorm_eps': 1e-05, 'dtype': 'bfloat16', 'bias': False, 'compile': True, 'mlp_dim_exp_factor': 1.0, 'w_quant': 'HadamardMSEQuantizer', 'w_quant_kwargs': {'bits': 4}, 'a_quant': 'HadamardMSEQuantizer', 'a_quant_kwargs': {'bits': 4}, 'world_size': 4}
+
+Loading dataset: 'c4'
+Distributed DataReader Initialized for Worker 1/4
+Starting Experiment: GRADIENTCARRY-LLAMA-50M-CAGE=False-CAGE_L=0.5-CAGE_S_R=0.5-CAGE_SCH=linear_ramp-HadamardMSEQuantizer@4:HadamardMSEQuantizer@4-c4-9227_c4_llama_nlayers7_nhead6_lr0.0012_sched_cos_warmup1907_decay_linear_0.1_iter19073_bs64x2_ws4_seed0_data_seed1337
+Experiment Directory: exps/GRADIENTCARRY-LLAMA-50M-CAGE=False-CAGE_L=0.5-CAGE_S_R=0.5-CAGE_SCH=linear_ramp-HadamardMSEQuantizer@4:HadamardMSEQuantizer@4-c4-9227_c4_llama_nlayers7_nhead6_lr0.0012_sched_cos_warmup1907_decay_linear_0.1_iter19073_bs64x2_ws4_seed0_data_seed1337
+Config:
+{'config_format': 'base', 'experiment_name': None, 'seed': 3, 'data_seed': 1337, 'eval_interval': 200, 'full_eval_at': [], 'eval_batches': 32, 'device': 'cuda:3', 'distributed_backend': 'nccl', 'log_interval': 50, 'results_base_folder': './exps', 'permanent_ckpt_interval': 0, 'latest_ckpt_interval': 1000, 'resume_from': None, 'resume_from_swa': None, 'auto_resume': True, 'wandb': True, 'wandb_project': 'CAGE-QCRI', 'wandb_run_prefix': 'GRADIENTCARRY-LLAMA-50M-CAGE=False-CAGE_L=0.5-CAGE_S_R=0.5-CAGE_SCH=linear_ramp-HadamardMSEQuantizer@4:HadamardMSEQuantizer@4-c4-9227', 'eval_seq_prefix': 'none', 'log_dynamics': False, 'dynamics_logger_cfg': './src/logger/rotational_logger.yaml', 'scheduler': 'cos', 'cos_inf_steps': 0, 'iterations': 19073, 'warmup_steps': 1907, 'lr': 0.0012, 'wsd_final_lr_scale': 0.0, 'wsd_fract_decay': 0.1, 'decay_type': 'linear', 'opt': 'qcriadamwgradaccumulator', 'batch_size': 64, 'acc_steps': 2, 'weight_decay': 0.1, 'beta1': 0.9, 'beta2': 0.95, 'grad_clip': 1.0, 'use_cage': False, 'cage_lambda': 0.5, 'cage_silence_ratio': 0.5, 'cage_schedule': 'linear_ramp', 'cage_track_stats': True, 'cage_verbose': False, 'weight_average': False, 'wa_interval': 5, 'wa_horizon': 500, 'wa_dtype': 'float32', 'wa_use_temp_dir': False, 'wa_sweep_horizon': False, 'max_num_wa_sweeps': 5, 'exponential_moving_average': False, 'ema_interval': 10, 'ema_decay': 0.95, 'ema_after_warmup': False, 'datasets_dir': '/image-generation/kisufaj/optimization/cage/CAGE/datasets', 'dataset': 'c4', 'tokenizer': 'gpt2', 'vocab_size': 50304, 'data_in_ram': False, 'model': 'llama', 'parallel_block': False, 'use_pretrained': 'none', 'from_dense': False, 'init_std': 0.02, 'dropout': 0.0, 'n_head': 6, 'n_layer': 7, 'sequence_length': 512, 'n_embd': 768, 'multiple_of': 256, 'rmsnorm_eps': 1e-05, 'dtype': 'bfloat16', 'bias': False, 'compile': True, 'mlp_dim_exp_factor': 1.0, 'w_quant': 'HadamardMSEQuantizer', 'w_quant_kwargs': {'bits': 4}, 'a_quant': 'HadamardMSEQuantizer', 'a_quant_kwargs': {'bits': 4}, 'world_size': 4}
+
+Loading dataset: 'c4'
+Distributed DataReader Initialized for Worker 3/4
+wandb: Tracking run with wandb version 0.23.1
+wandb: Run data is saved locally in /image-generation/kisufaj/optimization/cage/CAGE/wandb/run-20260127_131045-6zaw203v
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run GRADIENTCARRY-LLAMA-50M-CAGE=False-CAGE_L=0.5-CAGE_S_R=0.5-CAGE_SCH=linear_ramp-HadamardMSEQuantizer@4:HadamardMSEQuantizer@4-c4-9227_c4_llama_nlayers7_nhead6_lr0.0012_sched_cos_warmup1907_decay_linear_0.1_iter19073_bs64x2_ws4_seed0_data_seed1337
+wandb: ⭐️ View project at https://wandb.ai/keisufaj-hamad-bin-khalifa-university/CAGE-QCRI
+wandb: 🚀 View run at https://wandb.ai/keisufaj-hamad-bin-khalifa-university/CAGE-QCRI/runs/6zaw203v
+Starting Experiment: GRADIENTCARRY-LLAMA-50M-CAGE=False-CAGE_L=0.5-CAGE_S_R=0.5-CAGE_SCH=linear_ramp-HadamardMSEQuantizer@4:HadamardMSEQuantizer@4-c4-9227_c4_llama_nlayers7_nhead6_lr0.0012_sched_cos_warmup1907_decay_linear_0.1_iter19073_bs64x2_ws4_seed0_data_seed1337
+Experiment Directory: exps/GRADIENTCARRY-LLAMA-50M-CAGE=False-CAGE_L=0.5-CAGE_S_R=0.5-CAGE_SCH=linear_ramp-HadamardMSEQuantizer@4:HadamardMSEQuantizer@4-c4-9227_c4_llama_nlayers7_nhead6_lr0.0012_sched_cos_warmup1907_decay_linear_0.1_iter19073_bs64x2_ws4_seed0_data_seed1337
+Config:
+{'config_format': 'base', 'experiment_name': None, 'seed': 0, 'data_seed': 1337, 'eval_interval': 200, 'full_eval_at': [], 'eval_batches': 32, 'device': 'cuda:0', 'distributed_backend': 'nccl', 'log_interval': 50, 'results_base_folder': './exps', 'permanent_ckpt_interval': 0, 'latest_ckpt_interval': 1000, 'resume_from': None, 'resume_from_swa': None, 'auto_resume': True, 'wandb': True, 'wandb_project': 'CAGE-QCRI', 'wandb_run_prefix': 'GRADIENTCARRY-LLAMA-50M-CAGE=False-CAGE_L=0.5-CAGE_S_R=0.5-CAGE_SCH=linear_ramp-HadamardMSEQuantizer@4:HadamardMSEQuantizer@4-c4-9227', 'eval_seq_prefix': 'none', 'log_dynamics': False, 'dynamics_logger_cfg': './src/logger/rotational_logger.yaml', 'scheduler': 'cos', 'cos_inf_steps': 0, 'iterations': 19073, 'warmup_steps': 1907, 'lr': 0.0012, 'wsd_final_lr_scale': 0.0, 'wsd_fract_decay': 0.1, 'decay_type': 'linear', 'opt': 'qcriadamwgradaccumulator', 'batch_size': 64, 'acc_steps': 2, 'weight_decay': 0.1, 'beta1': 0.9, 'beta2': 0.95, 'grad_clip': 1.0, 'use_cage': False, 'cage_lambda': 0.5, 'cage_silence_ratio': 0.5, 'cage_schedule': 'linear_ramp', 'cage_track_stats': True, 'cage_verbose': False, 'weight_average': False, 'wa_interval': 5, 'wa_horizon': 500, 'wa_dtype': 'float32', 'wa_use_temp_dir': False, 'wa_sweep_horizon': False, 'max_num_wa_sweeps': 5, 'exponential_moving_average': False, 'ema_interval': 10, 'ema_decay': 0.95, 'ema_after_warmup': False, 'datasets_dir': '/image-generation/kisufaj/optimization/cage/CAGE/datasets', 'dataset': 'c4', 'tokenizer': 'gpt2', 'vocab_size': 50304, 'data_in_ram': False, 'model': 'llama', 'parallel_block': False, 'use_pretrained': 'none', 'from_dense': False, 'init_std': 0.02, 'dropout': 0.0, 'n_head': 6, 'n_layer': 7, 'sequence_length': 512, 'n_embd': 768, 'multiple_of': 256, 'rmsnorm_eps': 1e-05, 'dtype': 'bfloat16', 'bias': False, 'compile': True, 'mlp_dim_exp_factor': 1.0, 'w_quant': 'HadamardMSEQuantizer', 'w_quant_kwargs': {'bits': 4}, 'a_quant': 'HadamardMSEQuantizer', 'a_quant_kwargs': {'bits': 4}, 'world_size': 4}
+
+Loading dataset: 'c4'
+Distributed DataReader Initialized for Worker 0/4
+Num training tokens: 20000000000
+Num validation tokens: 50000000
+Num training tokens: 20000000000
+Num validation tokens: 50000000
+Num training tokens: 20000000000
+Num validation tokens: 50000000
+Num training tokens: 20000000000
+Num validation tokens: 50000000
+
+Model:
+Llama(
+  (transformer): ModuleDict(
+    (wte): Embedding(50304, 768)
+    (drop): Dropout(p=0.0, inplace=False)
+    (h): ModuleList(
+      (0-6): 7 x LlamaBlock(
+        (ln_1): RMSNorm()
+        (attn): LlamaAttention(
+          (c_attn): QuantizedLinear(
+            in_features=768, out_features=2304, bias=False
+            (weight_quantizer): HadamardMSEQuantizer()
+            (activation_quantizer): HadamardMSEQuantizer()
+          )
+          (c_proj): QuantizedLinear(
+            in_features=768, out_features=768, bias=False
+            (weight_quantizer): HadamardMSEQuantizer()
+            (activation_quantizer): HadamardMSEQuantizer()
+          )
+          (attn_dropout): Dropout(p=0.0, inplace=False)
+          (resid_dropout): Dropout(p=0.0, inplace=False)
+        )
+        (ln_2): RMSNorm()
+        (mlp): LlamaMLP(
+          (w1): QuantizedLinear(
+            in_features=768, out_features=2048, bias=False
+            (weight_quantizer): HadamardMSEQuantizer()
+            (activation_quantizer): HadamardMSEQuantizer()
+          )
+          (w2): QuantizedLinear(
+            in_features=768, out_features=2048, bias=False
+            (weight_quantizer): HadamardMSEQuantizer()
+            (activation_quantizer): HadamardMSEQuantizer()
+          )
+          (c_proj): QuantizedLinear(
+            in_features=2048, out_features=768, bias=False
+            (weight_quantizer): HadamardMSEQuantizer()
+            (activation_quantizer): HadamardMSEQuantizer()
+          )
+        )
+      )
+    )
+    (ln_f): RMSNorm()
+  )
+  (lm_head): Linear(in_features=768, out_features=50304, bias=False)
+)
+
+Model:
+Llama(
+  (transformer): ModuleDict(
+    (wte): Embedding(50304, 768)
+    (drop): Dropout(p=0.0, inplace=False)
+    (h): ModuleList(
+      (0-6): 7 x LlamaBlock(
+        (ln_1): RMSNorm()
+        (attn): LlamaAttention(
+          (c_attn): QuantizedLinear(
+            in_features=768, out_features=2304, bias=False
+            (weight_quantizer): HadamardMSEQuantizer()
+            (activation_quantizer): HadamardMSEQuantizer()
+          )
+          (c_proj): QuantizedLinear(
+            in_features=768, out_features=768, bias=False
+            (weight_quantizer): HadamardMSEQuantizer()
+            (activation_quantizer): HadamardMSEQuantizer()
+          )
+          (attn_dropout): Dropout(p=0.0, inplace=False)
+          (resid_dropout): Dropout(p=0.0, inplace=False)
+        )
+        (ln_2): RMSNorm()
+        (mlp): LlamaMLP(
+          (w1): QuantizedLinear(
+            in_features=768, out_features=2048, bias=False
+            (weight_quantizer): HadamardMSEQuantizer()
+            (activation_quantizer): HadamardMSEQuantizer()
+          )
+          (w2): QuantizedLinear(
+            in_features=768, out_features=2048, bias=False
+            (weight_quantizer): HadamardMSEQuantizer()
+            (activation_quantizer): HadamardMSEQuantizer()
+          )
+          (c_proj): QuantizedLinear(
+            in_features=2048, out_features=768, bias=False
+            (weight_quantizer): HadamardMSEQuantizer()
+            (activation_quantizer): HadamardMSEQuantizer()
+          )
+        )
+      )
+    )
+    (ln_f): RMSNorm()
+  )
+  (lm_head): Linear(in_features=768, out_features=50304, bias=False)
+)
+
+Model:
+Llama(
+  (transformer): ModuleDict(
+    (wte): Embedding(50304, 768)
+    (drop): Dropout(p=0.0, inplace=False)
+    (h): ModuleList(
+      (0-6): 7 x LlamaBlock(
+        (ln_1): RMSNorm()
+        (attn): LlamaAttention(
+          (c_attn): QuantizedLinear(
+            in_features=768, out_features=2304, bias=False
+            (weight_quantizer): HadamardMSEQuantizer()
+            (activation_quantizer): HadamardMSEQuantizer()
+          )
+          (c_proj): QuantizedLinear(
+            in_features=768, out_features=768, bias=False
+            (weight_quantizer): HadamardMSEQuantizer()
+            (activation_quantizer): HadamardMSEQuantizer()
+          )
+          (attn_dropout): Dropout(p=0.0, inplace=False)
+          (resid_dropout): Dropout(p=0.0, inplace=False)
+        )
+        (ln_2): RMSNorm()
+        (mlp): LlamaMLP(
+          (w1): QuantizedLinear(
+            in_features=768, out_features=2048, bias=False
+            (weight_quantizer): HadamardMSEQuantizer()
+            (activation_quantizer): HadamardMSEQuantizer()
+          )
+          (w2): QuantizedLinear(
+            in_features=768, out_features=2048, bias=False
+            (weight_quantizer): HadamardMSEQuantizer()
+            (activation_quantizer): HadamardMSEQuantizer()
+          )
+          (c_proj): QuantizedLinear(
+            in_features=2048, out_features=768, bias=False
+            (weight_quantizer): HadamardMSEQuantizer()
+            (activation_quantizer): HadamardMSEQuantizer()
+          )
+        )
+      )
+    )
+    (ln_f): RMSNorm()
+  )
+  (lm_head): Linear(in_features=768, out_features=50304, bias=False)
+)
+
+Model:
+Llama(
+  (transformer): ModuleDict(
+    (wte): Embedding(50304, 768)
+    (drop): Dropout(p=0.0, inplace=False)
+    (h): ModuleList(
+      (0-6): 7 x LlamaBlock(
+        (ln_1): RMSNorm()
+        (attn): LlamaAttention(
+          (c_attn): QuantizedLinear(
+            in_features=768, out_features=2304, bias=False
+            (weight_quantizer): HadamardMSEQuantizer()
+            (activation_quantizer): HadamardMSEQuantizer()
+          )
+          (c_proj): QuantizedLinear(
+            in_features=768, out_features=768, bias=False
+            (weight_quantizer): HadamardMSEQuantizer()
+            (activation_quantizer): HadamardMSEQuantizer()
+          )
+          (attn_dropout): Dropout(p=0.0, inplace=False)
+          (resid_dropout): Dropout(p=0.0, inplace=False)
+        )
+        (ln_2): RMSNorm()
+        (mlp): LlamaMLP(
+          (w1): QuantizedLinear(
+            in_features=768, out_features=2048, bias=False
+            (weight_quantizer): HadamardMSEQuantizer()
+            (activation_quantizer): HadamardMSEQuantizer()
+          )
+          (w2): QuantizedLinear(
+            in_features=768, out_features=2048, bias=False
+            (weight_quantizer): HadamardMSEQuantizer()
+            (activation_quantizer): HadamardMSEQuantizer()
+          )
+          (c_proj): QuantizedLinear(
+            in_features=2048, out_features=768, bias=False
+            (weight_quantizer): HadamardMSEQuantizer()
+            (activation_quantizer): HadamardMSEQuantizer()
+          )
+        )
+      )
+    )
+    (ln_f): RMSNorm()
+  )
+  (lm_head): Linear(in_features=768, out_features=50304, bias=False)
+)
+number of parameters: 126.82Mnumber of parameters: 126.82M
+number of optimized parameters: 126.82M
+number of non-embedding parameters: 49.56M
+
+number of optimized parameters: 126.82M
+number of non-embedding parameters: 49.56M
+
+Optimizer:
+QCRIAdamWGradAccumulator (
+Parameter Group 0
+    betas: (0.9, 0.95)
+    eps: 1e-08
+    lr: 0.0012
+    weight_decay: 0.1
+
+Parameter Group 1
+    betas: (0.9, 0.95)
+    eps: 1e-08
+    lr: 0.0012
+    weight_decay: 0.0
+)
+
+Optimizer:
+QCRIAdamWGradAccumulator (
+Parameter Group 0
+    betas: (0.9, 0.95)
+    eps: 1e-08
+    lr: 0.0012
+    weight_decay: 0.1
+
+Parameter Group 1
+    betas: (0.9, 0.95)
+    eps: 1e-08
+    lr: 0.0012
+    weight_decay: 0.0
+)
+Compiling model ...
+Compiling model ...
+number of parameters: 126.82M
+number of optimized parameters: 126.82M
+number of non-embedding parameters: 49.56M
+
+Optimizer:
+QCRIAdamWGradAccumulator (
+Parameter Group 0
+    betas: (0.9, 0.95)
+    eps: 1e-08
+    lr: 0.0012
+    weight_decay: 0.1
+
+Parameter Group 1
+    betas: (0.9, 0.95)
+    eps: 1e-08
+    lr: 0.0012
+    weight_decay: 0.0
+)
+Compiling model ...
+number of parameters: 126.82M
+number of optimized parameters: 126.82M
+number of non-embedding parameters: 49.56M
+
+Optimizer:
+QCRIAdamWGradAccumulator (
+Parameter Group 0
+    betas: (0.9, 0.95)
+    eps: 1e-08
+    lr: 0.0012
+    weight_decay: 0.1
+
+Parameter Group 1
+    betas: (0.9, 0.95)
+    eps: 1e-08
+    lr: 0.0012
+    weight_decay: 0.0
+)
+Compiling model ...
+[rank1]:W0127 13:10:52.058000 323275 site-packages/torch/_logging/_internal.py:1199] [0/0] Profiler function <class 'torch.autograd.profiler.record_function'> will be ignored
+Training Progress:   0%|          | 0/19073 [00:00<?, ?it/s][rank2]:W0127 13:10:52.067000 323276 site-packages/torch/_logging/_internal.py:1199] [0/0] Profiler function <class 'torch.autograd.profiler.record_function'> will be ignored
+[rank3]:W0127 13:10:52.076000 323277 site-packages/torch/_logging/_internal.py:1199] [0/0] Profiler function <class 'torch.autograd.profiler.record_function'> will be ignored
+
+  0%|          | 0/32 [00:00<?, ?it/s][A[rank0]:W0127 13:10:54.913000 323274 site-packages/torch/_logging/_internal.py:1199] [0/0] Profiler function <class 'torch.autograd.profiler.record_function'> will be ignored
+
+  3%|▎         | 1/32 [00:15<07:53, 15.29s/it][A
+ 19%|█▉        | 6/32 [00:15<00:49,  1.90s/it][A
+ 34%|███▍      | 11/32 [00:15<00:17,  1.17it/s][A
+ 50%|█████     | 16/32 [00:15<00:07,  2.06it/s][A
+ 66%|██████▌   | 21/32 [00:15<00:03,  3.26it/s][A
+ 81%|████████▏ | 26/32 [00:15<00:01,  4.86it/s][A
+ 97%|█████████▋| 31/32 [00:15<00:00,  6.93it/s][A100%|██████████| 32/32 [00:15<00:00,  2.00it/s]
+>Eval: Iter=0 (0.000 epochs) val_loss=10.974 val_pp=58317.743 val_acc=0.000010
+Training Progress:   0%|          | 1/19073 [00:40<214:51:49, 40.56s/it]Training Progress:   0%|          | 2/19073 [00:40<88:57:12, 16.79s/it] Training Progress:   0%|          | 3/19073 [00:40<48:42:19,  9.19s/it]Training Progress:   0%|          | 4/19073 [00:41<29:47:45,  5.63s/it]Training Progress:   0%|          | 5/19073 [00:41<19:20:39,  3.65s/it]Training Progress:   0%|          | 6/19073 [00:41<13:02:36,  2.46s/it]Training Progress:   0%|          | 7/19073 [00:41<9:02:40,  1.71s/it] Training Progress:   0%|          | 8/19073 [00:41<6:25:24,  1.21s/it]Training Progress:   0%|          | 9/19073 [00:41<4:40:10,  1.13it/s]Training Progress:   0%|          | 10/19073 [00:41<3:28:42,  1.52it/s]Training Progress:   0%|          | 11/19073 [00:42<2:39:45,  1.99it/s]Training Progress:   0%|          | 12/19073 [00:42<2:05:57,  2.52it/s]Training Progress:   0%|          | 13/19073 [00:42<1:42:36,  3.10it/s]Training Progress:   0%|          | 14/19073 [00:42<1:26:15,  3.68it/s]Training Progress:   0%|          | 15/19073 [00:42<1:14:59,  4.24it/s]Training Progress:   0%|          | 16/19073 [00:42<1:07:08,  4.73it/s]Training Progress:   0%|          | 17/19073 [00:43<1:01:39,  5.15it/s]Training Progress:   0%|          | 18/19073 [00:43<57:56,  5.48it/s]  Training Progress:   0%|          | 19/19073 [00:43<54:41,  5.81it/s]Training Progress:   0%|          | 20/19073 [00:43<52:56,  6.00it/s]Training Progress:   0%|          | 21/19073 [00:43<51:41,  6.14it/s]Training Progress:   0%|          | 22/19073 [00:43<51:10,  6.21it/s]Training Progress:   0%|          | 23/19073 [00:43<50:28,  6.29it/s]Training Progress:   0%|          | 24/19073 [00:44<49:59,  6.35it/s]Training Progress:   0%|          | 25/19073 [00:44<49:36,  6.40it/s]Training Progress:   0%|          | 26/19073 [00:44<49:20,  6.43it/s]Training Progress:   0%|          | 27/19073 [00:44<49:07,  6.46it/s]Training Progress:   0%|          | 28/19073 [00:44<49:04,  6.47it/s]Training Progress:   0%|          | 29/19073 [00:44<48:58,  6.48it/s]Training Progress:   0%|          | 30/19073 [00:45<48:52,  6.49it/s]Training Progress:   0%|          | 31/19073 [00:45<48:49,  6.50it/s]Training Progress:   0%|          | 32/19073 [00:45<48:47,  6.50it/s]Training Progress:   0%|          | 33/19073 [00:45<48:45,  6.51it/s]Training Progress:   0%|          | 34/19073 [00:45<48:42,  6.51it/s]Training Progress:   0%|          | 35/19073 [00:45<48:48,  6.50it/s]Training Progress:   0%|          | 36/19073 [00:45<48:44,  6.51it/s]Training Progress:   0%|          | 37/19073 [00:46<48:41,  6.52it/s]Training Progress:   0%|          | 38/19073 [00:46<48:42,  6.51it/s]Training Progress:   0%|          | 39/19073 [00:46<48:42,  6.51it/s]Training Progress:   0%|          | 40/19073 [00:46<48:39,  6.52it/s]Training Progress:   0%|          | 41/19073 [00:46<48:40,  6.52it/s]Training Progress:   0%|          | 42/19073 [00:46<48:41,  6.51it/s]Training Progress:   0%|          | 43/19073 [00:47<48:41,  6.51it/s]Training Progress:   0%|          | 44/19073 [00:47<48:44,  6.51it/s]Training Progress:   0%|          | 45/19073 [00:47<48:42,  6.51it/s]Training Progress:   0%|          | 46/19073 [00:47<48:41,  6.51it/s]Training Progress:   0%|          | 47/19073 [00:47<48:45,  6.50it/s]Training Progress:   0%|          | 48/19073 [00:47<48:40,  6.51it/s]Training Progress:   0%|          | 49/19073 [00:47<48:35,  6.53it/s]Training Progress:   0%|          | 50/19073 [00:48<48:51,  6.49it/s]Train: Iter=50 (0.001 epochs) train_loss=10.595 iter_dt=1.56e-01s lr=1.40e-05
+Traceback (most recent call last):
+  File "/image-generation/kisufaj/optimization/cage/CAGE/./src/main.py", line 311, in <module>
+    main(args)
+  File "/image-generation/kisufaj/optimization/cage/CAGE/./src/main.py", line 203, in main
+    stats = train(
+            ^^^^^^
+  File "/image-generation/kisufaj/optimization/cage/CAGE/src/optim/base.py", line 268, in train
+    log_dict["train/carry_norm/mean"] = sum(carry_norms) / len(carry_norms)
+                                        ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
+ZeroDivisionError: division by zero
+[rank0]: Traceback (most recent call last):
+[rank0]:   File "/image-generation/kisufaj/optimization/cage/CAGE/./src/main.py", line 311, in <module>
+[rank0]:     main(args)
+[rank0]:   File "/image-generation/kisufaj/optimization/cage/CAGE/./src/main.py", line 203, in main
+[rank0]:     stats = train(
+[rank0]:             ^^^^^^
+[rank0]:   File "/image-generation/kisufaj/optimization/cage/CAGE/src/optim/base.py", line 268, in train
+[rank0]:     log_dict["train/carry_norm/mean"] = sum(carry_norms) / len(carry_norms)
+[rank0]:                                         ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
+[rank0]: ZeroDivisionError: division by zero
+[1;34mwandb[0m: 
+[1;34mwandb[0m: 🚀 View run [33mGRADIENTCARRY-LLAMA-50M-CAGE=False-CAGE_L=0.5-CAGE_S_R=0.5-CAGE_SCH=linear_ramp-HadamardMSEQuantizer@4:HadamardMSEQuantizer@4-c4-9227_c4_llama_nlayers7_nhead6_lr0.0012_sched_cos_warmup1907_decay_linear_0.1_iter19073_bs64x2_ws4_seed0_data_seed1337[0m at: [34mhttps://wandb.ai/keisufaj-hamad-bin-khalifa-university/CAGE-QCRI/runs/6zaw203v[0m
+[1;34mwandb[0m: Find logs at: [1;35mwandb/run-20260127_131045-6zaw203v/logs[0m
+W0127 13:11:43.405000 323242 site-packages/torch/distributed/elastic/multiprocessing/api.py:908] Sending process 323275 closing signal SIGTERM
+W0127 13:11:43.406000 323242 site-packages/torch/distributed/elastic/multiprocessing/api.py:908] Sending process 323276 closing signal SIGTERM
+W0127 13:11:43.408000 323242 site-packages/torch/distributed/elastic/multiprocessing/api.py:908] Sending process 323277 closing signal SIGTERM
+E0127 13:11:44.400000 323242 site-packages/torch/distributed/elastic/multiprocessing/api.py:882] failed (exitcode: 1) local_rank: 0 (pid: 323274) of binary: /home/local/QCRI/kisufaj/miniconda3/envs/qwen/bin/python3.12
+Traceback (most recent call last):
+  File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/bin/torchrun", line 7, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 357, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/distributed/run.py", line 936, in main
+    run(args)
+  File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/distributed/run.py", line 927, in run
+    elastic_launch(
+  File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/distributed/launcher/api.py", line 156, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/local/QCRI/kisufaj/miniconda3/envs/qwen/lib/python3.12/site-packages/torch/distributed/launcher/api.py", line 293, in launch_agent
+    raise ChildFailedError(
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
+============================================================
+./src/main.py FAILED
+------------------------------------------------------------
+Failures:
+  <NO_OTHER_FAILURES>
+------------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2026-01-27_13:11:43
+  host      : a3mega2-a3meganodeset-1.europe-west4-b.c.prj-gss-prod-arabicllm-svc-01.internal
+  rank      : 0 (local_rank: 0)
+  exitcode  : 1 (pid: 323274)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+============================================================
