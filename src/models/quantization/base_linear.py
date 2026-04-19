@@ -530,7 +530,151 @@ class Q99IntQuantizer(BaseQuantizer):
 
         return xi / self.scale
 
+class Q99FP4Quantizer(BaseQuantizer):
+    """
+    Percentile-calibrated FP4 quantizer using a nearest-codebook projection.
 
+    Main difference from int quantization:
+    - int4: uniform integer grid after scaling
+    - fp4: non-uniform floating-point-like codebook after scaling
+
+    Default codebook below is a practical signed FP4-style grid.
+    You can swap it for any other FP4 format you want.
+    """
+
+    def __init__(
+        self,
+        bits: int = 4,
+        centered: bool = True,
+        percentile: float = 99.0,
+        init_scale: Optional[float] = None,
+        calibrate_once: bool = False,
+        codebook: Optional[torch.Tensor] = None,
+    ):
+        super().__init__(bits=bits, centered=centered)
+
+        if bits != 4:
+            raise ValueError("Q99FP4Quantizer currently expects bits=4.")
+
+        self.percentile = percentile
+        self.calibrate_once = calibrate_once
+
+        if codebook is None:
+            codebook = torch.tensor([
+                -6.0, -4.0, -3.0, -2.0, -1.5, -1.0, -0.75,
+                0.0,
+                0.5,  0.75,  1.0,  1.5,  2.0,  3.0,  4.0,  6.0,
+            ], dtype=torch.float32)
+
+        if codebook.numel() != 2 ** bits:
+            raise ValueError(f"FP4 codebook must have exactly {2 ** bits} entries.")
+
+        codebook = torch.sort(codebook.flatten().to(torch.float32)).values
+        self.register_buffer("codebook", codebook)
+
+        scale_value = 1.0 if init_scale is None else float(init_scale)
+        self.register_buffer("scale", torch.tensor(scale_value, dtype=torch.float32))
+        self.register_buffer("did_calibrate", torch.tensor(False, dtype=torch.bool))
+
+    def calibrate_scale(self, x: torch.Tensor):
+        computed_scale = self._compute_scale_from_data(x)
+        self.register_buffer("scale", torch.tensor(computed_scale, dtype=torch.float32))
+        return computed_scale
+
+    @dynamo.disable
+    @torch.no_grad()
+    def calibrate_scale_(self, x: torch.Tensor):
+        s = self._compute_scale_from_data(x)
+        self.scale.copy_(s)
+        self.did_calibrate.fill_(True)
+
+    def _compute_scale_from_data(self, x: torch.Tensor) -> torch.Tensor:
+        abs_x = x.abs().flatten()
+        abs_x = abs_x[torch.isfinite(abs_x)]
+
+        if abs_x.numel() == 0:
+            return self.scale
+
+        k = max(1, int(self.percentile / 100.0 * abs_x.numel()))
+        k = min(k, abs_x.numel())
+
+        p_val = abs_x.sort().values[k - 1]
+        p_val = torch.clamp(p_val, min=1e-6)
+
+        # Match the percentile value to the largest magnitude representable value
+        max_code = self.codebook.abs().max().clamp_min(1e-6)
+        scale = (max_code / p_val).to(torch.float32)
+        return scale
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        if self.calibrate_once and not bool(self.did_calibrate):
+            self.calibrate_scale_(x.detach())
+
+        xq = self.hard_quantize(x)
+        return x + (xq - x).detach()
+
+    @torch.no_grad()
+    def _nearest_codebook(self, xs: torch.Tensor) -> torch.Tensor:
+        """
+        Quantize scaled tensor xs to nearest FP4 codebook value.
+        """
+        shape = xs.shape
+        flat = xs.reshape(-1).to(torch.float32)
+
+        # Compute distances to all codebook points
+        # [N, 1] - [1, K] -> [N, K]
+        dist = (flat[:, None] - self.codebook[None, :]).abs()
+        idx = dist.argmin(dim=1)
+
+        q = self.codebook[idx]
+        return q.view(shape).to(xs.dtype)
+
+    @torch.no_grad()
+    def hard_quantize(self, x: torch.Tensor) -> torch.Tensor:
+        xs = x * self.scale
+        xq_scaled = self._nearest_codebook(xs)
+        return xq_scaled / self.scale
+
+    @torch.no_grad()
+    def ternary_quantize(self, x: torch.Tensor) -> torch.Tensor:
+        """
+        Collapse to {-a, 0, +a} where a corresponds to the smallest nonzero
+        magnitude available in the current FP4 codebook after rescaling.
+        """
+        xs = x * self.scale
+
+        nonzero_codes = self.codebook[self.codebook != 0]
+        if nonzero_codes.numel() == 0:
+            return torch.zeros_like(x)
+
+        a = nonzero_codes.abs().min()
+        pos = a
+        neg = -a
+
+        out = torch.zeros_like(xs)
+        out[xs > 0] = pos
+        out[xs < 0] = neg
+        return out / self.scale
+
+    @torch.no_grad()
+    def ternary_quantize_conditional(self, x: torch.Tensor) -> torch.Tensor:
+        """
+        First quantize to FP4, then keep only {-a, 0, +a}, zeroing everything else.
+        """
+        xs = x * self.scale
+        xq_scaled = self._nearest_codebook(xs)
+
+        nonzero_codes = self.codebook[self.codebook != 0]
+        if nonzero_codes.numel() == 0:
+            return torch.zeros_like(x)
+
+        a = nonzero_codes.abs().min()
+
+        out = torch.zeros_like(xq_scaled)
+        out[xq_scaled == a] = a
+        out[xq_scaled == -a] = -a
+        return out / self.scale
+    
 class SymmetricIntQuantizer(BaseQuantizer):
     def __init__(
             self,
@@ -631,6 +775,7 @@ QUANTIZER_CLASSES = {
     "HalfHadamardGaussianTrustQuantizer": HalfHadamardGaussianTrustQuantizer,
     "HadamardGaussianTrustQuantizer": HadamardGaussianTrustQuantizer,
     "Q99IntQuantizer": Q99IntQuantizer,
+    "Q99FP4Quantizer": Q99FP4Quantizer,
     "SymmetricIntQuantizer": SymmetricIntQuantizer,
 }
 

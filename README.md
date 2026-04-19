@@ -130,5 +130,3 @@ If you use curvature-aware corrections, please cite their work:
 * Default configurations are tuned for **stability over raw speed**
 * Extreme low-bit settings (e.g., 2-bit) may require hyperparameter tuning
 * Multi-GPU training is recommended for larger models (≥800M)
-
-```

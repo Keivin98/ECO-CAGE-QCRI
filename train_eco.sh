@@ -23,56 +23,56 @@ set_model_config() {
             export N_LAYER=6
             export N_EMBD=640
             export N_HEAD=5
-            export LR=0.0012
+            export LR=${LR:-0.0012}
             export TOKENS=${TOKENS:-3000000000} # 3B
             ;;
         "50M")
             export N_LAYER=7
             export N_EMBD=768
             export N_HEAD=6
-            export LR=0.0012
+            export LR=${LR:-0.0012}
             export TOKENS=${TOKENS:-5000000000} # 5B
             ;;
         "100M")
             export N_LAYER=8
             export N_EMBD=1024
             export N_HEAD=8
-            export LR=0.0006
+            export LR=${LR:-0.0006}
             export TOKENS=${TOKENS:-10000000000} # 10B
             ;;
         "200M")
             export N_LAYER=10
             export N_EMBD=1280
             export N_HEAD=10
-            export LR=0.0003
+            export LR=${LR:-0.0003}
             export TOKENS=${TOKENS:-20000000000} # 20B
             ;;
         "430M")
             export N_LAYER=13
             export N_EMBD=1664
             export N_HEAD=13
-            export LR=0.00015
+            export LR=${LR:-0.00015}
             export TOKENS=${TOKENS:-43000000000} # 43B
             ;;
         "800M")
             export N_LAYER=16
             export N_EMBD=2048
             export N_HEAD=16
-            export LR=0.000075
+            export LR=${LR:-0.000075}
             export TOKENS=${TOKENS:-80000000000} # 80B
             ;;
         "1700M")
             export N_LAYER=20
             export N_EMBD=2688
             export N_HEAD=21
-            export LR=0.0000375
+            export LR=${LR:-0.0000375}
             export TOKENS=${TOKENS:-10750000000} # 10.75B
             ;;
         "3200M")
             export N_LAYER=28
             export N_EMBD=3072
             export N_HEAD=24
-            export LR=0.000075
+            export LR=${LR:-0.000075}
             export TOKENS=${TOKENS:-20000000000} # 20B
             ;;
         *)
@@ -90,7 +90,8 @@ export A_BITS=4
 
 export WANDB_ENTITY="keisufaj-hamad-bin-khalifa-university"
 # export WANDB_PROJECT="RUSH-GraDe-pretraining"
-export WANDB_PROJECT="CAGE-QCRI-Momentum"
+# export WANDB_PROJECT="CAGE-QCRI-Momentum"
+export WANDB_PROJECT="ECO0"
 
 if [ -z "${NUM_GPUS}" ]; then
     if [ -n "${CUDA_VISIBLE_DEVICES}" ]; then
@@ -161,7 +162,7 @@ WARMUP_STEPS=$((ITERATIONS / 10))
 
 # WANDB_PREFIX="NAIVE-QUANTIZER-LLAMA-${MODEL_SIZE_PREFIX}-CAGE=${USE_CAGE}-CAGE_L=${CAGE_LAMBDA}-CAGE_S_R=${CAGE_SILENCE_RATIO}-CAGE_SCH=${CAGE_SCHEDULE}-${W_QUANT}@${W_BITS}:${A_QUANT}@${A_BITS}-${DATASET}-${RUN_ID}"
 # WANDB_PREFIX="NAIVE QUANTIZATION (8 bits): WEIGHTS + ACTIVATIONS"
-WANDB_PREFIX="FINAL-ECO-TAU=${W_QUANT_KWARGS}-LR=${LR}-BETA1=${BETA1}-BETA2=${BETA2}-${RUN_ID}"
+WANDB_PREFIX="FP-ECO-LR=${LR}-BETA1=${BETA1}-BETA2=${BETA2}-${RUN_ID}"
 
 torchrun --master_addr="${MASTER_ADDR:-127.0.0.1}" \
     --master_port="${MASTER_PORT:-29501}" \
