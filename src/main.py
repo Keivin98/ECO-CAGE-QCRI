@@ -232,20 +232,8 @@ def main(args):
 
     if args.scheduler != "none":
         assert args.warmup_steps < args.iterations, "Warmup steps must be < iterations."
-        if args.scheduler in ["cos", "linear"] and args.opt.lower() != "eco0m-rooh":
-            # initial lr is args.lr / div_factor
-            # final lr is initial_lr/final_div_factor = args.lr / div_factor / final_div_factor
-            scheduler = torch.optim.lr_scheduler.OneCycleLR(
-                optimizer=opt,
-                max_lr=[group.get("lr", args.lr) for group in group_specs],
-                total_steps=args.iterations,
-                pct_start=args.warmup_steps / args.iterations,
-                anneal_strategy=args.scheduler,
-                cycle_momentum=False,
-                div_factor=1e2,
-                final_div_factor=0.1,
-            )
-        elif args.scheduler in ["cos", "linear"]: 
+        if args.scheduler in ["cos", "linear"]:
+            # Always use opt.param_groups to handle all optimizers including Adam0Rooh variants
             scheduler = torch.optim.lr_scheduler.OneCycleLR(
                 optimizer=opt,
                 max_lr=[group.get("lr", args.lr) for group in opt.param_groups],

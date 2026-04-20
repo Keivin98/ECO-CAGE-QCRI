@@ -7,7 +7,17 @@ from scipy import integrate
 from scipy.stats import norm
 import torch._dynamo as dynamo
 
-from fast_hadamard_transform import hadamard_transform
+try:
+    from fast_hadamard_transform import hadamard_transform
+    HAS_HADAMARD = True
+except ImportError:
+    HAS_HADAMARD = False
+    # Create dummy hadamard_transform that returns the input unchanged
+    # This allows Hadamard classes to be defined without error (they won't work if used)
+    def hadamard_transform(x, scale=1.0):
+        # Return input unchanged (fake Hadamard transform)
+        # This is only called during class definition for aux_matrix
+        return x * scale
 
 
 class BaseQuantizer(nn.Module):
@@ -113,8 +123,14 @@ def block_rmatmul(x, matrix):
     return x_had.reshape(*x_shape)
 
 
-class HadamardMSEQuantizer(MSEQuantizer):
-    aux_matrix = hadamard_transform(torch.eye(128, dtype=torch.bfloat16, device="cuda"), scale=2 ** (-7 / 2))
+if HAS_HADAMARD:
+    class HadamardMSEQuantizer(MSEQuantizer):
+        aux_matrix = hadamard_transform(torch.eye(128, dtype=torch.bfloat16, device="cuda"), scale=2 ** (-7 / 2))
+else:
+    # Placeholder when hadamard is not available
+    class HadamardMSEQuantizer(MSEQuantizer):
+        def __init__(self, *args, **kwargs):
+            raise ImportError("HadamardMSEQuantizer requires fast_hadamard_transform. Install it with: pip install fast-hadamard-transform")
 
     def __init__(self, bits=4, centered=True, clip_scale: float = 1.0):
         super().__init__(bits, centered, clip_scale)
@@ -152,8 +168,10 @@ class HadamardMSEQuantizer(MSEQuantizer):
         return block_rmatmul(uq_h, self.aux_matrix.T)
 
 
-class HalfHadamardTrustQuantizer(BaseQuantizer):
-    aux_matrix = hadamard_transform(torch.eye(128, dtype=torch.bfloat16, device="cuda"), scale=2 ** (-7 / 2))
+# Hadamard-based quantizers (require fast_hadamard_transform)
+if HAS_HADAMARD:
+    class HalfHadamardTrustQuantizer(BaseQuantizer):
+        aux_matrix = hadamard_transform(torch.eye(128, dtype=torch.bfloat16, device="cuda"), scale=2 ** (-7 / 2))
 
     def __init__(self, bits=4, trust=None):
         super().__init__(bits, True)
@@ -531,16 +549,6 @@ class Q99IntQuantizer(BaseQuantizer):
         return xi / self.scale
 
 class Q99FP4Quantizer(BaseQuantizer):
-    """
-    Percentile-calibrated FP4 quantizer using a nearest-codebook projection.
-
-    Main difference from int quantization:
-    - int4: uniform integer grid after scaling
-    - fp4: non-uniform floating-point-like codebook after scaling
-
-    Default codebook below is a practical signed FP4-style grid.
-    You can swap it for any other FP4 format you want.
-    """
 
     def __init__(
         self,
@@ -549,6 +557,7 @@ class Q99FP4Quantizer(BaseQuantizer):
         percentile: float = 99.0,
         init_scale: Optional[float] = None,
         calibrate_once: bool = False,
+        recalibrate_interval: int = 0,  # NEW: 0 = never recalibrate, N = recalibrate every N calls
         codebook: Optional[torch.Tensor] = None,
     ):
         super().__init__(bits=bits, centered=centered)
@@ -558,6 +567,7 @@ class Q99FP4Quantizer(BaseQuantizer):
 
         self.percentile = percentile
         self.calibrate_once = calibrate_once
+        self.recalibrate_interval = recalibrate_interval  # NEW
 
         if codebook is None:
             codebook = torch.tensor([
@@ -575,6 +585,7 @@ class Q99FP4Quantizer(BaseQuantizer):
         scale_value = 1.0 if init_scale is None else float(init_scale)
         self.register_buffer("scale", torch.tensor(scale_value, dtype=torch.float32))
         self.register_buffer("did_calibrate", torch.tensor(False, dtype=torch.bool))
+        self.register_buffer("quantize_call_count", torch.tensor(0, dtype=torch.long))  # NEW: track calls
 
     def calibrate_scale(self, x: torch.Tensor):
         computed_scale = self._compute_scale_from_data(x)
@@ -631,6 +642,12 @@ class Q99FP4Quantizer(BaseQuantizer):
 
     @torch.no_grad()
     def hard_quantize(self, x: torch.Tensor) -> torch.Tensor:
+        # NEW: Periodic recalibration logic
+        if self.recalibrate_interval > 0:
+            self.quantize_call_count += 1
+            if self.quantize_call_count % self.recalibrate_interval == 0:
+                self.calibrate_scale_(x)
+
         xs = x * self.scale
         xq_scaled = self._nearest_codebook(xs)
         return xq_scaled / self.scale
@@ -764,20 +781,25 @@ QUANTIZER_CLASSES = {
     "NoQuantizer": NoQuantizer,
     "AbsMaxQuantizer": AbsMaxQuantizer,
     "MSEQuantizer": MSEQuantizer,
-    "HadamardMSEQuantizer": HadamardMSEQuantizer,
     "TrustQuantizer": TrustQuantizer,
-    "HalfHadamardTrustQuantizer": HalfHadamardTrustQuantizer,
-    "HadamardTrustQuantizer": HadamardTrustQuantizer,
     "GaussianSTEQuantizer": GaussianSTEQuantizer,
     "GaussianClipQuantizer": GaussianClipQuantizer,
     "GaussianTrustQuantizer": GaussianTrustQuantizer,
-    "HadamardGaussianClipQuantizer": HadamardGaussianClipQuantizer,
-    "HalfHadamardGaussianTrustQuantizer": HalfHadamardGaussianTrustQuantizer,
-    "HadamardGaussianTrustQuantizer": HadamardGaussianTrustQuantizer,
     "Q99IntQuantizer": Q99IntQuantizer,
     "Q99FP4Quantizer": Q99FP4Quantizer,
     "SymmetricIntQuantizer": SymmetricIntQuantizer,
 }
+
+# Add Hadamard quantizers only if fast_hadamard_transform is available
+if HAS_HADAMARD:
+    QUANTIZER_CLASSES.update({
+        "HadamardMSEQuantizer": HadamardMSEQuantizer,
+        "HalfHadamardTrustQuantizer": HalfHadamardTrustQuantizer,
+        "HadamardTrustQuantizer": HadamardTrustQuantizer,
+        "HadamardGaussianClipQuantizer": HadamardGaussianClipQuantizer,
+        "HalfHadamardGaussianTrustQuantizer": HalfHadamardGaussianTrustQuantizer,
+        "HadamardGaussianTrustQuantizer": HadamardGaussianTrustQuantizer,
+    })
 
 
 class QuantizedLinear(nn.Linear):

@@ -6,7 +6,12 @@ import numpy as np
 from scipy import integrate
 from scipy.stats import norm
 
-from fast_hadamard_transform import hadamard_transform
+try:
+    from fast_hadamard_transform import hadamard_transform
+    HAS_HADAMARD = True
+except ImportError:
+    HAS_HADAMARD = False
+    hadamard_transform = None  # Will error if actually used
 
 
 class BaseQuantizer(nn.Module):
