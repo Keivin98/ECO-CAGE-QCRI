@@ -4,10 +4,11 @@
 #SBATCH -e outs/percentile_30M_%A_%a.err
 #SBATCH -p gpu-H200
 #SBATCH --gres gpu:H200_141GB:2
-#SBATCH --mem=10000
+#SBATCH --cpus-per-task=16
+#SBATCH --mem=32000
 #SBATCH -A H200
 #SBATCH -q h200_qos
-#SBATCH --array=1-6
+#SBATCH --array=5-6
 
 # Validate P90 percentile finding on 30M model
 # Testing both ECO and ECO-0 optimizers with P90, P95, P99
@@ -23,7 +24,13 @@ export TORCHINDUCTOR_DISABLE_TRITON=1
 
 export WANDB_ENTITY="keisufaj-hamad-bin-khalifa-university"
 export WANDB_PROJECT="FP4-PERCENTILE-30M"
-export DATASETS_DIR="/export/home/keisufaj/optimization/ECO-CAGE-QCRI/datasets"
+
+# Copy datasets to fast scratch space (H200 NVMe)
+echo "Copying datasets to /scratch..."
+mkdir -p /scratch/keisufaj_datasets
+rsync -a --info=progress2 /export/home/keisufaj/optimization/ECO-CAGE-QCRI/datasets/ /scratch/keisufaj_datasets/
+export DATASETS_DIR="/scratch/keisufaj_datasets"
+echo "Dataset copy complete!"
 
 # 30M model config (from train.sh)
 export N_LAYER=6
@@ -104,3 +111,8 @@ torchrun --master_addr="${MASTER_ADDR}" \
     --beta2 ${BETA2}
 
 echo "Job ${SLURM_ARRAY_TASK_ID} (${OPT} with P${PERCENTILE}) complete!"
+
+# Cleanup scratch space
+echo "Cleaning up /scratch..."
+rm -rf /scratch/keisufaj_datasets
+echo "Cleanup complete!"
