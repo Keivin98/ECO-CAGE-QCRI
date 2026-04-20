@@ -246,9 +246,9 @@ def train(
             if cfg.wandb:
                 cage_stats = {}
                 if cage is not None:
-                    stats = cage.get_stats() if hasattr(cage, "get_stats") else None
-                    if stats is not None:
-                        cage_stats = {f"cage/{k}": v for k, v in stats.items()}
+                    cage_stats_dict = cage.get_stats() if hasattr(cage, "get_stats") else None
+                    if cage_stats_dict is not None:
+                        cage_stats = {f"cage/{k}": v for k, v in cage_stats_dict.items()}
                 
                 # Prepare wandb log dict
                 log_dict = {
