@@ -234,10 +234,13 @@ def train(
             train_loss = loss.detach().cpu().item() * cfg.acc_steps
             current_lrs = [param_group["lr"] for param_group in opt.param_groups]
 
+            # Track peak GPU memory usage
+            peak_memory_gb = torch.cuda.max_memory_allocated() / 1e9
+
             print(
                 f"Train: Iter={curr_iter} ({epoch:0.3f} epochs) "
                 f"train_loss={train_loss:.3f} iter_dt={dt:.2e}s "
-                f"lr={current_lrs[0]:.2e}"
+                f"lr={current_lrs[0]:.2e} peak_mem={peak_memory_gb:.2f}GB"
             )
 
             if cfg.wandb:
@@ -253,6 +256,7 @@ def train(
                     "train/loss": train_loss,
                     "train/perplexity": 2.71828**train_loss,
                     "iter_dt": dt,
+                    "memory/peak_gb": peak_memory_gb,
                     **cage_stats
                 }
                 
