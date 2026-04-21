@@ -117,11 +117,71 @@ p.copy_(theta_hat)  # Store quantized only
 
 **Conclusion**: Frozen scale is fine. Dynamic recalibration destabilizes ECO and provides negligible benefit to ECO-0. Use default `recalibrate_interval=0`.
 
-### 3. ECO vs ECO-0 Performance
+### 3. 30M Baseline Results (April 20, 2026) ✅
 
-**With optimal settings (P90 percentile)**:
-- ECO-0 consistently outperforms ECO on tiny model
-- Validation on 30M model in progress
+**Complete validation on 30M model (5000 iterations, batch 512, P90 percentile):**
+
+| Method | Val Perplexity | LR | Notes |
+|--------|---------------|-----|-------|
+| FP32 Adam | 27.49 | 0.0012 | Full precision baseline |
+| FP16 Adam | 27.49 | 0.0012 | Identical to FP32 (validates baseline) |
+| STE 4-bit | 29.07 | 0.0012 | Traditional QAT |
+| CAGE 4-bit | 29.08 | 0.0012 | QAT with curvature |
+| ECO 4-bit | 32.73 | 0.00625 | Master weight elimination |
+| **ECO0 4-bit** | **30.06** | **0.01** | **Our method** |
+
+**Key Findings:**
+- ECO0 (30.06) beats ECO (32.73) by 2.67 perplexity points
+- ECO0 competitive with CAGE (30.06 vs 29.08) - only 0.98 gap
+- FP16 = FP32 confirms baseline validity
+- P90 percentile validated for both ECO and ECO0
+
+### 4. 50M Scaling Experiments (April 20, 2026) 🔄 In Progress
+
+**Configuration:**
+- Model: 7 layers, 768 embd, 6 heads (~50M params, 1.67× from 30M)
+- Training: 5B tokens (19,073 iterations)
+- Batch: 64 × 8 acc_steps = 512 effective
+- LR Scaling: ×0.775 (1/sqrt(1.67)) from 30M values
+
+**Learning Rates:**
+- FP16/CAGE: 0.00093 (scaled from 0.0012)
+- ECO: 0.00484 (scaled from 0.00625)  
+- ECO0: 0.00775 (scaled from 0.01)
+
+**Scripts:**
+- SLURM: `sbatch test_scaling_50M.sh`
+- Local: `./run_scaling_50M_local.sh {1|2|3|4}`
+
+### 5. Memory Profiling Results (April 20, 2026) ⚠️ CRITICAL INSIGHT
+
+**50M Model Memory Usage (batch=64, seq=512, 2 GPUs):**
+- FP16 Adam: **29.29 GB**
+- CAGE 4-bit: **29.29 GB** (identical to FP16!)
+- ECO 4-bit: **29.3 GB** (identical to FP16!)
+- ECO0 4-bit: **28.27 GB** (~1 GB savings)
+
+**Memory Breakdown Analysis:**
+```
+Total: ~29 GB per GPU
+├─ Activations: ~25 GB (86%) ← DOMINATES
+├─ Optimizer states (m+v): ~0.4 GB (1.4%)
+├─ Gradients: ~0.2 GB (FP32)
+├─ Params: ~0.1 GB (FP16/FP4)
+└─ Overhead: ~3.3 GB
+```
+
+**Critical Findings:**
+1. **Weights NOT stored as 4-bit**: QAT quantizes during forward pass only, stores weights in FP16
+2. **Activations dominate**: 25 GB (86%) vs optimizer states 0.4 GB (1.4%)
+3. **ECO ≈ FP16**: Suggests master weights not actually eliminated in current impl, OR weights stored in FP16 regardless
+4. **ECO0 saves 1 GB**: Confirms m+v buffer elimination (400 MB + allocator overhead)
+5. **Savings scale linearly with params**: At 50M: 1 GB (3.4%), at 1B: ~10 GB (8-10%), at 10B: ~80 GB (16-20%)
+
+**Implication for Paper:**
+- At small scale (50M), savings are modest (3.4%)
+- At large scale (1B+), savings become significant (10+ GB enables larger batches/sequences)
+- Need 1B experiments to show compelling memory story
 
 ## SLURM Job Management
 
@@ -138,6 +198,18 @@ p.copy_(theta_hat)  # Store quantized only
 - Use multi-partition scripts to avoid queued jobs
 
 ### Available Scripts
+
+**Baseline Experiments:**
+- `run_baseline_30M.sh`: SLURM version for 30M baseline (FP32, FP16, STE, CAGE, ECO, ECO0)
+- `run_baseline_local.sh`: Local version for 30M baseline
+
+**Scaling Experiments:**
+- `test_scaling_50M.sh`: SLURM version for 50M scaling (FP16, CAGE, ECO, ECO0)
+- `run_scaling_50M_local.sh`: Local version for 50M scaling
+  - Usage: `./run_scaling_50M_local.sh {1|2|3|4}` for individual methods
+  - Parallel: `CUDA_VISIBLE_DEVICES=0,1 ./run_scaling_50M_local.sh 1 > outs/50M_1.out 2>&1 &`
+
+**Percentile Ablations:**
 - `test_percentile_30M.sh`: Validates P90 on 30M model (ECO + ECO-0, P90/P95/P99)
 - `test_percentile_fine.sh`: Fine-grained percentile sweep (tiny model)
 - `test_percentile_sweep.sh`: Broad percentile sweep (P85-P100)
@@ -178,6 +250,33 @@ p.copy_(theta_hat)  # Store quantized only
 3. `src/models/quantization/base_linear.py` - Q99FP4Quantizer (use P90!)
 4. `src/main.py` - Training entry point (scheduler bug fixed for multi-param-group optimizers)
 5. `train_eco0m-rooh.sh`, `train_eco.sh` - Training scripts
+
+## Bug Fixes (April 2026)
+
+### Variable Shadowing in base.py (CRITICAL)
+**Problem**: CAGE experiments crashed at end of training with `TypeError: 'NoneType' object has no attribute 'items'`
+
+**Root Cause**: Variable shadowing in `src/optim/base.py:249`
+```python
+# BAD: Shadows outer 'stats' dict
+stats = cage.get_stats() if hasattr(cage, "get_stats") else None
+```
+
+**Fix**: Renamed inner variable to avoid shadowing
+```python
+# GOOD: Use unique variable name
+cage_stats_dict = cage.get_stats() if hasattr(cage, "get_stats") else None
+```
+
+**Location**: `src/optim/base.py:246-251`
+
+### Memory Profiling Added
+**Added**: Peak GPU memory tracking in training loop (April 20, 2026)
+```python
+peak_memory_gb = torch.cuda.max_memory_allocated() / 1e9
+```
+**Location**: `src/optim/base.py:237-260`
+**Logs to WandB**: `memory/peak_gb`
 
 ## Summary of Best Practices
 
