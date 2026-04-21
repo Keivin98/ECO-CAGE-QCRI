@@ -1,22 +1,24 @@
 #!/bin/bash
 
-# ECO0 Learning Rate Ablation at 50M
-# Testing LR={0.006, 0.0065, 0.007} to find optimal vs ECO's 0.00484
-# Usage: ./run_eco0_lr_ablation_50M.sh 1  (for LR=0.006)
-#        ./run_eco0_lr_ablation_50M.sh 2  (for LR=0.0065)
-#        ./run_eco0_lr_ablation_50M.sh 3  (for LR=0.007)
+# ECO0 Learning Rate + Percentile Ablation at 50M
+# Testing LR={0.006, 0.0065} × Percentile={90, 95}
+# Usage: ./run_eco0_lr_ablation_50M.sh 1  (LR=0.006, P90)
+#        ./run_eco0_lr_ablation_50M.sh 2  (LR=0.0065, P90)
+#        ./run_eco0_lr_ablation_50M.sh 3  (LR=0.006, P95)
+#        ./run_eco0_lr_ablation_50M.sh 4  (LR=0.0065, P95)
 
 if [ -z "$1" ]; then
     echo "Usage: $0 <task_id>"
     echo "Example: $0 1"
     echo ""
     echo "Task IDs:"
-    echo "  1 - ECO0 LR=0.006 (conservative)"
-    echo "  2 - ECO0 LR=0.0065 (middle)"
-    echo "  3 - ECO0 LR=0.007 (moderate)"
+    echo "  1 - ECO0 LR=0.006, P90"
+    echo "  2 - ECO0 LR=0.0065, P90"
+    echo "  3 - ECO0 LR=0.006, P95"
+    echo "  4 - ECO0 LR=0.0065, P95"
     echo ""
     echo "Context: Original ECO0 LR=0.00775 fell behind ECO (0.00484) in final steps"
-    echo "         Testing lower LRs to prevent late-stage collapse"
+    echo "         Testing lower LRs + P95 (ECO0's preferred percentile at 30M)"
     exit 1
 fi
 
@@ -68,37 +70,49 @@ METHOD_BASE="ECO0-4bit"
 OPT="eco0m-rooh"
 W_QUANT="Q99FP4Quantizer"
 A_QUANT="NoQuantizer"
-W_QUANT_KWARGS='{"bits":4,"percentile":90.0}'
 USE_CAGE="False"
 
 # ========================================
-# LEARNING RATE SELECTION
+# LEARNING RATE + PERCENTILE SELECTION
 # ========================================
 
 case ${SLURM_ARRAY_TASK_ID} in
     1)
         LR=0.006
-        echo "Testing ECO0 with LR=0.006 (most conservative)"
-        echo "Context: Closer to ECO's 0.00484, should stabilize late training"
+        PERCENTILE=90.0
+        W_QUANT_KWARGS='{"bits":4,"percentile":90.0}'
+        echo "Testing ECO0 with LR=0.006, P90"
+        echo "Context: Most conservative LR + standard percentile"
         ;;
     2)
         LR=0.0065
-        echo "Testing ECO0 with LR=0.0065 (middle ground)"
-        echo "Context: Split the difference between ECO and original ECO0"
+        PERCENTILE=90.0
+        W_QUANT_KWARGS='{"bits":4,"percentile":90.0}'
+        echo "Testing ECO0 with LR=0.0065, P90"
+        echo "Context: Middle ground LR + standard percentile"
         ;;
     3)
-        LR=0.007
-        echo "Testing ECO0 with LR=0.007 (moderate)"
-        echo "Context: Still lower than original 0.00775, may preserve early advantage"
+        LR=0.006
+        PERCENTILE=95.0
+        W_QUANT_KWARGS='{"bits":4,"percentile":95.0}'
+        echo "Testing ECO0 with LR=0.006, P95"
+        echo "Context: Conservative LR + ECO0's preferred percentile from 30M"
+        ;;
+    4)
+        LR=0.0065
+        PERCENTILE=95.0
+        W_QUANT_KWARGS='{"bits":4,"percentile":95.0}'
+        echo "Testing ECO0 with LR=0.0065, P95"
+        echo "Context: Middle LR + ECO0's preferred percentile from 30M"
         ;;
     *)
         echo "Invalid task ID: ${SLURM_ARRAY_TASK_ID}"
-        echo "Valid range: 1-3"
+        echo "Valid range: 1-4"
         exit 1
         ;;
 esac
 
-METHOD="${METHOD_BASE}-LR=${LR}"
+METHOD="${METHOD_BASE}-LR=${LR}-P${PERCENTILE}"
 WANDB_PREFIX="${MODEL_SIZE}-${METHOD}-BS=${BATCH_SIZE}x${ACC_STEPS}-ITER=${ITERATIONS}"
 
 # ========================================
@@ -106,20 +120,22 @@ WANDB_PREFIX="${MODEL_SIZE}-${METHOD}-BS=${BATCH_SIZE}x${ACC_STEPS}-ITER=${ITERA
 # ========================================
 
 echo "=========================================="
-echo "ABLATION: ECO0 Learning Rate Sweep"
+echo "ABLATION: ECO0 LR + Percentile Sweep"
 echo "=========================================="
 echo "Model: ${MODEL_SIZE}"
 echo "Config: ${N_LAYER} layers, ${N_EMBD} embd, ${N_HEAD} heads"
 echo "Method: ${METHOD}"
 echo "Learning Rate: ${LR}"
+echo "Percentile: P${PERCENTILE}"
 echo "Batch: ${BATCH_SIZE} × ${ACC_STEPS} = $((BATCH_SIZE * ACC_STEPS))"
 echo "Sequence: ${SEQUENCE_LENGTH}"
 echo "Iterations: ${ITERATIONS} (${TOKENS} tokens)"
 echo ""
 echo "Comparison context:"
-echo "  - ECO (LR=0.00484): val_loss=3.189"
-echo "  - ECO0 (LR=0.00775): val_loss=3.196 [FAILED]"
-echo "  - This run (LR=${LR}): Testing..."
+echo "  - ECO (LR=0.00484, P90): val_loss=3.189"
+echo "  - ECO0 (LR=0.00775, P90): val_loss=3.196 [FAILED]"
+echo "  - 30M ECO0: P95 slightly better than P90 (3.538 vs 3.541)"
+echo "  - This run (LR=${LR}, P${PERCENTILE}): Testing..."
 echo "=========================================="
 
 torchrun --master_addr="${MASTER_ADDR}" \
@@ -152,7 +168,7 @@ torchrun --master_addr="${MASTER_ADDR}" \
     --beta2 ${BETA2}
 
 echo "=========================================="
-echo "ECO0 LR Ablation (${LR}) complete!"
+echo "ECO0 Ablation (LR=${LR}, P${PERCENTILE}) complete!"
 echo "Check WandB project: ECO0-SCALING"
 echo "Compare with:"
 echo "  - 50M-ECO-4bit-LR=0.00484 (val: 3.189)"
