@@ -15,15 +15,23 @@ This file provides guidance to Claude Code when working with this ECO-0 quantiza
 
 ## Training Commands
 
+⚠️ **All scripts now organized in `run_scripts/` directory** - See `run_scripts/README.md` for details
+
 ```bash
 # ECO-0 (primary)
-bash train_eco0m-rooh.sh --model-size-prefix=30M --lr=0.0012
+bash run_scripts/baselines/train_eco0m-rooh.sh --model-size-prefix=30M --lr=0.0012
 
 # ECO baseline
-bash train_eco.sh --model-size-prefix=30M --lr=0.0012
+bash run_scripts/baselines/train_eco.sh --model-size-prefix=30M --lr=0.0012
 
-# Hyperparameter sweeps
-bash run_slurm_eco_b13.sh {1|2|3|4}
+# 30M baselines (SLURM)
+sbatch run_scripts/baselines/test_30M_baselines.sh
+
+# 50M scaling (local)
+./run_scripts/scaling/50M/run_scaling_50M_local.sh {1|2|3|4}
+
+# ECO0 LR ablation at 50M
+./run_scripts/ablations/lr_tuning/run_eco0_lr_ablation_50M.sh {1|2|3}
 ```
 
 **Environment**: `conda activate cage` (Python 3.11+, PyTorch 2.6, CUDA 12.6)
@@ -188,31 +196,36 @@ Total: ~29 GB per GPU
 ### Multi-Partition Submission
 ```bash
 # Smart submission: tries H200 → A100 → gpu-all
-./submit_fp4_test_smart.sh
+./run_scripts/slurm_utils/submit_fp4_test_smart.sh
 
 # Multi-partition: splits large arrays across partitions
-./submit_multipartition.sh <script.sh>
+./run_scripts/slurm_utils/submit_multipartition.sh <script.sh>
 ```
 
 **QoS Limits**: H200 partition limited to 2 concurrent jobs per user
 - Use multi-partition scripts to avoid queued jobs
 
-### Available Scripts
+### Quick Reference (see `run_scripts/README.md` for full details)
 
 **Baseline Experiments:**
-- `run_baseline_30M.sh`: SLURM version for 30M baseline (FP32, FP16, STE, CAGE, ECO, ECO0)
-- `run_baseline_local.sh`: Local version for 30M baseline
+- `run_scripts/baselines/test_30M_baselines.sh`: SLURM (FP32, FP16, STE, CAGE, ECO, ECO0)
+- `run_scripts/baselines/run_baseline_local.sh`: Local version
 
 **Scaling Experiments:**
-- `test_scaling_50M.sh`: SLURM version for 50M scaling (FP16, CAGE, ECO, ECO0)
-- `run_scaling_50M_local.sh`: Local version for 50M scaling
-  - Usage: `./run_scaling_50M_local.sh {1|2|3|4}` for individual methods
-  - Parallel: `CUDA_VISIBLE_DEVICES=0,1 ./run_scaling_50M_local.sh 1 > outs/50M_1.out 2>&1 &`
+- `run_scripts/scaling/50M/test_scaling_50M.sh`: SLURM (FP16, CAGE, ECO, ECO0)
+- `run_scripts/scaling/50M/run_scaling_50M_local.sh`: Local version
+  - Usage: `./run_scripts/scaling/50M/run_scaling_50M_local.sh {1|2|3|4}`
+  - Parallel: `CUDA_VISIBLE_DEVICES=0,1 ./run_scripts/scaling/50M/run_scaling_50M_local.sh 1 > outs/50M_1.out 2>&1 &`
+- `run_scripts/scaling/{100M,300M,1B}/`: Future scaling experiments
 
-**Percentile Ablations:**
-- `test_percentile_30M.sh`: Validates P90 on 30M model (ECO + ECO-0, P90/P95/P99)
-- `test_percentile_fine.sh`: Fine-grained percentile sweep (tiny model)
-- `test_percentile_sweep.sh`: Broad percentile sweep (P85-P100)
+**Ablation Studies:**
+- `run_scripts/ablations/percentile/test_percentile_30M.sh`: P90/P95/P99 on 30M
+- `run_scripts/ablations/percentile/test_percentile_sweep.sh`: P85-P100 sweep
+- `run_scripts/ablations/lr_tuning/run_eco0_lr_ablation_50M.sh`: ECO0 LR sweep at 50M (0.006, 0.0065, 0.007)
+
+**Utilities:**
+- `run_scripts/utils/setup_env.sh`: Environment setup
+- `run_scripts/utils/resume_eco.sh`: Resume training from checkpoint
 
 ## Practical Tips
 
@@ -249,7 +262,8 @@ Total: ~29 GB per GPU
 2. `src/optim/ECO.py` - ECO baseline
 3. `src/models/quantization/base_linear.py` - Q99FP4Quantizer (use P90!)
 4. `src/main.py` - Training entry point (scheduler bug fixed for multi-param-group optimizers)
-5. `train_eco0m-rooh.sh`, `train_eco.sh` - Training scripts
+5. `run_scripts/baselines/train_eco0m-rooh.sh`, `train_eco.sh` - Single training scripts
+6. `run_scripts/README.md` - Complete guide to all run scripts
 
 ## Bug Fixes (April 2026)
 
