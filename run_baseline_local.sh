@@ -17,8 +17,8 @@ export SLURM_ARRAY_TASK_ID=$1
 # Testing: FP32, FP16, STE, CAGE, ECO, ECO0
 # All quantized methods use P90 percentile
 
-source ~/miniconda3/etc/profile.d/conda.sh
-conda activate cage
+eval "$('/home/local/QCRI/kisufaj/miniconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+conda activate /home/local/QCRI/kisufaj/miniconda3/envs/qwen/
 
 export MASTER_ADDR=127.0.0.1
 export MASTER_PORT=$((29500 + SLURM_ARRAY_TASK_ID))
@@ -29,17 +29,7 @@ export TORCHINDUCTOR_DISABLE_TRITON=1
 export WANDB_ENTITY="keisufaj-hamad-bin-khalifa-university"
 export WANDB_PROJECT="ECO0-30M-BASELINES"
 
-# Skip scratch copy if not available, use direct path
-if [ -d "/scratch" ]; then
-    echo "Copying datasets to /scratch..."
-    mkdir -p /scratch/keisufaj_datasets
-    rsync -a --info=progress2 /export/home/keisufaj/optimization/ECO-CAGE-QCRI/datasets/ /scratch/keisufaj_datasets/
-    export DATASETS_DIR="/scratch/keisufaj_datasets"
-    echo "Dataset copy complete!"
-else
-    echo "/scratch not available, using direct path"
-    export DATASETS_DIR="/export/home/keisufaj/optimization/ECO-CAGE-QCRI/datasets"
-fi
+export DATASETS_DIR="/image-generation/kisufaj/optimization/cage/CAGE/datasets"
 
 # 30M model config
 export N_LAYER=6
@@ -104,7 +94,7 @@ case ${SLURM_ARRAY_TASK_ID} in
         A_QUANT="NoQuantizer"
         W_QUANT_KWARGS='{"bits":4,"percentile":90.0}'
         USE_CAGE="False"
-        LR=0.005
+        LR=0.00625
         echo "Testing ECO (4-bit, error feedback in momentum)"
         ;;
     6)
@@ -114,7 +104,7 @@ case ${SLURM_ARRAY_TASK_ID} in
         A_QUANT="NoQuantizer"
         W_QUANT_KWARGS='{"bits":4,"percentile":90.0}'
         USE_CAGE="False"
-        LR=0.005
+	LR=0.01
         echo "Testing ECO0 (4-bit, error feedback in gradients)"
         ;;
     *)
@@ -154,11 +144,3 @@ torchrun --master_addr="${MASTER_ADDR}" \
     --beta1 ${BETA1} \
     --beta2 ${BETA2}
 
-echo "Job ${SLURM_ARRAY_TASK_ID} (${METHOD}) complete!"
-
-# Cleanup scratch space if used
-if [ -d "/scratch/keisufaj_datasets" ]; then
-    echo "Cleaning up /scratch..."
-    rm -rf /scratch/keisufaj_datasets
-    echo "Cleanup complete!"
-fi

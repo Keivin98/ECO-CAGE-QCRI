@@ -23,8 +23,8 @@ export SLURM_ARRAY_TASK_ID=$1
 # Testing: FP16, CAGE, ECO, ECO0
 # LR scaled by 1/sqrt(50M/30M) = 0.775
 
-source ~/miniconda3/etc/profile.d/conda.sh
-conda activate cage
+eval "$('/home/local/QCRI/kisufaj/miniconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+conda activate /home/local/QCRI/kisufaj/miniconda3/envs/qwen/
 
 export MASTER_ADDR=127.0.0.1
 export MASTER_PORT=$((29500 + SLURM_ARRAY_TASK_ID))
@@ -36,16 +36,7 @@ export WANDB_ENTITY="keisufaj-hamad-bin-khalifa-university"
 export WANDB_PROJECT="ECO0-SCALING"
 
 # Skip scratch copy if not available, use direct path
-if [ -d "/scratch" ]; then
-    echo "Copying datasets to /scratch..."
-    mkdir -p /scratch/keisufaj_datasets
-    rsync -a --info=progress2 /export/home/keisufaj/optimization/ECO-CAGE-QCRI/datasets/ /scratch/keisufaj_datasets/
-    export DATASETS_DIR="/scratch/keisufaj_datasets"
-    echo "Dataset copy complete!"
-else
-    echo "/scratch not available, using direct path"
-    export DATASETS_DIR="/export/home/keisufaj/optimization/ECO-CAGE-QCRI/datasets"
-fi
+export DATASETS_DIR="/image-generation/kisufaj/optimization/cage/CAGE/datasets"
 
 # ========================================
 # 50M MODEL CONFIGURATION
@@ -175,9 +166,3 @@ echo "Job ${SLURM_ARRAY_TASK_ID} (${METHOD}) complete!"
 echo "Peak memory logged to WandB: memory/peak_gb"
 echo "=========================================="
 
-# Cleanup scratch space if used
-if [ -d "/scratch/keisufaj_datasets" ]; then
-    echo "Cleaning up /scratch..."
-    rm -rf /scratch/keisufaj_datasets
-    echo "Cleanup complete!"
-fi
