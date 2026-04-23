@@ -11,10 +11,72 @@ echo "100M STE Baseline Experiment"
 echo "=========================================="
 
 # Activate conda environment
-source ~/miniconda3/etc/profile.d/conda.sh
-conda activate cage
+eval "$('/home/local/QCRI/kisufaj/miniconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+conda activate /home/local/QCRI/kisufaj/miniconda3/envs/qwen/
 
-# Environment setup
+# ========================================
+# TEMP DIRECTORY ISOLATION & CLEANUP
+# ========================================
+# Prevents /tmp pollution from torchinductor, wandb, triton
+
+echo "Setting up temporary directory isolation..."
+
+# Use PID for unique job ID on GCP
+JOB_ID=$$
+
+# Priority: /mnt/localssd (GCP SSD) > /scratch > /tmp
+if [ -d "/mnt/localssd" ]; then
+    export JOB_TMP=/mnt/localssd/${USER}/tmp_${JOB_ID}
+elif [ -d "/scratch" ]; then
+    export JOB_TMP=/scratch/${USER}/tmp_${JOB_ID}
+else
+    export JOB_TMP=/tmp/${USER}_tmp_${JOB_ID}
+fi
+
+mkdir -p "$JOB_TMP"
+
+# Redirect all temp directories
+export TMPDIR="$JOB_TMP"
+export TMP="$JOB_TMP"
+export TEMP="$JOB_TMP"
+export TORCHINDUCTOR_CACHE_DIR="$JOB_TMP/torchinductor"
+export TRITON_CACHE_DIR="$JOB_TMP/triton"
+export TORCH_HOME="$JOB_TMP/torch"
+export WANDB_DIR="$JOB_TMP/wandb"
+export WANDB_CACHE_DIR="$JOB_TMP/wandb_cache"
+export XDG_CACHE_HOME="$JOB_TMP/.cache"
+export PYTHONPYCACHEPREFIX="$JOB_TMP/pycache"
+
+# HuggingFace - CRITICAL: Keep HF_HOME in home directory for authentication tokens!
+# Only redirect the heavy cache files (models/datasets) to temp
+export HF_HOME="${HF_HOME:-$HOME/.cache/huggingface}"  # Tokens stay accessible
+export TRANSFORMERS_CACHE="$JOB_TMP/hf/transformers"
+export HF_DATASETS_CACHE="$JOB_TMP/hf/datasets"
+
+mkdir -p "$TORCHINDUCTOR_CACHE_DIR" "$TRITON_CACHE_DIR" "$TORCH_HOME" \
+         "$WANDB_DIR" "$WANDB_CACHE_DIR" "$XDG_CACHE_HOME" "$PYTHONPYCACHEPREFIX" \
+         "$TRANSFORMERS_CACHE" "$HF_DATASETS_CACHE"
+
+echo "Temp directory: $JOB_TMP"
+
+# Cleanup function
+cleanup_tmp() {
+  echo "Cleaning up temporary files..."
+  if [ -d "$JOB_TMP" ]; then
+    FINAL_SIZE=$(du -sh "$JOB_TMP" 2>/dev/null | cut -f1)
+    echo "Temp files created: $FINAL_SIZE"
+    rm -rf "$JOB_TMP"
+    echo "✓ Cleaned: $JOB_TMP"
+  fi
+}
+
+# Register cleanup on exit
+trap cleanup_tmp EXIT SIGTERM SIGINT
+
+# ========================================
+# ENVIRONMENT SETUP
+# ========================================
+
 export MASTER_ADDR=127.0.0.1
 export MASTER_PORT=29501  # Different port to avoid collision with 50M
 export TORCH_COMPILE=0
@@ -25,7 +87,7 @@ export WANDB_ENTITY="keisufaj-hamad-bin-khalifa-university"
 export WANDB_PROJECT="ECO0-SCALING"
 
 # Dataset location (adjust if needed for GCP)
-export DATASETS_DIR="/export/home/keisufaj/optimization/ECO-CAGE-QCRI/datasets"
+export DATASETS_DIR="/image-generation/kisufaj/optimization/cage/CAGE/datasets"
 
 # ========================================
 # 100M MODEL CONFIGURATION
