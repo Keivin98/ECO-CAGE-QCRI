@@ -17,6 +17,9 @@
 source ~/miniconda3/etc/profile.d/conda.sh
 conda activate cage
 
+# Setup isolated temp directories with automatic cleanup
+source /export/home/keisufaj/optimization/ECO-CAGE-QCRI/run_scripts/utils/setup_tmp_cleanup.sh
+
 export MASTER_ADDR=127.0.0.1
 export MASTER_PORT=$((29500 + SLURM_ARRAY_TASK_ID))
 export TORCH_COMPILE=0
