@@ -115,8 +115,8 @@ export N_EMBD=1536
 export N_HEAD=12
 
 # Batch config (adjusted for 300M - smaller batch to fit in memory)
-export BATCH_SIZE=24
-export ACC_STEPS=16
+export BATCH_SIZE=16  # Reduced from 24 to avoid OOM on H100
+export ACC_STEPS=24   # Increased from 16 to maintain effective batch 384
 export SEQUENCE_LENGTH=512
 
 # Training config - 15B tokens (1.5× from 100M for better convergence)
