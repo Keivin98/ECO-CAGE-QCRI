@@ -195,7 +195,7 @@ echo "Expected memory savings (ECO-0 vs FP16):"
 echo "  ~3-4 GB (linear scaling from 100M's 1.64 GB)"
 echo "=========================================="
 
-cd /export/home/keisufaj/optimization/ECO-CAGE-QCRI
+cd /image-generation/kisufaj/optimization/cage/CAGE
 
 torchrun --master_addr="${MASTER_ADDR}" \
     --master_port="${MASTER_PORT}" \

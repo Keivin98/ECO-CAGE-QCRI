@@ -150,7 +150,7 @@ echo "  - At 50M: STE should ≈ CAGE (23.14)"
 echo "  - Validates curvature correction minimal benefit at scale"
 echo "=========================================="
 
-cd /export/home/keisufaj/optimization/ECO-CAGE-QCRI
+cd /image-generation/kisufaj/optimization/cage/CAGE
 
 torchrun --master_addr="${MASTER_ADDR}" \
     --master_port="${MASTER_PORT}" \

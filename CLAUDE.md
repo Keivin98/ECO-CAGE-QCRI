@@ -342,31 +342,71 @@ Total: ~29 GB per GPU
 
 ## SLURM Job Management
 
-### Temporary File Cleanup (April 22, 2026) ⚠️ CRITICAL
+### Temporary File Cleanup (April 22-23, 2026) ⚠️ CRITICAL
 
-**Problem**: Torch compile, wandb, and triton create thousands of temp files in `/tmp`, causing nodes to enter drain mode.
+**Problem**: Torch compile, wandb, and triton create thousands of temp files in `/tmp`, causing:
+- SLURM nodes to enter drain mode (2K+ files)
+- GCP instances to fill `/tmp` and crash
+- Training jobs to fail with "No space left on device"
 
-**Solution**: All SLURM scripts now redirect temp directories to job-specific local storage with automatic cleanup.
+**Solution**: All scripts (SLURM + GCP) redirect temp directories to job-specific local storage with automatic cleanup.
 
+#### SLURM Scripts (Panther)
 ```bash
 # Automatically sourced in all SLURM scripts
 source run_scripts/utils/setup_tmp_cleanup.sh
 ```
 
 **What it does:**
-- Redirects `TMPDIR`, `TORCHINDUCTOR_CACHE_DIR`, `TRITON_CACHE_DIR`, `WANDB_CACHE_DIR` to `/mnt/localssd/${USER}/tmp_${SLURM_JOB_ID}`
+- Redirects temp dirs to `/mnt/localssd/${USER}/tmp_${SLURM_JOB_ID}`
 - Creates cleanup trap on EXIT/SIGTERM/SIGINT
-- Shows disk usage before/after cleanup (useful for debugging)
-- Prevents job collisions and node /tmp pollution
+- Shows disk usage before/after cleanup
+- **HuggingFace tokens:** Keeps `HF_HOME` in home directory (for auth), only redirects model/dataset cache
 
 **Integrated in:**
-- ✅ `test_scaling_100M_4methods.sh` (H200)
-- ✅ `test_scaling_100M_4methods_a100.sh` (A100)
-- ✅ `test_30M_baselines.sh`
-- ✅ `test_scaling_50M.sh`
-- ✅ `run_eco_lr_ablation_50M.sh`
+- ✅ All SLURM scripts in `run_scripts/scaling/` and `run_scripts/baselines/`
 
-**Note**: If job is hard-killed (SIGKILL), cleanup might not run. Use `#SBATCH --signal=TERM@120` to get graceful shutdown warning.
+#### GCP Scripts (H100 Instances)
+**Built-in to each script** (uses PID instead of SLURM_JOB_ID):
+
+```bash
+# Creates /mnt/localssd/${USER}/tmp_${PID}
+# Redirects: TMPDIR, TORCHINDUCTOR_CACHE_DIR, TRITON_CACHE_DIR, 
+#            WANDB_DIR, WANDB_CACHE_DIR, XDG_CACHE_HOME
+# HuggingFace: Keeps HF_HOME=$HOME/.cache/huggingface (tokens)
+#              Redirects TRANSFORMERS_CACHE, HF_DATASETS_CACHE
+```
+
+**Integrated in:**
+- ✅ `run_scripts/gcp/50M_ste.sh`
+- ✅ `run_scripts/gcp/100M_ste.sh`
+- ✅ `run_scripts/gcp/300M_fp16_eco0.sh`
+
+#### HuggingFace Credentials Handling ⚠️ CRITICAL
+
+**Key insight:** HF auth tokens must remain in `$HOME/.cache/huggingface/token`, but heavy cache files (models, datasets) should go to temp.
+
+```bash
+# ✅ Correct approach (both SLURM and GCP)
+export HF_HOME="${HF_HOME:-$HOME/.cache/huggingface}"  # Tokens accessible
+export TRANSFORMERS_CACHE="$JOB_TMP/hf/transformers"   # Models to temp
+export HF_DATASETS_CACHE="$JOB_TMP/hf/datasets"        # Datasets to temp
+
+# ❌ WRONG: Would break HF auth
+# export HF_HOME="$JOB_TMP/hf"  # Tokens inaccessible!
+```
+
+**What gets cleaned:**
+- TorchInductor cache (~1-2 GB per job)
+- Triton cache (~100-500 MB)
+- WandB cache
+- Downloaded HF models/datasets
+
+**What stays persistent:**
+- HuggingFace auth tokens (`~/.cache/huggingface/token`)
+- WandB run history (`~/wandb/`)
+
+**Note**: If job is hard-killed (SIGKILL), cleanup might not run. SLURM: use `#SBATCH --signal=TERM@120`. GCP: jobs usually exit cleanly.
 
 ### Multi-Partition Submission
 ```bash
@@ -382,16 +422,24 @@ source run_scripts/utils/setup_tmp_cleanup.sh
 
 ### Quick Reference (see `run_scripts/README.md` for full details)
 
-**Baseline Experiments:**
+**Baseline Experiments (SLURM):**
 - `run_scripts/baselines/test_30M_baselines.sh`: SLURM (FP32, FP16, STE, CAGE, ECO, ECO0)
 - `run_scripts/baselines/run_baseline_local.sh`: Local version
 
-**Scaling Experiments:**
+**Scaling Experiments (SLURM):**
 - `run_scripts/scaling/50M/test_scaling_50M.sh`: SLURM (FP16, CAGE, ECO, ECO0)
 - `run_scripts/scaling/50M/run_scaling_50M_local.sh`: Local version
   - Usage: `./run_scripts/scaling/50M/run_scaling_50M_local.sh {1|2|3|4}`
   - Parallel: `CUDA_VISIBLE_DEVICES=0,1 ./run_scripts/scaling/50M/run_scaling_50M_local.sh 1 > outs/50M_1.out 2>&1 &`
-- `run_scripts/scaling/{100M,300M,1B}/`: Future scaling experiments
+- `run_scripts/scaling/100M/test_100M_eco0_lr_refinement.sh`: ECO-0 LR tuning (0.006, 0.008)
+- `run_scripts/scaling/{100M,300M,500M}/`: Scaling experiments
+
+**GCP Scripts (H100, No SLURM):**
+- `run_scripts/gcp/50M_ste.sh`: Fill STE baseline at 50M (~6 hours, 2 GPUs)
+- `run_scripts/gcp/100M_ste.sh`: Fill STE baseline at 100M (~12 hours, 2 GPUs)
+- `run_scripts/gcp/300M_fp16_eco0.sh [1|2]`: 300M scaling (FP16 or ECO-0, ~30 hours, 2 GPUs)
+  - Usage: `CUDA_VISIBLE_DEVICES=0,1 bash run_scripts/gcp/50M_ste.sh > logs/50M_ste.out 2>&1 &`
+  - See `run_scripts/gcp/README.md` for parallel execution guide
 
 **Ablation Studies:**
 - `run_scripts/ablations/percentile/test_percentile_30M.sh`: P90/P95/P99 on 30M
@@ -399,6 +447,7 @@ source run_scripts/utils/setup_tmp_cleanup.sh
 - `run_scripts/ablations/lr_tuning/run_eco0_lr_ablation_50M.sh`: ECO0 LR sweep at 50M (0.006, 0.0065, 0.007)
 
 **Utilities:**
+- `run_scripts/utils/setup_tmp_cleanup.sh`: Temp directory cleanup (SLURM)
 - `run_scripts/utils/setup_env.sh`: Environment setup
 - `run_scripts/utils/resume_eco.sh`: Resume training from checkpoint
 
