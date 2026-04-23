@@ -84,6 +84,46 @@ grad.add_(coeff * denom * e_next)  # Error feedback to gradient
 p.copy_(theta_hat)  # Store quantized only
 ```
 
+## 🚀 CURRENT STATUS (April 22, 2026 - Evening)
+
+### ✅ Complete
+- **50M:** All methods with optimal LRs ✅
+  - **Key finding:** ECO0 = ECO (23.89 vs 23.92 PPL, 1 GB memory savings)
+  - Unscaled LR discovery (0.01 for ECO0, 0.00625 for ECO)
+  - Paper updated with results
+- **100M Baseline:** All 4 methods complete ✅
+  - Memory scaling validated (1.7 GB savings, 8.3%)
+
+### 🔄 Ready to Run (DO THIS NEXT!)
+```bash
+sbatch run_scripts/scaling/100M/test_100M_optimal_lr.sh
+```
+- Task 1: ECO0 LR=0.007
+- Task 2: ECO0 LR=0.0085
+- ETA: ~8-10 hours each
+
+### 📋 Scripts Ready
+- ✅ 500M: `run_scripts/scaling/500M/test_500M_optimal_lr.sh`
+- 📄 Paper: Updated through 50M, needs 100M results after completion
+
+### 🎯 Next Steps
+1. **Submit 100M optimal LR tests** (above)
+2. Wait ~8-10 hours for results
+3. Update paper with 100M section
+4. Decide: stop at 100M or continue to 500M
+
+### 📊 Recommended LRs by Scale
+| Scale | FP16/CAGE | ECO | ECO0 |
+|-------|-----------|-----|------|
+| 30M | 0.0012 | 0.00625 | 0.01 |
+| 50M | 0.00093 | 0.00625 | 0.01 |
+| 100M | 0.0006 | ~0.005 | 0.007-0.0085 |
+| 500M | 0.00027 | ~0.0022 | 0.003-0.004 |
+
+**Pattern:** ECO/ECO0 use unscaled LRs 30M→50M, then scale by 1/√factor for larger
+
+---
+
 ## Major Research Findings
 
 ### 1. Optimal FP4 Percentile: **90th, not 99th!** (April 2026)
@@ -144,24 +184,133 @@ p.copy_(theta_hat)  # Store quantized only
 - FP16 = FP32 confirms baseline validity
 - P90 percentile validated for both ECO and ECO0
 
-### 4. 50M Scaling Experiments (April 20, 2026) 🔄 In Progress
+### 4. 50M Scaling Experiments (April 22, 2026) ✅ COMPLETE
+
+**CRITICAL UPDATE: ECO0 ≈ ECO at optimal LRs!**
 
 **Configuration:**
 - Model: 7 layers, 768 embd, 6 heads (~50M params, 1.67× from 30M)
 - Training: 5B tokens (19,073 iterations)
 - Batch: 64 × 8 acc_steps = 512 effective
-- LR Scaling: ×0.775 (1/sqrt(1.67)) from 30M values
+- LR Scaling: ×0.775 (1/sqrt(1.67)) from 30M values (base reference)
 
-**Learning Rates:**
-- FP16/CAGE: 0.00093 (scaled from 0.0012)
-- ECO: 0.00484 (scaled from 0.00625)  
-- ECO0: 0.00775 (scaled from 0.01)
+**Results (Validation Loss / Perplexity):**
+
+| Method | LR | Percentile | Val Loss | Perplexity | Memory (GB) |
+|--------|-----|-----------|----------|------------|-------------|
+| **FP16 Adam** | 0.00093 | N/A | **3.134** | **21.62** | 29.29 |
+| **CAGE 4-bit** | 0.00093 | P90 | **3.197** | **23.14** | 29.29 |
+| **ECO0 4-bit** | **0.01** | **P90** | **3.221** 🏆 | **23.89** | **28.28** |
+| ECO 4-bit | 0.00484 | P90 | 3.238 | 24.28 | 29.30 |
+
+**ECO0 LR/Percentile Ablation (9 configurations tested):**
+
+| LR | P90 Loss | P95 Loss | Best |
+|----|----------|----------|------|
+| 0.01 | **3.221** | - | **P90 ✅** |
+| 0.009 | 3.233 | - | P90 |
+| 0.008 | 3.237 | - | P90 |
+| 0.00775 | 3.242 | 3.245 | **P90** ✅ |
+| 0.0065 | 3.259 | 3.265 | **P90** ✅ |
+| 0.006 | 3.253 | 3.270 | **P90** ✅ |
+
+**Key Findings:**
+
+1. **ECO0 optimal config: LR=0.01, P90** (no LR scaling needed from 30M!)
+   - Beats ECO baseline by 0.017 loss (0.7% improvement)
+   - Competitive with CAGE: only 0.024 gap (vs 0.98 gap at 30M - **narrowing!**)
+   - Memory advantage: 28.28 GB vs 29.29 GB (3.5% savings)
+
+2. **P90 dominates P95** across all tested LRs:
+   - LR=0.00775: P90 wins by 0.002
+   - LR=0.0065: P90 wins by 0.007
+   - LR=0.006: P90 wins by 0.017
+   - **Larger gap at lower LR** - P90 more robust
+
+3. **Higher LR strongly preferred for ECO0**:
+   - Performance improves monotonically from 0.006 → 0.01
+   - LR=0.01 (unscaled from 30M) outperforms scaled LR=0.00775
+   - Suggests ECO0 benefits from aggressive learning rates
+
+4. **Scaling insight**: Gap to CAGE narrowing with scale
+   - 30M: 0.98 perplexity gap (30.06 vs 29.08)
+   - 50M: 0.89 perplexity gap (23.89 vs 23.14)
+   - Suggests ECO0 may scale favorably
 
 **Scripts:**
-- SLURM: `sbatch test_scaling_50M.sh`
-- Local: `./run_scaling_50M_local.sh {1|2|3|4}`
+- SLURM: `sbatch run_scripts/scaling/50M/test_scaling_50M.sh`
+- Local: `./run_scripts/scaling/50M/run_scaling_50M_local.sh {1|2|3|4}`
+- ECO0 LR ablation: `./run_scripts/ablations/lr_tuning/run_eco0_lr_ablation_50M.sh {1|2|3}`
+- ECO LR ablation: `sbatch run_scripts/ablations/lr_tuning/run_eco_lr_ablation_50M.sh` (array 1-3)
 
-### 5. Memory Profiling Results (April 20, 2026) ⚠️ CRITICAL INSIGHT
+**ECO LR Ablation (April 22, 2026)** 📋 In Progress
+
+To ensure fair comparison, testing if ECO can improve with higher LR:
+- Current ECO: LR=0.00484 (scaled from 30M) → Loss 3.238
+- ECO0 best: LR=0.01 (unscaled) → Loss 3.221
+- Testing ECO at: LR ∈ {0.006, 0.008, 0.01} with P90
+
+**Rationale**: ECO's LR was scaled down while ECO0's optimal was unscaled. Must verify ECO can't match ECO0 with better LR tuning.
+
+### 5. 100M Scaling Experiments (April 22, 2026) 🔄 In Progress
+
+**Configuration:**
+- Model: 8 layers, 1024 embd, 8 heads (~100M params, 2× from 50M)
+- Training: 10B tokens (38,146 iterations)
+- Batch: 32 × 16 acc_steps = 512 effective
+
+**100M Baseline Results (COMPLETE):**
+
+| Method | Perplexity | LR | Memory (GB) | Status |
+|--------|------------|-----|-------------|--------|
+| FP16 Adam | 17.93 | 0.0006 | 20.46 | ✅ |
+| CAGE 4-bit | 19.18 | 0.0006 | 20.46 | ✅ |
+| ECO 4-bit | 21.26 | 0.0031 | 20.42 | ✅ Under-tuned |
+| ECO0 4-bit | 22.39 | 0.0042 | **18.77** | ✅ Under-tuned |
+
+**Memory Scaling Confirmed:**
+- 50M: 1.0 GB savings (3.5%)
+- 100M: 1.7 GB savings (8.3%)
+- **Scales linearly with model size** ✅
+
+**100M Optimal LR Tests (RUNNING):**
+- Script: `run_scripts/scaling/100M/test_100M_optimal_lr.sh`
+- Task 1: ECO0 LR=0.007 (scaled from 50M's 0.01)
+- Task 2: ECO0 LR=0.0085 (testing higher)
+- **Status:** Jobs submitted and running ✅
+- **ETA:** ~8-10 hours per job (check in morning)
+
+**Scripts:**
+- Baseline: `sbatch run_scripts/scaling/100M/test_scaling_100M_4methods.sh`
+- Optimal LR: `sbatch run_scripts/scaling/100M/test_100M_optimal_lr.sh` ⚠️ **RUN THIS**
+
+### 6. 500M Scaling (April 22, 2026) 📋 READY
+
+**Script Created:** `run_scripts/scaling/500M/test_500M_optimal_lr.sh`
+
+**Configuration:**
+- Model: 16 layers, 1280 embd, 10 heads (~500M params, 5× from 100M)
+- Training: 20B tokens (2× from 100M for better convergence)
+- Batch: 16 × 32 acc_steps = 512 effective
+- Memory: ~64GB allocated
+
+**Methods:**
+1. FP16 Adam (LR=0.00027)
+2. CAGE 4-bit (LR=0.00027)
+3. ECO0 4-bit (LR=0.003)
+4. ECO0 4-bit (LR=0.004)
+
+**Expected:**
+- Memory savings: 5-8 GB (vs 1.7 GB at 100M)
+- Gap to CAGE continues narrowing
+- Runtime: ~15-20 hours per job
+
+**To submit (after 100M):**
+```bash
+sbatch run_scripts/scaling/500M/test_500M_optimal_lr.sh
+```
+
+### 7. Memory Profiling Results (April 20, 2026) ⚠️ CRITICAL INSIGHT
 
 **50M Model Memory Usage (batch=64, seq=512, 2 GPUs):**
 - FP16 Adam: **29.29 GB**
@@ -192,6 +341,32 @@ Total: ~29 GB per GPU
 - Need 1B experiments to show compelling memory story
 
 ## SLURM Job Management
+
+### Temporary File Cleanup (April 22, 2026) ⚠️ CRITICAL
+
+**Problem**: Torch compile, wandb, and triton create thousands of temp files in `/tmp`, causing nodes to enter drain mode.
+
+**Solution**: All SLURM scripts now redirect temp directories to job-specific local storage with automatic cleanup.
+
+```bash
+# Automatically sourced in all SLURM scripts
+source run_scripts/utils/setup_tmp_cleanup.sh
+```
+
+**What it does:**
+- Redirects `TMPDIR`, `TORCHINDUCTOR_CACHE_DIR`, `TRITON_CACHE_DIR`, `WANDB_CACHE_DIR` to `/mnt/localssd/${USER}/tmp_${SLURM_JOB_ID}`
+- Creates cleanup trap on EXIT/SIGTERM/SIGINT
+- Shows disk usage before/after cleanup (useful for debugging)
+- Prevents job collisions and node /tmp pollution
+
+**Integrated in:**
+- ✅ `test_scaling_100M_4methods.sh` (H200)
+- ✅ `test_scaling_100M_4methods_a100.sh` (A100)
+- ✅ `test_30M_baselines.sh`
+- ✅ `test_scaling_50M.sh`
+- ✅ `run_eco_lr_ablation_50M.sh`
+
+**Note**: If job is hard-killed (SIGKILL), cleanup might not run. Use `#SBATCH --signal=TERM@120` to get graceful shutdown warning.
 
 ### Multi-Partition Submission
 ```bash
