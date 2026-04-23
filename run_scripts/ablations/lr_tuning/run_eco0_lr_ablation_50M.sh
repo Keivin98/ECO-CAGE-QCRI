@@ -78,31 +78,31 @@ USE_CAGE="False"
 
 case ${SLURM_ARRAY_TASK_ID} in
     1)
-        LR=0.006
-        PERCENTILE=90.0
-        W_QUANT_KWARGS='{"bits":4,"percentile":90.0}'
-        echo "Testing ECO0 with LR=0.006, P90"
+        LR=0.00775
+        PERCENTILE=95.0
+        W_QUANT_KWARGS='{"bits":4,"percentile":95.0}'
+        echo "Testing ECO0 with LR=0.00775, 95.0"
         echo "Context: Most conservative LR + standard percentile"
         ;;
     2)
-        LR=0.0065
+        LR=0.008
         PERCENTILE=90.0
         W_QUANT_KWARGS='{"bits":4,"percentile":90.0}'
-        echo "Testing ECO0 with LR=0.0065, P90"
+        echo "Testing ECO0 with LR=0.008, P90"
         echo "Context: Middle ground LR + standard percentile"
         ;;
     3)
-        LR=0.006
-        PERCENTILE=95.0
-        W_QUANT_KWARGS='{"bits":4,"percentile":95.0}'
-        echo "Testing ECO0 with LR=0.006, P95"
+        LR=0.009
+        PERCENTILE=90.0
+        W_QUANT_KWARGS='{"bits":4,"percentile":90.0}'
+        echo "Testing ECO0 with LR=0.009, P90"
         echo "Context: Conservative LR + ECO0's preferred percentile from 30M"
         ;;
     4)
-        LR=0.0065
-        PERCENTILE=95.0
-        W_QUANT_KWARGS='{"bits":4,"percentile":95.0}'
-        echo "Testing ECO0 with LR=0.0065, P95"
+        LR=0.01
+        PERCENTILE=90.0
+        W_QUANT_KWARGS='{"bits":4,"percentile":90.0}'
+        echo "Testing ECO0 with LR=0.01, P90"
         echo "Context: Middle LR + ECO0's preferred percentile from 30M"
         ;;
     *)
