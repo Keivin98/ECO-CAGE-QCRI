@@ -4,11 +4,13 @@ from pathlib import Path
 import time
 import yaml
 
+import numpy as np
 import torch
 import wandb
 from tqdm import tqdm
 
 from logger.logger import DynamicsLogger
+from optim.buckets import BUCKETS, build_param_to_bucket
 from optim.weight_averaging import (
     WeightAverager,
     eval_ema,
@@ -23,6 +25,255 @@ from .utils import (
     save_checkpoint,
     save_worker_state,
 )
+
+
+# ----------------------------------------------------------------------
+# Helpers for per-bucket dynamics logging (paper Section: Mechanism plots)
+# ----------------------------------------------------------------------
+
+
+@torch.no_grad()
+def _bucket_aggregate(values_per_param, bucket_map, weighted=False):
+    """values_per_param: dict id(p) -> scalar. Returns dict bucket -> aggregate."""
+    sums = {b: 0.0 for b in BUCKETS}
+    counts = {b: 0 for b in BUCKETS}
+    weights = {b: 0.0 for b in BUCKETS}
+    for pid, v in values_per_param.items():
+        if v is None:
+            continue
+        b = bucket_map.get(pid, 'other')
+        sums[b] += v
+        counts[b] += 1
+        weights[b] += 1.0
+    return {b: (sums[b] / counts[b]) if counts[b] else None for b in BUCKETS}
+
+
+@torch.no_grad()
+def _snapshot_param_norms(model):
+    """id(p) -> ||p||."""
+    return {id(p): p.detach().float().norm().item() for _, p in model.named_parameters()}
+
+
+@torch.no_grad()
+def _snapshot_grad_norms(model):
+    """id(p) -> ||p.grad|| or None if no grad."""
+    out = {}
+    for _, p in model.named_parameters():
+        if p.grad is None:
+            out[id(p)] = None
+        else:
+            out[id(p)] = p.grad.detach().float().norm().item()
+    return out
+
+
+@torch.no_grad()
+def _snapshot_param_clones(model):
+    """id(p) -> param tensor clone (for |Δθ| diff after opt.step)."""
+    return {id(p): p.detach().clone() for _, p in model.named_parameters()}
+
+
+@torch.no_grad()
+def _delta_norms(model, param_clones):
+    """id(p) -> ||p_new - p_old||. param_clones is the dict from _snapshot_param_clones."""
+    out = {}
+    for _, p in model.named_parameters():
+        old = param_clones.get(id(p), None)
+        if old is None:
+            out[id(p)] = None
+        else:
+            out[id(p)] = (p.detach().float() - old.float()).norm().item()
+    return out
+
+
+@torch.no_grad()
+def _per_param_ratio(num_dict, den_dict, eps=1e-12):
+    """Element-wise ratio over matching ids. Returns id(p) -> ratio or None."""
+    out = {}
+    for pid, n in num_dict.items():
+        d = den_dict.get(pid, None)
+        if n is None or d is None:
+            out[pid] = None
+        else:
+            out[pid] = n / (d + eps)
+    return out
+
+
+@torch.no_grad()
+def _log_weight_histograms(model, bucket_map, tag, log_dict, n_bins=100, save_dir=None):
+    """Build a matplotlib histogram per bucket and log it as a wandb.Image
+    (static panel with proper value-on-x / count-on-y axes).
+
+    For QuantizedLinear params, weights are multiplied by the quantizer's scale,
+    so quantized bins land at integers 0, ±1, ..., ±levels and we draw vertical
+    reference lines at each integer to make the lattice obvious.
+
+    If save_dir is provided, also save a PNG per bucket (handy for the paper).
+    """
+    import matplotlib
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+
+    # Collect (rescaled) weights, separately per bucket; remember whether the
+    # bucket was quantized so we can draw the integer grid.
+    bucket_vals = {b: [] for b in BUCKETS}
+    bucket_levels = {b: None for b in BUCKETS}   # max integer level (for grid lines)
+    bucket_was_quantized = {b: False for b in BUCKETS}
+
+    for name, p in model.named_parameters():
+        b = bucket_map.get(id(p), 'other')
+        scale = None
+        levels = None
+        try:
+            mod = model
+            for part in name.split('.')[:-1]:
+                mod = getattr(mod, part)
+            q = getattr(mod, 'weight_quantizer', None)
+            if q is not None and hasattr(q, 'scale') and q.scale is not None:
+                s = q.scale
+                scale = float(s.detach().float().mean().item()) if hasattr(s, 'detach') else float(s)
+                # Pull the integer grid range if the quantizer exposes it.
+                if hasattr(q, 'levels'):
+                    try:
+                        levels = float(q.levels)
+                    except Exception:
+                        levels = None
+        except Exception:
+            scale = None
+
+        w = p.detach().float().flatten().cpu()
+        if scale is not None and scale > 0:
+            w = w * scale
+            bucket_was_quantized[b] = True
+            if levels is not None:
+                bucket_levels[b] = max(bucket_levels[b] or 0, levels)
+        bucket_vals[b].append(w)
+
+    # Build one figure per non-empty bucket.
+    for b in BUCKETS:
+        if not bucket_vals[b]:
+            continue
+        arr = torch.cat(bucket_vals[b]).numpy()
+        # Cap range at quantization grid + small margin for clarity; otherwise
+        # use empirical 0.1/99.9 percentiles to avoid being dominated by outliers.
+        if bucket_was_quantized[b] and bucket_levels[b]:
+            L = bucket_levels[b]
+            xmin, xmax = -L - 1.0, L + 1.0
+            data_for_hist = np.clip(arr, xmin, xmax)
+        else:
+            xmin = float(np.percentile(arr, 0.1))
+            xmax = float(np.percentile(arr, 99.9))
+            # add a small symmetric margin
+            margin = 0.05 * (xmax - xmin) if xmax > xmin else 1.0
+            xmin, xmax = xmin - margin, xmax + margin
+            data_for_hist = arr
+
+        fig, ax = plt.subplots(figsize=(5.5, 3.4), dpi=120)
+        ax.hist(data_for_hist, bins=n_bins, range=(xmin, xmax),
+                color='steelblue', edgecolor='none', alpha=0.85)
+        if bucket_was_quantized[b] and bucket_levels[b]:
+            L = int(bucket_levels[b])
+            for k in range(-L, L + 1):
+                ax.axvline(k, color='crimson', linewidth=0.4, alpha=0.5)
+            ax.set_xlabel(f"weight × scale (INT4 grid: integers in [-{L}, {L}])")
+        else:
+            ax.set_xlabel("weight value")
+        ax.set_ylabel("count")
+        n_outliers_below = int((arr < xmin).sum())
+        n_outliers_above = int((arr > xmax).sum())
+        clipped = n_outliers_below + n_outliers_above
+        title = f"{b}  ·  {tag}  ·  N={arr.size:,}"
+        if clipped > 0:
+            title += f"  ·  clipped {clipped:,}"
+        ax.set_title(title, fontsize=10)
+        ax.grid(axis='y', linewidth=0.3, alpha=0.5)
+        fig.tight_layout()
+
+        # Log as a static image to wandb.
+        log_dict[f"hist/{b}/{tag}"] = wandb.Image(fig)
+
+        # Optionally save a PNG to disk for paper figures.
+        if save_dir is not None:
+            try:
+                from pathlib import Path
+                save_dir = Path(save_dir)
+                save_dir.mkdir(parents=True, exist_ok=True)
+                fig.savefig(save_dir / f"hist_{b.replace('.', '_')}_{tag}.png",
+                            bbox_inches='tight')
+            except Exception:
+                pass
+
+        plt.close(fig)
+
+
+def _measure_grad_noise_scale(model, train_reader, type_ctx, distributed_backend, cfg):
+    """One-shot McCandlish-style gradient noise scale: do `acc_steps` separate
+    microsteps, capture per-microstep gradients, compute the scale.
+
+    NOTE: This does cfg.acc_steps fresh forward+backward passes that advance
+    the train_reader; after returning, the next training iter starts a few
+    batches later. For a one-shot measurement that's an acceptable cost.
+    """
+    # Snapshot current grad state (post-zero_grad it should already be None or zero,
+    # but be defensive).
+    saved_grads = {}
+    for _, p in model.named_parameters():
+        saved_grads[id(p)] = None if p.grad is None else p.grad.detach().clone()
+        if p.grad is not None:
+            p.grad.zero_()
+
+    micro_norms_sq = []  # per-microstep ||g_i||^2 (scalar)
+    g_sum = None         # running sum of g_i (vector, on GPU)
+    with torch.enable_grad():
+        for _ in range(cfg.acc_steps):
+            x, y = get_batch(train_reader, device=cfg.device)
+            with type_ctx:
+                with distributed_backend.get_context_for_microstep_forward(
+                    model=model, microstep_idx=0, gradient_accumulation_steps=1
+                ):
+                    out = model(x, targets=y)
+            out["loss"].backward()
+            # Stream-pack the just-accumulated grads so we never hold
+            # acc_steps * P floats at once.
+            sq = 0.0
+            flat_chunks = []
+            for _, p in model.named_parameters():
+                if p.grad is None:
+                    continue
+                g = p.grad.detach().float()
+                sq += float((g * g).sum().item())
+                flat_chunks.append(g.flatten())
+                p.grad.zero_()
+            micro_norms_sq.append(sq)
+            if flat_chunks:
+                packed = torch.cat(flat_chunks)
+                if g_sum is None:
+                    g_sum = packed.clone()
+                else:
+                    g_sum.add_(packed)
+
+    # Restore the original grads.
+    for _, p in model.named_parameters():
+        sg = saved_grads.get(id(p), None)
+        if sg is None:
+            p.grad = None
+        else:
+            if p.grad is None:
+                p.grad = sg.clone()
+            else:
+                p.grad.copy_(sg)
+
+    if not micro_norms_sq or g_sum is None:
+        return {}
+    n = len(micro_norms_sq)
+    g_mean = g_sum / n
+    mean_grad_sq = float((g_mean * g_mean).sum().item())  # |E[g]|^2
+    mean_sq = sum(micro_norms_sq) / n                      # E[|g|^2]
+    noise_scale = (mean_sq - mean_grad_sq) / max(mean_grad_sq, 1e-12)
+    return {
+        'setup/grad_noise_scale': noise_scale,
+        'setup/grad_norm_E[g]': mean_grad_sq ** 0.5,
+        'setup/grad_norm_mean_abs_g': mean_sq ** 0.5,
+    }
 
 
 
@@ -115,6 +366,24 @@ def train(
     stats = {"train_loss": [], "val_loss": [], "val_pp": [], "val_acc": []}
     model.train()
 
+    # Per-bucket dynamics logging setup. Build id(p) -> bucket once.
+    raw_model = distributed_backend.get_raw_model(model) if hasattr(distributed_backend, "get_raw_model") else model
+    bucket_map = build_param_to_bucket(raw_model)
+    grad_noise_scale_logged = False
+
+    # One-shot weight histogram at iter 0 (master only).
+    hist_save_dir = exp_dir / "figures" / "histograms" if exp_dir is not None else None
+    if (
+        cfg.wandb
+        and distributed_backend.is_master_process()
+        and curr_iter == 0
+    ):
+        hist_log = {"iter": curr_iter}
+        _log_weight_histograms(
+            raw_model, bucket_map, "weights_iter_0", hist_log, save_dir=hist_save_dir
+        )
+        wandb.log(hist_log)
+
     # Initialize the progress bar
     if distributed_backend.is_master_process():
         pbar = tqdm(total=cfg.iterations, desc="Training Progress", position=curr_iter)
@@ -183,7 +452,25 @@ def train(
 
         if curr_iter == cfg.iterations:
             # Save checkpoints and evaluate at final iteration, but no need to train further
+            # Final weight histograms (master only).
+            if cfg.wandb and distributed_backend.is_master_process():
+                hist_log = {"iter": curr_iter}
+                _log_weight_histograms(
+                    raw_model, bucket_map, "weights_iter_final", hist_log,
+                    save_dir=hist_save_dir,
+                )
+                wandb.log(hist_log)
             break
+
+        # NOTE: The McCandlish-style gradient noise scale measurement was
+        # removed because it ran fwd+bwd on master rank only, which triggers
+        # DDP all-reduce collectives that the non-master rank never matches.
+        # That permanently desyncs the NCCL collective sequence and triggers
+        # a 10-minute watchdog timeout much later in training (causing the
+        # 2026-04-28 batch of failures near iter 11440 of 11444).
+        # If you want this metric back, run it symmetrically on all ranks
+        # (using no_sync context) and average per-rank estimates.
+        _ = grad_noise_scale_logged  # silence unused-var linter
 
         # Train model
         t_start = time.perf_counter_ns()
@@ -205,14 +492,50 @@ def train(
             torch.nn.utils.clip_grad_norm_(model.parameters(), cfg.grad_clip)
         if cfg.opt == "SFAdamW":
             opt.train()
+
+        # Decide whether to capture per-bucket dynamics this step.
+        log_dyn_this_step = (
+            cfg.wandb
+            and cfg.log_interval
+            and ((curr_iter + 1) % cfg.log_interval == 0)
+            and distributed_backend.is_master_process()
+        )
+        # Snapshots taken pre-step so we can compute |Δθ| and per-bucket grad norms.
+        pre_param_clones = _snapshot_param_clones(raw_model) if log_dyn_this_step else None
+        pre_grad_norms = _snapshot_grad_norms(raw_model) if log_dyn_this_step else None
+        # Tell optimizer to populate dynamics_stats if applicable.
+        if hasattr(opt, "log_dynamics"):
+            opt.log_dynamics = log_dyn_this_step
+
         opt.step()
         scheduler.step()
         # Optional CAGE post-step correction using current LR after scheduler update
         if cage is not None:
             lam = cage.step()
-        
+
+        # Compute |Δθ| using the pre-step clones. Must happen before zero_grad
+        # so we can also log per-bucket grad norms (already snapshotted).
+        if log_dyn_this_step:
+            delta_norms_dict = _delta_norms(raw_model, pre_param_clones)
+            post_param_norms = _snapshot_param_norms(raw_model)
+            eff_step = _per_param_ratio(delta_norms_dict, post_param_norms)
+            opt_dyn_stats = getattr(opt, "dynamics_stats", {}) or {}
+            # Stash for the wandb log block below.
+            _pending_dyn = {
+                "delta_norms": delta_norms_dict,
+                "post_param_norms": post_param_norms,
+                "pre_grad_norms": pre_grad_norms,
+                "eff_step": eff_step,
+                "opt_dyn": opt_dyn_stats,
+            }
+        else:
+            _pending_dyn = None
+
         #check for side effects
         opt.zero_grad(set_to_none=True)
+        # Free the pre-step clones promptly.
+        pre_param_clones = None
+        pre_grad_norms = None
             
         if cfg.weight_average:
             weight_averager.step(
@@ -295,7 +618,98 @@ def train(
                         log_dict[f"train/{k}/min"]  = min(vals)
 
                     log_dict["train/quant_stats/num_tensors"] = len(step_stats)
-                
+
+                # ------ Per-bucket dynamics logging ------
+                if _pending_dyn is not None:
+                    delta = _pending_dyn["delta_norms"]
+                    pnorms = _pending_dyn["post_param_norms"]
+                    gnorms = _pending_dyn["pre_grad_norms"]
+                    eff = _pending_dyn["eff_step"]
+                    opt_dyn = _pending_dyn["opt_dyn"]
+
+                    for b in BUCKETS:
+                        # Per-bucket norms (sum of squares -> sqrt for proper L2 norm).
+                        theta_sq = 0.0; grad_sq = 0.0; delta_sq = 0.0; n_in = 0
+                        for pid, bb in bucket_map.items():
+                            if bb != b:
+                                continue
+                            n_in += 1
+                            v = pnorms.get(pid)
+                            if v is not None:
+                                theta_sq += v * v
+                            v = gnorms.get(pid)
+                            if v is not None:
+                                grad_sq += v * v
+                            v = delta.get(pid)
+                            if v is not None:
+                                delta_sq += v * v
+                        if n_in == 0:
+                            continue
+                        theta_n = theta_sq ** 0.5
+                        grad_n = grad_sq ** 0.5
+                        delta_n = delta_sq ** 0.5
+                        log_dict[f"dyn/{b}/theta_norm"] = theta_n
+                        log_dict[f"dyn/{b}/grad_norm"] = grad_n
+                        log_dict[f"dyn/{b}/delta_norm"] = delta_n
+                        if theta_n > 0:
+                            log_dict[f"dyn/{b}/eff_step_size"] = delta_n / theta_n
+
+                    if opt_dyn:
+                        agg_keys = [
+                            # variance / norms (all stages)
+                            "v_rel_err",
+                            "theta_norm",
+                            "theta_meanabs",
+                            "grad_norm",
+                            "update_norm",
+                            "eff_step",
+
+                            # quantization residual (stages 2-4)
+                            "e_norm",
+                            "e_meanabs",
+                            "e_over_theta",
+
+                            # stage 2 (residual buffer)
+                            "theta_hat_norm",
+                            "theta_master_norm",
+                            "residual_norm",
+                            "residual_meanabs",
+                            "residual_over_theta",
+
+                            # stages 3-4 (ECO error feedback)
+                            "eco_error_norm",
+                            "eco_error_over_theta",
+                            "correction_norm",
+                            "update_ef_frac",
+                            "cos_u_e",
+
+                            # legacy keys (older Adam0 versions)
+                            "cos_g_e",
+                            "m_norm",
+                            "v_norm",
+                            "theta_tilde_norm",
+                            "eco_correction_norm",
+                        ]
+
+                        for k in agg_keys:
+                            per_bucket = {b: [] for b in BUCKETS}
+
+                            for pid, stats_dict in opt_dyn.items():
+                                v = stats_dict.get(k)
+                                if v is None:
+                                    continue
+
+                                bb = bucket_map.get(pid, "other")
+                                per_bucket[bb].append(v)
+
+                            for b, vals in per_bucket.items():
+                                if not vals:
+                                    continue
+
+                                log_dict[f"dyn/{b}/{k}/mean"] = sum(vals) / len(vals)
+                                log_dict[f"dyn/{b}/{k}/min"] = min(vals)
+                                log_dict[f"dyn/{b}/{k}/max"] = max(vals)
+
                 wandb.log(log_dict)
                 # log exp_avg_sq means
                 # exp_avg_sq_means = []

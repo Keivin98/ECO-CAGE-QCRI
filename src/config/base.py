@@ -57,7 +57,7 @@ def parse_args(base_parser, args, namespace):
     parser.add_argument(
         "--scheduler",
         default="cos",
-        choices=["linear", "cos", "wsd", "none", "cos_inf"],
+        choices=["linear", "cos", "static-eco0", "half-eco0", "wsd", "none", "cos_inf"],
     )
     parser.add_argument("--cos-inf-steps", default=0, type=int)
     # parser.add_argument("--cos-final-lr", default=1e-6, type=float)
@@ -75,6 +75,12 @@ def parse_args(base_parser, args, namespace):
     )
     # Optimization
     parser.add_argument("--opt", default="adamw", type=str)
+    parser.add_argument(
+        "--ablation-stage", default=3, type=int, choices=[1, 2, 3, 4],
+        help="For --opt eco0m-staged or --opt adam-ef: "
+             "1=master FP no EF, 2=quantized + exact EF, "
+             "3=quantized + approx EF (= production ECO-0), 4=quantized + no EF.",
+    )
     parser.add_argument("--batch-size", default=50, type=int)
     parser.add_argument("--acc-steps", default=4, type=int)
     parser.add_argument("--weight-decay", default=1e-1, type=float)

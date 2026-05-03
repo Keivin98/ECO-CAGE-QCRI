@@ -84,49 +84,103 @@ grad.add_(coeff * denom * e_next)  # Error feedback to gradient
 p.copy_(theta_hat)  # Store quantized only
 ```
 
-## 🚀 CURRENT STATUS (April 22, 2026 - Evening)
+## 🚀 CURRENT STATUS (April 25, 2026 - early morning)
 
-### ✅ Complete
-- **50M:** All methods with optimal LRs ✅
-  - **Key finding:** ECO0 = ECO (23.89 vs 23.92 PPL, 1 GB memory savings)
-  - Unscaled LR discovery (0.01 for ECO0, 0.00625 for ECO)
-  - Paper updated with results
-- **100M Baseline:** All 4 methods complete ✅
-  - Memory scaling validated (1.7 GB savings, 8.3%)
+### Recipe pivot since 2026-04-23
+The default recipe shifted away from FP4 + cosine + P90 (legacy) to:
+- **Quantizer**: `Q99IntQuantizer` (INT4 uniform grid) — INT4 wins at tiny/30M, ties or marginally loses at 50M, 100M pending. Confirmed clean win for CAGE at 50M (22.79 vs FP4's 23.14).
+- **Scheduler**: `half-eco0` for ECO/ECO-0 (linear decay to η_max/2); `cos` for FP16/STE/CAGE. Split is along error feedback presence — 1/η coefficient in error-feedback term means cos amplifies feedback 10× late in training and destabilizes.
+- **Percentile**: `99.5` for INT4 (within 0.003 val loss of P99.99 optimum; INT4 is largely percentile-insensitive). FP4 still uses P90 if anyone uses FP4.
 
-### 🔄 Ready to Run (DO THIS NEXT!)
-```bash
-sbatch run_scripts/scaling/100M/test_100M_optimal_lr.sh
-```
-- Task 1: ECO0 LR=0.007
-- Task 2: ECO0 LR=0.0085
-- ETA: ~8-10 hours each
+### ✅ Complete (all numbers under new INT4 + half-eco0 + P99.5 recipe)
 
-### 📋 Scripts Ready
-- ✅ 500M: `run_scripts/scaling/500M/test_500M_optimal_lr.sh`
-- 📄 Paper: Updated through 50M, needs 100M results after completion
+**30M (3B tokens, 11,444 iter, FULL LR sweeps complete):**
+| Method | LR | Val PPL |
+|---|---|---|
+| FP16 Adam (cos) | 0.0012 | **24.76** |
+| CAGE INT4 (cos) | 0.0012 | **26.03** |
+| STE INT4 (cos) | 0.0012 | **26.06** (≈CAGE, confirms curvature correction useless under INT4 too) |
+| **ECO-0 INT4 (half-eco0)** | **0.008** | **26.76** 🏆 (bracketed: 0.005=27.40, 0.006=27.37, 0.010=27.92) |
+| ECO INT4 (half-eco0) | 0.003 | 28.75 (flat in 0.003-0.005 range) |
 
-### 🎯 Next Steps
-1. **Submit 100M optimal LR tests** (above)
-2. Wait ~8-10 hours for results
-3. Update paper with 100M section
-4. Decide: stop at 100M or continue to 500M
+**Tiny (5000 iter) — scheduler & quantizer ablations done:**
+- Cos vs half-eco0 vs static-eco0 sweep, INT4 vs FP4 sweep, percentile sweep all complete
+- Best tiny config: INT4 + half-eco0 + LR=0.012 → 58.10 PPL
 
-### 📊 Recommended LRs by Scale
-| Scale | FP16/CAGE | ECO | ECO0 |
+### 🏃 RUNNING NOW (April 25, ~03:00)
+
+**SLURM (Panther H200, 16-GPU QoS):**
+- 5x 50M jobs running (4x LR follow-up at LR=0.003-0.005 ECO + LR=0.004-0.005 ECO-0; 1x slow STE on broken node crirdchpxd001)
+- 3x 100M tasks running (FP16, STE INT4, CAGE INT4 — all with cos scheduler)
+- 6x 100M tasks pending in queue (ECO LR=0.001/0.002/0.004; ECO-0 LR=0.005/0.006/0.007)
+
+**ETAs:**
+- 50M LR follow-up done: ~+40 min from now
+- 50M STE on slow node: ~+5 hr (healthy, just slow)
+- 3 running 100M tasks: ~+6-7 hr
+- All 100M tasks: ~+13-15 hr
+
+### Partial 50M results so far (best of partial sweep, INT4 + half-eco0)
+| Method | LR | Val PPL |
+|---|---|---|
+| CAGE INT4 (cos) | 0.00093 | **22.79** (beats FP4's 23.14) |
+| **ECO-0 INT4** | 0.008 | 24.62 (vs FP4 era 23.89 — gap 0.73 PPL, may close with LR follow-up) |
+| ECO INT4 | 0.005 | 25.80 (vs FP4 era 23.92 — gap 1.88 PPL) |
+| ECO-0 INT4 | 0.010 | **DIVERGED** (37.65) — stability ceiling drops with scale |
+
+### 🎯 Recommended LRs by Scale (current best)
+| Scale | FP16/CAGE/STE (cos) | ECO (half-eco0) | ECO-0 (half-eco0) |
 |-------|-----------|-----|------|
-| 30M | 0.0012 | 0.00625 | 0.01 |
-| 50M | 0.00093 | 0.00625 | 0.01 |
-| 100M | 0.0006 | ~0.005 | 0.007-0.0085 |
-| 500M | 0.00027 | ~0.0022 | 0.003-0.004 |
+| 30M (3B tok, INT4 P99.5) | 0.0012 | **0.003** | **0.008** (bracketed) |
+| 50M (5B tok, INT4 P99.5) | 0.00093 | 0.005 (provisional, follow-up at 0.003-0.004 pending) | 0.008 (provisional, follow-up at 0.004-0.005 pending) |
+| 100M (10B tok, INT4 P99.5) | 0.0006 | testing 0.001-0.005 | testing 0.005-0.007 |
 
-**Pattern:** ECO/ECO0 use unscaled LRs 30M→50M, then scale by 1/√factor for larger
+**Pattern:** ECO-0 LR is roughly stable (~0.008) from 30M→50M; ECO LR is in flat region 0.003-0.005. Stability ceiling drops with scale: LR=0.012 unstable at 30M, LR=0.010 diverged at 50M.
+
+**LEGACY (FP4 + cos era, kept for reference):** 30M FP4: ECO=0.00625, ECO-0=0.01. 50M FP4: same. 100M FP4: ECO=0.005, ECO-0=0.007.
 
 ---
 
 ## Major Research Findings
 
-### 1. Optimal FP4 Percentile: **90th, not 99th!** (April 2026)
+### 0. Recipe consolidation (April 25, 2026)
+
+**Default recipe for new experiments:**
+- Quantizer: `Q99IntQuantizer` (uniform INT4 grid `{-7,...,7}`)
+- Percentile: `99.5` (INT4 is largely percentile-insensitive; P99.5 within 0.003 val loss of empirical optimum P99.99)
+- Scheduler: `half-eco0` for ECO/ECO-0, `cos` for FP16/Adam/STE/CAGE
+- Iterations: scaled to match Chinchilla-ratio token budget (3B at 30M, 5B at 50M, 10B at 100M)
+
+### 1a. Scheduler split (April 25, 2026) — NEW
+
+**Finding**: Cosine decay vs linear half-decay preference splits along *error feedback*, not along v-accumulation:
+- **Methods WITH error feedback (ECO, ECO-0)**: prefer `half-eco0` (linear decay to η_max/2). At 30M: ECO cos=32.73 vs half-eco0=30.91 (Δ=+1.82); ECO-0 wins under half-eco0 too.
+- **Methods WITHOUT error feedback (Adam, STE, CAGE)**: prefer `cos` (cosine decay to η_max/10). At 30M: cos beats half-eco0 by 0.97-1.57 PPL across FP16, STE, CAGE.
+
+**Mechanism**: The error-feedback update has a $1/\eta$ coefficient: `m ← m + (1/η)(1-1/β)·e`. Under cos decay, η shrinks 10×, so the feedback term grows 10× late in training — destabilizing precisely when the model is most quantization-sensitive. Linear half-decay caps the amplification at 2×.
+
+**Tracking**: `EXP-C-SCHEDULER-BASELINES-30M`, `EXP-SCHEDULER-TINY-HALF`. Paper: Section 4.12.
+
+### 1b. Quantizer comparison: INT4 vs FP4 (April 24-25, 2026) — NEW
+
+**Finding**: INT4 (uniform grid) outperforms FP4 (non-uniform codebook) at small scale; advantage shrinks at larger scale.
+- Tiny (5000 iter): INT4 wins by 6-9 PPL
+- 30M (matched-iter, EXP-D): INT4 wins by 0.78 PPL
+- 50M (matched-config): CAGE INT4 22.79 beats CAGE FP4 23.14 by 0.35 PPL ✅
+- 50M (different schedulers): ECO-0 INT4 best so far 24.62 vs FP4-era 23.89 (gap 0.73 PPL — may close with LR follow-up)
+- 100M: pending
+
+**Mechanism**: FP4's extreme bins ($\pm4, \pm6$) need outlier clipping to be useful; once P90/P99.5 clipping is applied, FP4's non-uniform-near-zero advantage becomes counterproductive (resolution wasted on a distributional feature that's been clipped out). Uniform INT4 grid covers the typical-weight body more evenly.
+
+**Tracking**: `EXP-D-INT-VS-FP-30M`, `EXP-50M-INT4-RERUN`, `EXP-100M-INT4-RERUN` (running). Paper: Section 4.13.
+
+### 1c. INT4 percentile-insensitivity (April 24, 2026) — NEW
+
+**Finding**: INT4 is nearly flat across P85-P100 (range 0.051 val loss), unlike FP4's sharp U-shape (range 0.111 with min at P90). Best at P99.99 (val loss 4.026), P99 / P99.5 / P92 within noise. **We use P99.5** as default.
+
+**Tracking**: `EXP-PERCENTILE-INT4-TINY`. Paper: Section 4.11 (figure shows both curves normalized to their minima).
+
+### 2. Optimal FP4 Percentile: **90th, not 99th!** (April 2026, LEGACY)
 
 **Finding**: FP4 quantization requires more aggressive outlier clipping than uniform quantizers.
 
@@ -417,8 +471,15 @@ export HF_DATASETS_CACHE="$JOB_TMP/hf/datasets"        # Datasets to temp
 ./run_scripts/slurm_utils/submit_multipartition.sh <script.sh>
 ```
 
-**QoS Limits**: H200 partition limited to 2 concurrent jobs per user
-- Use multi-partition scripts to avoid queued jobs
+**QoS Limits**: Two H200 account/QoS combinations available:
+- **Regular** (`-A H200 -q h200_qos`): 2 concurrent jobs per user, not preemptable
+- **16-GPU** (`-A H200_16GPUs -q h200_qos_16_gpus`): Up to 16 GPUs, **preemptable** by regular H200 jobs (4h grace period)
+  - Use this for array sweeps with > 2 tasks
+  - For long jobs, add `#SBATCH --signal=B:SIGUSR1@60` + SIGUSR1/SIGTERM traps to checkpoint before preemption
+
+**Fallback to A100** (`-p gpu-A100 -A A100 -q a100_qos`):
+- Conda env: `cage_cu128` (not `cage`)
+- Useful when all H200 slots are full
 
 ### Quick Reference (see `run_scripts/README.md` for full details)
 
@@ -445,6 +506,7 @@ export HF_DATASETS_CACHE="$JOB_TMP/hf/datasets"        # Datasets to temp
 - `run_scripts/ablations/percentile/test_percentile_30M.sh`: P90/P95/P99 on 30M
 - `run_scripts/ablations/percentile/test_percentile_sweep.sh`: P85-P100 sweep
 - `run_scripts/ablations/lr_tuning/run_eco0_lr_ablation_50M.sh`: ECO0 LR sweep at 50M (0.006, 0.0065, 0.007)
+- `run_scripts/ablations/scheduler/test_eco0_scheduler_tiny.sh`: cos vs cos-eco0 × FP4 vs INT4 × 3 LRs (12 tasks on H200_16GPUs)
 
 **Utilities:**
 - `run_scripts/utils/setup_tmp_cleanup.sh`: Temp directory cleanup (SLURM)
@@ -452,6 +514,33 @@ export HF_DATASETS_CACHE="$JOB_TMP/hf/datasets"        # Datasets to temp
 - `run_scripts/utils/resume_eco.sh`: Resume training from checkpoint
 
 ## Practical Tips
+
+### LR Scheduler (CRITICAL — OneCycleLR behavior)
+
+**Current default** (`--scheduler cos`): OneCycleLR with `div_factor=100, final_div_factor=0.1`
+- Warmup: LR goes from `max_lr/100 → max_lr` over `pct_start` fraction
+- Decay: LR goes from `max_lr → max_lr/10` using cosine annealing
+
+**New option** (`--scheduler cos-eco0`): Constant LR after warmup
+- `anneal_strategy='linear', final_div_factor=0.01`
+- OneCycleLR formula: `min_lr = max_lr / (div_factor × final_div_factor) = max_lr / (100 × 0.01) = max_lr`
+- Result: LR stays at `max_lr` for 90% of training (no decay)
+- **Hypothesis**: ECO-0's variance from current gradients (not accumulated like Adam β2) means LR decay isn't needed
+- Test script: `run_scripts/ablations/scheduler/test_eco0_scheduler_tiny.sh`
+
+**⚠️ Bug fixed (April 23, 2026)**: `src/main.py:247` was `if` instead of `elif`, causing `cos`/`linear` to fall through to `else: raise NotImplementedError`. Now `elif`.
+
+### Quantizer Comparison (FP vs INT)
+
+Both follow same pipeline (`x → scale → quantize → descale`, STE gradient). Differences:
+
+| | `Q99IntQuantizer` | `Q99FP4Quantizer` |
+|---|---|---|
+| Grid | Uniform `{-8..8}` | Non-uniform `{-6, -4, -3, -2, -1.5, -1, -0.75, 0, 0.5, ..., 6}` |
+| Rounding | `round_at(xs, tau=0.5)` | `argmin(|xs - codebook|)` |
+| Scale calibration | `scale = levels / p_val` (levels=8) | `scale = max_code / p_val` (max_code=6.0) |
+
+Both use P90 percentile. FP4's denser-near-zero codebook better fits Gaussian-ish weight distributions.
 
 ### Optimizer Name Gotcha
 - Correct: `--opt eco0m-rooh` (with 'm')

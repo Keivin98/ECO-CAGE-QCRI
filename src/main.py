@@ -18,7 +18,7 @@ from optim.cage import CAGE
 from optim.QCRI_Adamw import QCRIAdamW, QCRIAdamWGradAccumulator, NaiveOptimizer, QCRIAdamWTernary, QCRIAdamWTernaryStep2
 from optim.ECO import ECOAdam, ECOAdamHM, ECOAdam0M
 from optim.QCRI_Momentum import QCRIECOAdam, QCRITernaryCarryAdam, QCRITernaryAdam
-from optim.qcri.adam0 import Adam0 as Adam0Rooh
+from optim.qcri.adam0 import Adam0 as Adam0Rooh, Adam0Staged as Adam0RoohStaged, AdamEF as AdamEFStaged
 
 def main(args):
     
@@ -212,6 +212,29 @@ def main(args):
             #     "weight_decay": args.weight_decay,
             # },
         )
+    elif args.opt.lower() == "eco0m-staged":
+        print(f"optim: Adam0RoohStaged (ablation stage={args.ablation_stage})")
+        opt = Adam0RoohStaged(
+            distributed_backend.get_raw_model(model),
+            lr=args.lr,
+            beta1=args.beta1,
+            grouping_verbose=True,
+            use_fallback_optim=False,
+            stage=args.ablation_stage,
+        )
+    elif args.opt.lower() == "adam-ef":
+        # Standard Adam (m + v EMA buffers) with the same 4-stage ablation as
+        # eco0m-staged. v is computed from g² so the EF doesn't contaminate
+        # the second moment — this is the setting in which Nikdan eq 30 is
+        # supposed to give exact trajectory equivalence at stage 2.
+        opt = AdamEFStaged(
+            params=list(model.parameters()),
+            lr=args.lr,
+            beta1=args.beta1,
+            beta2=args.beta2,
+            weight_decay=args.weight_decay,
+            stage=args.ablation_stage,
+        )
     else:
         # opt = torch.optim.SGD(
         #     group_specs, lr=args.lr, momentum=0.9, weight_decay=args.weight_decay
@@ -243,6 +266,28 @@ def main(args):
                 cycle_momentum=False,
                 div_factor=1e2,
                 final_div_factor=0.1,
+            )
+        elif args.scheduler in ["static-eco0"]:
+            scheduler = torch.optim.lr_scheduler.OneCycleLR(
+                optimizer=opt,
+                max_lr=[group.get("lr", args.lr) for group in opt.param_groups],
+                total_steps=args.iterations,
+                pct_start=args.warmup_steps / args.iterations,
+                anneal_strategy='linear',
+                cycle_momentum=False,
+                div_factor=1e2,
+                final_div_factor=0.01,
+            )
+        elif args.scheduler in ["half-eco0"]:
+            scheduler = torch.optim.lr_scheduler.OneCycleLR(
+                optimizer=opt,
+                max_lr=[group.get("lr", args.lr) for group in opt.param_groups],
+                total_steps=args.iterations,
+                pct_start=args.warmup_steps / args.iterations,
+                anneal_strategy='linear',
+                cycle_momentum=False,
+                div_factor=1e2,
+                final_div_factor=0.02,
             )
         elif args.scheduler == "cos_inf":
             lambda_schedule = cos_inf_schedule(
